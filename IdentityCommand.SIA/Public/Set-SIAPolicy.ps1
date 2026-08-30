@@ -20,14 +20,14 @@ function Set-SIAPolicy {
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true
         )]
-        [ValidateSet('Enabled', 'Disabled', 'Draft', 'Expired')]
+        [ValidateSet('Irrelevant', 'Enabled', 'Disabled', 'Draft', 'Expired')]
         [String]$status,
 
         [parameter(
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true
         )]
-        [ValidateLength(1, 200)]
+        [ValidateLength(0, 200)]
         [String]$description,
 
         [parameter(
@@ -64,6 +64,7 @@ function Set-SIAPolicy {
         $OrderedProperties = [ordered]@{
             'policyId'        = $null
             'policyName'      = $null
+            'policyType'      = 'VM'
             'status'          = $null
             'description'     = ''
             'providersData'   = @{}
@@ -120,6 +121,9 @@ function Set-SIAPolicy {
             }
 
         } {
+            #policyType is a fixed value for VM access policies
+            $Properties['policyType'] = 'VM'
+
             #Create Request Body
             $body = $Properties | ConvertTo-Json -Depth 8
         }

@@ -14,14 +14,14 @@ function New-SIAPolicy {
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true
         )]
-        [ValidateSet('Enabled', 'Disabled', 'Draft', 'Expired')]
+        [ValidateSet('Irrelevant', 'Enabled', 'Disabled', 'Draft', 'Expired')]
         [String]$status,
 
         [parameter(
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true
         )]
-        [ValidateLength(1, 200)]
+        [ValidateLength(0, 200)]
         [String]$description,
 
         [parameter(
@@ -57,6 +57,7 @@ function New-SIAPolicy {
     BEGIN {
         $OrderedProperties = [ordered]@{
             'policyName'      = $null
+            'policyType'      = 'VM'
             'status'          = 'Draft'
             'description'     = ''
             'providersData'   = @{}

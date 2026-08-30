@@ -40,6 +40,11 @@ All notable changes to this project will be documented in this file.
   - `-strongAccountId` is now mandatory, as required by the target sets API.
 - `Remove-SIATargetSet`
   - Always uses the bulk delete endpoint, including for a single target set name.
+- `Get-SIAPolicy`
+  - The policy list now uses `GET /api/access-policies` (no trailing slash) and accepts `-filter`, `-limit`, `-offset` and `-sort` parameters. Retrieving a single policy still uses `-policyid`.
+- `New-SIAPolicy` / `Set-SIAPolicy`
+  - Send `policyType: "VM"` in the request body, as required by the current access policies API.
+  - `-status` now also accepts `Irrelevant`; `-description` now accepts an empty string.
 
 ### Fixed
 

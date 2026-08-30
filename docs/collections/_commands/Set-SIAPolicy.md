@@ -5,6 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
+
 # Set-SIAPolicy
 
 ## SYNOPSIS
@@ -15,7 +16,8 @@ Update SIA access policy
 ```
 Set-SIAPolicy [-policyId] <String> [[-policyName] <String>] [[-status] <String>] [[-description] <String>]
  [[-providersData] <PSObject>] [[-startDate] <DateTime>] [[-endDate] <DateTime>]
- [[-userAccessRules] <PSObject[]>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [[-userAccessRules] <PSObject[]>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -220,5 +222,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ### System.Object
 ## NOTES
+Requires the DpaAdmin role.
 
 ## RELATED LINKS

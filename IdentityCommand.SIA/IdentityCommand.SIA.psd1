@@ -97,7 +97,23 @@
         'Get-SIASession',
         'Get-SIAConnector',
         'Get-SIACertificate',
-        'Connect-SIATarget'
+        'Connect-SIATarget',
+        'Get-SIASSHHostKeyFingerprint',
+        'Add-SIASSHHostKeyFingerprint',
+        'Set-SIASSHHostKeyFingerprint',
+        'Remove-SIASSHHostKeyFingerprint',
+        'Remove-SIAConnector',
+        'Test-SIAConnector',
+        'Update-SIAConnector',
+        'Set-SIAConnectorMaintenanceMode',
+        'Add-SIAConnectorPoolMember',
+        'Get-SIAHttpsRelay',
+        'Remove-SIAHttpsRelay',
+        'Update-SIAHttpsRelay',
+        'Get-SIAHttpsRelaySetupScript',
+        'Invoke-SIASSHPublicKeyRotation',
+        'Get-SIAMFACachingKey',
+        'Set-SIAStrongAccount'
 
     )
 

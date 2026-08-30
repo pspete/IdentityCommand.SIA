@@ -1,42 +1,52 @@
 # Change Log
+
 All notable changes to this project will be documented in this file.
 
 ## [unreleased]
 
-### Added
-- N/A
+## 0.3.X
 
 ### Changed
-- N/A
+
+- Module renamed from `IdentityCommand.DPA` to `IdentityCommand.SIA`, reflecting the rebrand of CyberArk Dynamic Privileged Access to CyberArk Secure Infrastructure Access.
+  - All commands renamed to use the `SIA` noun prefix in place of `DPA` (e.g. `Get-DPAPolicy` is now `Get-SIAPolicy`).
+  - Repository, folder structure, and help content updated to match.
 
 ### Fixed
-- `Get-DPACertificate`
+
+- `Get-SIACertificate`
   - Updated to return correct property of output value.
-- `Get-DPAResource`
+- `Get-SIAResource`
   - Updated to return correct property of output value.
 
 ## 0.2.11 - 05-03-2024
 
 ### Added
+
 - N/A
 
 ### Changed
+
 - `Connect-DPATarget`
   - Updated to save RDP file and automatically invoke rdp connection via DPA
   - Updated to calculate ssh connection string and automatically invoke ssh connection
 
 ### Fixed
+
 - N/A
 
 ## 0.1.10 - 03-03-2024
 
 ### Added
+
 - N/A
 
 ### Changed
+
 - Published to PowerShell Gallery
 
 ### Fixed
+
 - N/A
 
 ## 0.1.9 - 03-03-2024
@@ -44,6 +54,7 @@ All notable changes to this project will be documented in this file.
 Initial release of `IdentityCommand.DPA` module
 
 ### Added
+
 - `Add-DPATargetSet`
 - `Connect-DPATenant`
 - `Connect-DPATarget`

@@ -34,7 +34,7 @@ skip_commits:
 only_commits:
   files:
     - build\
-    - IdentityCommand.DPA\
+    - IdentityCommand.SIA\
     - Tests\
 
 image: Visual Studio 2019

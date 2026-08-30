@@ -107,10 +107,12 @@
         'Update-SIAConnector',
         'Set-SIAConnectorMaintenanceMode',
         'Add-SIAConnectorPoolMember',
+        'Invoke-SIAConnectorCertificateRotation',
         'Get-SIAHttpsRelay',
         'Remove-SIAHttpsRelay',
         'Update-SIAHttpsRelay',
         'Get-SIAHttpsRelaySetupScript',
+        'Invoke-SIAHttpsRelayCertificateRotation',
         'Invoke-SIASSHPublicKeyRotation',
         'Get-SIAMFACachingKey',
         'Set-SIAStrongAccount'

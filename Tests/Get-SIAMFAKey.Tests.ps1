@@ -17,12 +17,12 @@ BeforeAll {
     }
 }
 
-Describe 'Get-SIAMFACachingKey' {
+Describe 'Get-SIAMFAKey' {
 
     BeforeEach {
 
         Mock -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -MockWith {
-            [pscustomobject]@{ 'key' = 'value' }
+            '-----BEGIN OPENSSH PRIVATE KEY-----'
         }
 
         InModuleScope -ModuleName $Script:SIAModuleName {
@@ -36,7 +36,7 @@ Describe 'Get-SIAMFACachingKey' {
             New-Variable -Name ISPSSSession -Value $ISPSSSession -Scope Script -Force
         }
 
-        $Script:response = Get-SIAMFACachingKey
+        $Script:response = Get-SIAMFAKey
     }
 
     Context 'Request' {
@@ -60,6 +60,17 @@ Describe 'Get-SIAMFACachingKey' {
         It 'sends request with no body' {
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
                 $null -eq $Body
+            } -Times 1 -Exactly -Scope It
+        }
+
+        It 'adds format query parameter when specified' {
+            InModuleScope -ModuleName $Script:SIAModuleName {
+                $ISPSSSession = [ordered]@{ tenant_url = 'https://somedomain.dpa.cyberark.cloud' }
+                New-Variable -Name ISPSSSession -Value $ISPSSSession -Scope Script -Force
+            }
+            Get-SIAMFAKey -format ppk
+            Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
+                $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/ssh/sso/key?format=ppk'
             } -Times 1 -Exactly -Scope It
         }
     }

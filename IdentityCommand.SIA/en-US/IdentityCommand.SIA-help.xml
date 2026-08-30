@@ -1512,26 +1512,55 @@
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
-      <command:name>Get-SIAMFACachingKey</command:name>
+      <command:name>Get-SIAMFAKey</command:name>
       <command:verb>Get</command:verb>
-      <command:noun>SIAMFACachingKey</command:noun>
+      <command:noun>SIAMFAKey</command:noun>
       <maml:description>
-        <maml:para>Get the SIA SSH MFA caching key</maml:para>
+        <maml:para>Get the SIA MFA key</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Returns the MFA caching key used for SSH single sign-on with SIA.</maml:para>
+      <maml:para>Returns the SIA MFA key used for SSH authentication, in openssh (default) or ppk format.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
-        <maml:name>Get-SIAMFACachingKey</maml:name>
+        <maml:name>Get-SIAMFAKey</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="none">
+          <maml:name>format</maml:name>
+          <maml:description>
+            <maml:para>The key format to return - openssh (default) or ppk.</maml:para>
+          </maml:description>
+          <command:parameterValueGroup>
+            <command:parameterValue required="false" command:variableLength="false">openssh</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">ppk</command:parameterValue>
+          </command:parameterValueGroup>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
-    <command:parameters />
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="none">
+        <maml:name>format</maml:name>
+        <maml:description>
+          <maml:para>The key format to return - openssh (default) or ppk.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
     <command:inputTypes>
       <command:inputType>
         <dev:type>
-          <maml:name>None</maml:name>
+          <maml:name>System.String</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -1550,15 +1579,15 @@
     </command:returnValues>
     <maml:alertSet>
       <maml:alert>
-        <maml:para></maml:para>
+        <maml:para>Requires the JitUser role.</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>Get-SIAMFACachingKey</dev:code>
+        <dev:code>Get-SIAMFAKey -format ppk</dev:code>
         <dev:remarks>
-          <maml:para>Returns the SSH MFA caching key for the authenticated user.</maml:para>
+          <maml:para>Returns the SIA MFA key in PuTTY (ppk) format.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>

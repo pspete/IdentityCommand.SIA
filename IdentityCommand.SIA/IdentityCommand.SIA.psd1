@@ -114,7 +114,7 @@
         'Get-SIAHttpsRelaySetupScript',
         'Invoke-SIAHttpsRelayCertificateRotation',
         'Invoke-SIASSHPublicKeyRotation',
-        'Get-SIAMFACachingKey',
+        'Get-SIAMFAKey',
         'Set-SIAStrongAccount'
 
     )

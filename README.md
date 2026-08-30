@@ -184,7 +184,7 @@ The full list of commands currently available in the _`IdentityCommand.SIA`_ mod
 | `Set-SIASSHHostKeyFingerprint`         | Update an SSH host key fingerprint                                               |
 | `Remove-SIASSHHostKeyFingerprint`      | Delete an SSH host key fingerprint                                               |
 | `Invoke-SIASSHPublicKeyRotation`       | Rotate, deactivate or reactivate the SSH CA public key                           |
-| `Get-SIAMFACachingKey`                 | Get the SSH MFA caching key                                                      |
+| `Get-SIAMFAKey`                 | Get the SIA MFA key for SSH authentication                                                      |
 | `Remove-SIAConnector`                  | Deletes a SIA connector                                                          |
 | `Test-SIAConnector`                    | Test SIA connector reachability                                                  |
 | `Update-SIAConnector`                  | Upgrade a SIA connector                                                          |

@@ -1,5 +1,6 @@
 # .ExternalHelp IdentityCommand.SIA-help.xml
 function Get-SIAStrongAccount {
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '', Justification = 'False Positive')]
     [CmdletBinding()]
     param(
         [parameter(
@@ -7,7 +8,25 @@ function Get-SIAStrongAccount {
             ValueFromPipelinebyPropertyName = $true
         )]
         [ValidateSet('ProvisionerUser', 'PCloudAccount', 'IdentityUser', 'IdentityMgmtUser', 'TargetCertificate', 'General')]
-        [String[]]$secret_type
+        [String[]]$secret_type,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
+        )]
+        [String]$secret_name,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
+        )]
+        [int]$count,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
+        )]
+        [int]$offset
     )
 
     BEGIN { }#begin

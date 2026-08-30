@@ -59,14 +59,16 @@ Describe 'Get-SIAStrongAccount' {
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter { $null -eq $Body } -Times 1 -Exactly -Scope It
         }
 
-        It 'passes secret_type as a query parameter' {
+        It 'passes secret_type (comma-joined), count and offset as query parameters' {
             InModuleScope -ModuleName $Script:SIAModuleName {
                 $ISPSSSession = [ordered]@{ tenant_url = 'https://somedomain.dpa.cyberark.cloud' }
                 New-Variable -Name ISPSSSession -Value $ISPSSSession -Scope Script -Force
             }
-            Get-SIAStrongAccount -secret_type ProvisionerUser
+            Get-SIAStrongAccount -secret_type ProvisionerUser, PCloudAccount -count 100 -offset 0
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                $URI -match 'secret_type=ProvisionerUser'
+                ($URI -match 'secret_type=ProvisionerUser(%2C|,)PCloudAccount') -and
+                ($URI -match 'count=100') -and
+                ($URI -match 'offset=0')
             } -Times 1 -Exactly -Scope It
         }
     }

@@ -5,7 +5,6 @@ online version:
 schema: 2.0.0
 ---
 
-
 # Get-SIAStrongAccount
 
 ## SYNOPSIS
@@ -14,7 +13,8 @@ Get string account details from SIA
 ## SYNTAX
 
 ```
-Get-SIAStrongAccount [-secret_type <String[]>] [<CommonParameters>]
+Get-SIAStrongAccount [-secret_type <String[]>] [-secret_name <String>] [-count <Int32>] [-offset <Int32>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -44,6 +44,51 @@ Get-SIAStrongAccount -databases
 Get all database strong accounts
 
 ## PARAMETERS
+
+### -count
+The number of strong accounts to return.
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -offset
+The offset to start returning strong accounts from.
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -secret_name
+A name filter for the strong accounts list.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
 ### -secret_type
 Specify to filter the type of virtual machine strong account to get details for.

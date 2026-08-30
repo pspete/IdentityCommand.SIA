@@ -1,62 +1,38 @@
 # .ExternalHelp IdentityCommand.SIA-help.xml
 function Get-SIAStrongAccount {
-    [CmdletBinding(DefaultParameterSetName = 'VirtualMachines')]
+    [CmdletBinding()]
     param(
         [parameter(
             Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = 'VirtualMachines'
+            ValueFromPipelinebyPropertyName = $true
         )]
         [ValidateSet('ProvisionerUser', 'PCloudAccount', 'IdentityUser', 'IdentityMgmtUser', 'TargetCertificate', 'General')]
-        [String[]]$secret_type,
-
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = 'Databases'
-        )]
-        [switch]$databases
+        [String[]]$secret_type
     )
 
     BEGIN { }#begin
 
     PROCESS {
 
-        switch ($PSCmdlet.ParameterSetName) {
-            'VirtualMachines' {
-                $URI = "$($ISPSSSession.tenant_url)/api/secrets/public/v1"
+        $URI = "$($ISPSSSession.tenant_url)/api/secrets/public/v1"
 
-                $QueryString = $($PSBoundParameters | Get-Parameter | ConvertTo-QueryString)
+        $QueryString = $($PSBoundParameters | Get-Parameter | ConvertTo-QueryString)
 
-                If ($null -ne $QueryString) {
-                    $URI = "$URI`?$QueryString"
-                }
-            }
-
-            'Databases' {
-                $URI = "$($ISPSSSession.tenant_url)/api/adb/secretsmgmt/secrets"
-            }
+        If ($null -ne $QueryString) {
+            $URI = "$URI`?$QueryString"
         }
-
 
         #Send Request
         $result = Invoke-IDRestMethod -Uri $URI -Method GET
 
         if ($null -ne $result) {
 
-            switch ($PSCmdlet.ParameterSetName) {
-                'Databases' {
-                    $result = $result.secrets
-                }
-            }
             $result
 
         }
 
     }#process
 
-    END {
-
-    }#end
+    END { }#end
 
 }

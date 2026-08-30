@@ -5,6 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
+
 # Get-SIAStrongAccount
 
 ## SYNOPSIS
@@ -12,14 +13,8 @@ Get string account details from SIA
 
 ## SYNTAX
 
-### VirtualMachines (Default)
 ```
 Get-SIAStrongAccount [-secret_type <String[]>] [<CommonParameters>]
-```
-
-### Databases
-```
-Get-SIAStrongAccount [-databases] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -50,27 +45,12 @@ Get all database strong accounts
 
 ## PARAMETERS
 
-### -databases
-Specify to return string accounts for databases
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: Databases
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
 ### -secret_type
 Specify to filter the type of virtual machine strong account to get details for.
 
 ```yaml
 Type: String[]
-Parameter Sets: VirtualMachines
+Parameter Sets: (All)
 Aliases:
 Accepted values: ProvisionerUser, PCloudAccount, IdentityUser, IdentityMgmtUser, TargetCertificate, General
 
@@ -92,5 +72,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ### System.Object
 ## NOTES
+Requires the DpaAdmin role.
 
 ## RELATED LINKS

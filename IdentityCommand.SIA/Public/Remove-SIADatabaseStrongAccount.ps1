@@ -1,21 +1,22 @@
 # .ExternalHelp IdentityCommand.SIA-help.xml
-function Remove-SIAStrongAccount {
+function Remove-SIADatabaseStrongAccount {
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [parameter(
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true
         )]
-        [String]$secret_id
+        [Alias('id')]
+        [String]$strong_account_id
     )
 
     BEGIN { }#begin
 
     PROCESS {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/secrets/public/v1/$secret_id"
+        $URI = "$($ISPSSSession.tenant_url)/api/database-strong-accounts/$strong_account_id"
 
-        if ($PSCmdlet.ShouldProcess($secret_id, 'Delete SIA Strong Account')) {
+        if ($PSCmdlet.ShouldProcess($strong_account_id, 'Delete SIA Database Strong Account')) {
             #Send Request
             $result = Invoke-IDRestMethod -Uri $URI -Method DELETE
 

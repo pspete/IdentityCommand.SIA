@@ -17,12 +17,12 @@ BeforeAll {
     }
 }
 
-Describe 'Remove-SIAStrongAccount' {
+Describe 'Remove-SIADatabaseStrongAccount' {
 
     BeforeEach {
 
         Mock -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -MockWith {
-            [pscustomobject]@{ 'id' = 'value' }
+            [pscustomobject]@{ 'id' = '550e8400' }
         }
 
         InModuleScope -ModuleName $Script:SIAModuleName {
@@ -36,34 +36,27 @@ Describe 'Remove-SIAStrongAccount' {
             New-Variable -Name ISPSSSession -Value $ISPSSSession -Scope Script -Force
         }
 
-        $Script:response = Remove-SIAStrongAccount -secret_id 'SomeID'
+        $Script:response = Remove-SIADatabaseStrongAccount -strong_account_id '550e8400'
     }
 
     Context 'Request' {
 
-        It 'sends request' {
-            Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -Times 1 -Exactly -Scope It
-        }
-
-        It 'sends request to the public v1 endpoint' {
+        It 'sends request to expected endpoint' {
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/secrets/public/v1/SomeID'
+                $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/database-strong-accounts/550e8400'
             } -Times 1 -Exactly -Scope It
         }
 
         It 'uses expected method' {
-            Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter { $Method -eq 'DELETE' } -Times 1 -Exactly -Scope It
+            Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
+                $Method -eq 'DELETE'
+            } -Times 1 -Exactly -Scope It
         }
 
         It 'sends request with no body' {
-            Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter { $null -eq $Body } -Times 1 -Exactly -Scope It
-        }
-    }
-
-    Context 'Response' {
-
-        It 'provides output' {
-            $Script:response | Should -Not -BeNullOrEmpty
+            Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
+                $null -eq $Body
+            } -Times 1 -Exactly -Scope It
         }
     }
 }

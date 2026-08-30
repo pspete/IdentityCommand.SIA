@@ -19,15 +19,19 @@ All notable changes to this project will be documented in this file.
 - `Get-SIAHttpsRelay`, `Remove-SIAHttpsRelay`, `Update-SIAHttpsRelay`, `Get-SIAHttpsRelaySetupScript`, `Invoke-SIAHttpsRelayCertificateRotation`
   - Manage SIA HTTPS relays, generate relay installation scripts, and rotate relay certificates.
 - `Set-SIAStrongAccount`
-  - Update an existing strong account for virtual machines or databases.
+  - Update an existing virtual machine strong account.
+- `Get-SIADatabaseStrongAccount`, `New-SIADatabaseStrongAccount`, `Set-SIADatabaseStrongAccount`, `Remove-SIADatabaseStrongAccount`
+  - Manage database strong accounts via the `/api/database-strong-accounts` API, supporting PAM accounts and managed accounts for PostgreSQL, MySQL, MariaDB, MSSql, Oracle, MongoDB, DB2UnixSSH, WinDomain and AWSAccessKeys platforms.
 
 ### Changed
 
 - Module renamed from `IdentityCommand.DPA` to `IdentityCommand.SIA`, reflecting the rebrand of CyberArk Dynamic Privileged Access to CyberArk Secure Infrastructure Access.
   - All commands renamed to use the `SIA` noun prefix in place of `DPA` (e.g. `Get-DPAPolicy` is now `Get-SIAPolicy`).
   - Repository, folder structure, and help content updated to match.
-- `Get-SIAStrongAccount`, `New-SIAStrongAccount`, `Remove-SIAStrongAccount`, `Set-SIAStrongAccount`
-  - Virtual machine strong accounts now use the `/api/secrets/public/v1` endpoint (previously `/api/secrets`), matching the current SIA strong accounts API. Database strong accounts are unchanged.
+- `Get-SIAStrongAccount`, `New-SIAStrongAccount`, `Remove-SIAStrongAccount`, `Set-SIAStrongAccount` **(breaking)**
+  - Now use the `/api/secrets/public/v1` endpoint (previously `/api/secrets`), matching the current SIA strong accounts API.
+  - The `-database` / `-databases` switches have been removed - database strong accounts are now managed with the dedicated `*-SIADatabaseStrongAccount` commands.
+  - `New-SIAStrongAccount` parameter sets renamed `StoredInDPA-VM` -> `StoredInSIA` and `VaultedInPrivilegeCloud-VM` -> `VaultedInPrivilegeCloud`.
 - `Add-SIATargetSet` **(breaking)**
   - Now uses the bulk target sets endpoint and requires a `-strong_account_id` parameter to map the target set to a strong account.
   - `-secret_type` now accepts `EphemeralUser`.

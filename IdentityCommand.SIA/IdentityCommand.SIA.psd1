@@ -115,7 +115,11 @@
         'Invoke-SIAHttpsRelayCertificateRotation',
         'Invoke-SIASSHPublicKeyRotation',
         'Get-SIAMFAKey',
-        'Set-SIAStrongAccount'
+        'Set-SIAStrongAccount',
+        'Get-SIADatabaseStrongAccount',
+        'New-SIADatabaseStrongAccount',
+        'Set-SIADatabaseStrongAccount',
+        'Remove-SIADatabaseStrongAccount'
 
     )
 

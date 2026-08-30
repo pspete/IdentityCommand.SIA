@@ -17,12 +17,12 @@ BeforeAll {
     }
 }
 
-Describe 'Set-SIAStrongAccount' {
+Describe 'Set-SIADatabaseStrongAccount' {
 
     BeforeEach {
 
         Mock -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -MockWith {
-            [pscustomobject]@{ 'secret_id' = 'value' }
+            [pscustomobject]@{ 'id' = '550e8400'; 'name' = 'UpdatedPAMAccount'; 'storeType' = 'pam' }
         }
 
         InModuleScope -ModuleName $Script:SIAModuleName {
@@ -36,42 +36,29 @@ Describe 'Set-SIAStrongAccount' {
             New-Variable -Name ISPSSSession -Value $ISPSSSession -Scope Script -Force
         }
 
-        $Script:pw = ConvertTo-SecureString 'SomePassword' -AsPlainText -Force
-        $Script:response = Set-SIAStrongAccount -secret_id '1234-abcd' -secret_name 'MyAccount' -username 'svc' -password $Script:pw -account_domain 'ad.example.com'
+        $Script:response = Set-SIADatabaseStrongAccount -strong_account_id '550e8400' -PAM -name 'UpdatedPAMAccount' -safe 'UpdatedSafe' -accountName 'admin@newdomain.com'
     }
 
     Context 'Request' {
 
-        It 'sends request to the public v1 by-id endpoint' {
+        It 'sends request to the by-id endpoint' {
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/secrets/public/v1/1234-abcd'
+                $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/database-strong-accounts/550e8400'
             } -Times 1 -Exactly -Scope It
         }
 
         It 'uses expected method' {
-            Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter { $Method -eq 'PUT' } -Times 1 -Exactly -Scope It
-        }
-
-        It 'sends request with expected body' {
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                $request = $Body | ConvertFrom-Json
-                ($request.secret_name -eq 'MyAccount') -and
-                ($request.secret.secret_data.username -eq 'svc') -and
-                ($request.secret_details.account_domain -eq 'ad.example.com')
+                $Method -eq 'PUT'
             } -Times 1 -Exactly -Scope It
         }
-    }
 
-    Context 'Vaulted in Privilege Cloud' {
-
-        It 'sends the PCloudAccount secret type' {
-            InModuleScope -ModuleName $Script:SIAModuleName {
-                $ISPSSSession = [ordered]@{ tenant_url = 'https://somedomain.dpa.cyberark.cloud' }
-                New-Variable -Name ISPSSSession -Value $ISPSSSession -Scope Script -Force
-            }
-            Set-SIAStrongAccount -secret_id '1234-abcd' -safe 'MySafe' -account_name 'admin' -secret_name 'MyAccount' -account_domain 'ad.example.com'
+        It 'sends the updated account properties in the body' {
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                ($Body | ConvertFrom-Json).secret_type -eq 'PCloudAccount'
+                $request = $Body | ConvertFrom-Json
+                ($request.storeType -eq 'pam') -and
+                ($request.name -eq 'UpdatedPAMAccount') -and
+                ($request.accountProperties.safe -eq 'UpdatedSafe')
             } -Times 1 -Exactly -Scope It
         }
     }

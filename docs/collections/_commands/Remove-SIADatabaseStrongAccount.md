@@ -6,49 +6,42 @@ schema: 2.0.0
 ---
 
 
-# Remove-SIAStrongAccount
+# Remove-SIADatabaseStrongAccount
 
 ## SYNOPSIS
-Delete a string account from SIA
+Delete a SIA database strong account
 
 ## SYNTAX
 
 ```
-Remove-SIAStrongAccount -secret_id <String> [-WhatIf] [-Confirm]
- [<CommonParameters>]
+Remove-SIADatabaseStrongAccount [-strong_account_id] <String> [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Deletes a configured strong account for either virtual machines or databases
+Deletes a database strong account from SIA. Any target sets belonging to the strong account should be deleted first.
 
 ## EXAMPLES
 
 ### Example 1
-```
-Remove-SIAStrongAccount -secret_id 1234-abcd
-```
-
-Deletes specified strong account configured for virtual machine
-
-### Example 1
-```
-Remove-SIAStrongAccount -secret_id 1234-abcd -database
+```powershell
+Remove-SIADatabaseStrongAccount -strong_account_id 550e8400
 ```
 
-Deletes specified strong account configured for database
+Deletes the specified database strong account.
 
 ## PARAMETERS
 
-### -secret_id
-The ID of the strong account
+### -strong_account_id
+The unique identifier of the database strong account.
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: id
 
 Required: True
-Position: Named
+Position: 0
 Default value: None
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
@@ -64,7 +57,7 @@ Aliases: cf
 
 Required: False
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -80,7 +73,7 @@ Aliases: wi
 
 Required: False
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -91,11 +84,10 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### System.String
-### System.Management.Automation.SwitchParameter
+
 ## OUTPUTS
 
 ### System.Object
 ## NOTES
-Requires the DpaAdmin role.
 
 ## RELATED LINKS

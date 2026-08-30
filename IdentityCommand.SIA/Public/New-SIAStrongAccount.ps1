@@ -6,48 +6,28 @@ function New-SIAStrongAccount {
         [parameter(
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = 'VaultedInPrivilegeCloud-VM'
-        )]
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = 'VaultedInPrivilegeCloud-DB'
+            ParameterSetName = 'VaultedInPrivilegeCloud'
         )]
         [string]$safe,
 
         [parameter(
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = 'VaultedInPrivilegeCloud-VM'
-        )]
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = 'VaultedInPrivilegeCloud-DB'
+            ParameterSetName = 'VaultedInPrivilegeCloud'
         )]
         [string]$account_name,
 
         [parameter(
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = 'StoredInDPA-VM'
-        )]
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = 'StoredInDPA-DB'
+            ParameterSetName = 'StoredInSIA'
         )]
         [string]$username,
 
         [parameter(
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = 'StoredInDPA-VM'
-        )]
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = 'StoredInDPA-DB'
+            ParameterSetName = 'StoredInSIA'
         )]
         [securestring]$password,
 
@@ -59,78 +39,35 @@ function New-SIAStrongAccount {
 
         [parameter(
             Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = 'VaultedInPrivilegeCloud-VM'
-        )]
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = 'StoredInDPA-VM'
+            ValueFromPipelinebyPropertyName = $true
         )]
         [string]$account_domain,
 
         [parameter(
             Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = 'VaultedInPrivilegeCloud-VM'
+            ValueFromPipelinebyPropertyName = $true
         )]
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = 'StoredInDPA-VM'
-        )]
-        [string]$certFileName,
-
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = 'StoredInDPA-DB'
-        )]
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = 'VaultedInPrivilegeCloud-DB'
-        )]
-        [switch]$database
+        [string]$certFileName
 
     )
 
-    BEGIN {
-
-    }#begin
+    BEGIN { }#begin
 
     PROCESS {
 
+        $StrongAccount = [ordered]@{
+            'is_active'      = $true
+            'secret'         = @{'tenant_encrypted' = $false; 'secret_data' = @{} }
+            'secret_name'    = $null
+            'secret_type'    = $null
+            'secret_details' = @{'certFileName' = $certFileName; 'account_domain' = $account_domain }
+        }
+
+        $URI = "$($ISPSSSession.tenant_url)/api/secrets/public/v1"
+
         switch ($PSCmdlet.ParameterSetName) {
 
-            { $PSItem -match '-VM$' } {
-                $StrongAccount = [ordered]@{
-                    'is_active'      = $true
-                    'secret'         = @{'tenant_encrypted' = $false; 'secret_data' = @{} }
-                    'secret_name'    = $null
-                    'secret_type'    = $null
-                    'secret_details' = @{'certFileName' = $null; 'account_domain' = $null }
-                }
-
-                $URI = "$($ISPSSSession.tenant_url)/api/secrets/public/v1"
-                $StrongAccount.secret_details.account_domain = $account_domain
-                $StrongAccount.secret_details.certFileName = $certFileName
-
-            }
-
-            { $PSItem -match '-DB$' } {
-                $StrongAccount = [ordered]@{
-                    'secret_name'  = $null
-                    'secret_type'  = $null
-                    'secret_store' = $null
-                    'tags'         = @()
-                }
-
-                $URI = "$($ISPSSSession.tenant_url)/api/adb/secretsmgmt/secrets"
-
-            }
-
-            'VaultedInPrivilegeCloud-VM' {
+            'VaultedInPrivilegeCloud' {
 
                 $StrongAccount.secret_type = 'PCloudAccount'
                 $StrongAccount.secret.secret_data.add('safe', $safe)
@@ -139,31 +76,11 @@ function New-SIAStrongAccount {
 
             }
 
-            'VaultedInPrivilegeCloud-DB' {
-
-                $StrongAccount.Insert(2, 'description', '')
-                $StrongAccount.Insert(3, 'purpose', '')
-                $StrongAccount.Insert(4, 'secret_link', @{'safe' = $safe ; 'account_name' = $account_name })
-                $StrongAccount.secret_store = @{'store_type' = 'pam' }
-                $StrongAccount.secret_type = 'cyberark_pam'
-                break
-
-            }
-
-            'StoredInDPA-VM' {
+            'StoredInSIA' {
 
                 $StrongAccount.secret_type = 'ProvisionerUser'
                 $StrongAccount.secret.secret_data.add('username', $username)
                 $StrongAccount.secret.secret_data.add('password', $(ConvertTo-InsecureString -SecureString $password))
-                break
-
-            }
-
-            'StoredInDPA-DB' {
-
-                $StrongAccount.secret_type = 'username_password'
-                $StrongAccount.Insert(2, 'secret_data', @{'username' = $username; 'password' = $(ConvertTo-InsecureString -SecureString $password) })
-                $StrongAccount.secret_store = @{'store_type' = 'managed' }
                 break
 
             }
@@ -174,6 +91,7 @@ function New-SIAStrongAccount {
 
         #Create Request Body
         $body = $StrongAccount | ConvertTo-Json
+
         if ($PSCmdlet.ShouldProcess($secret_name, 'Create New SIA Strong Account')) {
             #Send Request
             $result = Invoke-IDRestMethod -Uri $URI -Method POST -Body $body
@@ -186,8 +104,6 @@ function New-SIAStrongAccount {
         }
     }#process
 
-    END {
-
-    }#end
+    END { }#end
 
 }

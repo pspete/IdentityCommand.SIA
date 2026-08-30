@@ -17,12 +17,16 @@ BeforeAll {
     }
 }
 
-Describe 'Set-SIAStrongAccount' {
+Describe 'Get-SIADatabaseStrongAccount' {
 
     BeforeEach {
 
         Mock -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -MockWith {
-            [pscustomobject]@{ 'secret_id' = 'value' }
+            [pscustomobject]@{
+                'items'      = @([pscustomobject]@{ 'id' = '550e8400'; 'name' = 'MyPAMAccount' })
+                'nextCursor' = $null
+                'totalCount' = 1
+            }
         }
 
         InModuleScope -ModuleName $Script:SIAModuleName {
@@ -36,50 +40,50 @@ Describe 'Set-SIAStrongAccount' {
             New-Variable -Name ISPSSSession -Value $ISPSSSession -Scope Script -Force
         }
 
-        $Script:pw = ConvertTo-SecureString 'SomePassword' -AsPlainText -Force
-        $Script:response = Set-SIAStrongAccount -secret_id '1234-abcd' -secret_name 'MyAccount' -username 'svc' -password $Script:pw -account_domain 'ad.example.com'
+        $Script:response = Get-SIADatabaseStrongAccount
     }
 
-    Context 'Request' {
+    Context 'List' {
 
-        It 'sends request to the public v1 by-id endpoint' {
+        It 'sends request to the list endpoint' {
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/secrets/public/v1/1234-abcd'
+                $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/database-strong-accounts'
             } -Times 1 -Exactly -Scope It
         }
 
         It 'uses expected method' {
-            Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter { $Method -eq 'PUT' } -Times 1 -Exactly -Scope It
-        }
-
-        It 'sends request with expected body' {
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                $request = $Body | ConvertFrom-Json
-                ($request.secret_name -eq 'MyAccount') -and
-                ($request.secret.secret_data.username -eq 'svc') -and
-                ($request.secret_details.account_domain -eq 'ad.example.com')
+                $Method -eq 'GET'
             } -Times 1 -Exactly -Scope It
         }
-    }
 
-    Context 'Vaulted in Privilege Cloud' {
+        It 'returns the items collection' {
+            $Script:response.name | Should -Be 'MyPAMAccount'
+        }
 
-        It 'sends the PCloudAccount secret type' {
+        It 'passes limit as a query parameter' {
             InModuleScope -ModuleName $Script:SIAModuleName {
                 $ISPSSSession = [ordered]@{ tenant_url = 'https://somedomain.dpa.cyberark.cloud' }
                 New-Variable -Name ISPSSSession -Value $ISPSSSession -Scope Script -Force
             }
-            Set-SIAStrongAccount -secret_id '1234-abcd' -safe 'MySafe' -account_name 'admin' -secret_name 'MyAccount' -account_domain 'ad.example.com'
+            Get-SIADatabaseStrongAccount -limit 100
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                ($Body | ConvertFrom-Json).secret_type -eq 'PCloudAccount'
+                $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/database-strong-accounts?limit=100'
             } -Times 1 -Exactly -Scope It
         }
     }
 
-    Context 'Response' {
+    Context 'By id' {
 
-        It 'provides output' {
-            $Script:response | Should -Not -BeNullOrEmpty
+        It 'sends request to the by-id endpoint' {
+            InModuleScope -ModuleName $Script:SIAModuleName {
+                $ISPSSSession = [ordered]@{ tenant_url = 'https://somedomain.dpa.cyberark.cloud' }
+                New-Variable -Name ISPSSSession -Value $ISPSSSession -Scope Script -Force
+            }
+            Get-SIADatabaseStrongAccount -strong_account_id '550e8400'
+            Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
+                $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/database-strong-accounts/550e8400'
+            } -Times 1 -Exactly -Scope It
         }
     }
 }

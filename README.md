@@ -163,7 +163,7 @@ The full list of commands currently available in the _`IdentityCommand.SIA`_ mod
 | `Get-SIASetting`                       | Get SIA settings                                                                 |
 | `Get-SIASession`                       | Get SIA session diagnostic event data                                            |
 | `Get-SIASSHPublicKey`                  | Get SIA SSH Public Keys                                                          |
-| `Get-SIAStrongAccount`                 | Get details of configured string accounts                                        |
+| `Get-SIAStrongAccount`                 | Get virtual machine strong accounts                                              |
 | `Get-SIATargetSet`                     | Get details of configured target sets                                            |
 | `Get-SIAResource`                      | Get details of configured resources                                              |
 | `New-SIAPolicy`                        | Configures a new SIA recurring access policy                                     |
@@ -172,13 +172,17 @@ The full list of commands currently available in the _`IdentityCommand.SIA`_ mod
 | `New-SIAPolicyProviderDefinition`      | Defines Providers for SIA Policy                                                 |
 | `New-SIAPolicyUserAccessRuleDefinition`| Defines user access rules for SIA Policy                                         |
 | `New-SIAPolicyUserDataDefinition`      | Defines user data for SIA Policy                                                 |
-| `New-SIAStrongAccount`                 | Creates a new string account in SIA                                              |
+| `New-SIAStrongAccount`                 | Creates a virtual machine strong account in SIA                                  |
 | `Remove-SIAPolicy`                     | Deletes a SIA policy                                                             |
-| `Remove-SIAStrongAccount`              | Deletes a SIA string account                                                     |
+| `Remove-SIAStrongAccount`              | Deletes a virtual machine strong account in SIA                                  |
 | `Remove-SIATargetSet`                  | Deletes a SIA target set                                                         |
 | `Set-SIAPolicy`                        | Updates a SIA policy                                                             |
 | `Set-SIASetting`                       | Update SIA settings                                                              |
-| `Set-SIAStrongAccount`                 | Updates a strong account in SIA                                                  |
+| `Set-SIAStrongAccount`                 | Updates a virtual machine strong account in SIA                                  |
+| `Get-SIADatabaseStrongAccount`         | Get SIA database strong accounts                                                 |
+| `New-SIADatabaseStrongAccount`         | Creates a SIA database strong account                                            |
+| `Set-SIADatabaseStrongAccount`         | Updates a SIA database strong account                                            |
+| `Remove-SIADatabaseStrongAccount`      | Deletes a SIA database strong account                                            |
 | `Get-SIASSHHostKeyFingerprint`         | Get a stored SSH host key fingerprint                                            |
 | `Add-SIASSHHostKeyFingerprint`         | Add an SSH host key fingerprint                                                  |
 | `Set-SIASSHHostKeyFingerprint`         | Update an SSH host key fingerprint                                               |

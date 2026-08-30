@@ -5,6 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
+
 # New-SIAStrongAccount
 
 ## SYNOPSIS
@@ -12,25 +13,13 @@ Create a new strong account configuration in SIA
 
 ## SYNTAX
 
-### VaultedInPrivilegeCloud-DB
-```
-New-SIAStrongAccount -safe <String> -account_name <String> -secret_name <String> [-database] [-WhatIf]
- [-Confirm] [<CommonParameters>]
-```
-
-### VaultedInPrivilegeCloud-VM
+### VaultedInPrivilegeCloud
 ```
 New-SIAStrongAccount -safe <String> -account_name <String> -secret_name <String> -account_domain <String>
  [-certFileName <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
-### StoredInDPA-DB
-```
-New-SIAStrongAccount -username <String> -password <SecureString> -secret_name <String> [-database] [-WhatIf]
- [-Confirm] [<CommonParameters>]
-```
-
-### StoredInDPA-VM
+### StoredInSIA
 ```
 New-SIAStrongAccount -username <String> -password <SecureString> -secret_name <String> -account_domain <String>
  [-certFileName <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
@@ -77,7 +66,7 @@ The domain of the strong account
 
 ```yaml
 Type: String
-Parameter Sets: VaultedInPrivilegeCloud-VM, StoredInDPA-VM
+Parameter Sets: (All)
 Aliases:
 
 Required: True
@@ -92,7 +81,7 @@ The object name of the strong account from Privilege Cloud
 
 ```yaml
 Type: String
-Parameter Sets: VaultedInPrivilegeCloud-DB, VaultedInPrivilegeCloud-VM
+Parameter Sets: VaultedInPrivilegeCloud
 Aliases:
 
 Required: True
@@ -107,7 +96,7 @@ A certificate filename for the account
 
 ```yaml
 Type: String
-Parameter Sets: VaultedInPrivilegeCloud-VM, StoredInDPA-VM
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -117,27 +106,12 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -database
-Specifies that the string account relates to a database
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: VaultedInPrivilegeCloud-DB, StoredInDPA-DB
-Aliases:
-
-Required: True
-Position: Named
-Default value: False
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
 ### -password
 The password of the strong account as a secure string
 
 ```yaml
 Type: SecureString
-Parameter Sets: StoredInDPA-DB, StoredInDPA-VM
+Parameter Sets: StoredInSIA
 Aliases:
 
 Required: True
@@ -152,7 +126,7 @@ The Privilege Cloud safe that the string account is vaulted in
 
 ```yaml
 Type: String
-Parameter Sets: VaultedInPrivilegeCloud-DB, VaultedInPrivilegeCloud-VM
+Parameter Sets: VaultedInPrivilegeCloud
 Aliases:
 
 Required: True
@@ -182,7 +156,7 @@ The user name of the string account
 
 ```yaml
 Type: String
-Parameter Sets: StoredInDPA-DB, StoredInDPA-VM
+Parameter Sets: StoredInSIA
 Aliases:
 
 Required: True
@@ -235,5 +209,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ### System.Object
 ## NOTES
+Requires the DpaAdmin role.
 
 ## RELATED LINKS

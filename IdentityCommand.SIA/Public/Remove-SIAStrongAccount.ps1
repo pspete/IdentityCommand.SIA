@@ -13,7 +13,7 @@ function Remove-SIAStrongAccount {
 
     PROCESS {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/secrets/public/v1/$secret_id"
+        $URI = "$($ISPSSSession.tenant_url)/api/secrets/$secret_id"
 
         if ($PSCmdlet.ShouldProcess($secret_id, 'Delete SIA Strong Account')) {
             #Send Request

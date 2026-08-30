@@ -45,9 +45,9 @@ Describe 'Get-SIAStrongAccount' {
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -Times 1 -Exactly -Scope It
         }
 
-        It 'sends request to the public v1 endpoint' {
+        It 'sends request to expected endpoint' {
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/secrets/public/v1'
+                $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/secrets'
             } -Times 1 -Exactly -Scope It
         }
 

@@ -14,7 +14,7 @@ function Get-SIAStrongAccount {
 
     PROCESS {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/secrets/public/v1"
+        $URI = "$($ISPSSSession.tenant_url)/api/secrets"
 
         $QueryString = $($PSBoundParameters | Get-Parameter | ConvertTo-QueryString)
 

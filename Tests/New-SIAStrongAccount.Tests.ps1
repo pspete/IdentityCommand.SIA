@@ -45,9 +45,9 @@ Describe 'New-SIAStrongAccount' {
             $Script:response = New-SIAStrongAccount -username SomeUser -password $Script:SecureString -secret_name SomeName -account_domain SomeDomain.com
         }
 
-        It 'sends request to the public v1 endpoint' {
+        It 'sends request to expected endpoint' {
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/secrets/public/v1'
+                $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/secrets'
             } -Times 1 -Exactly -Scope It
         }
 
@@ -74,9 +74,9 @@ Describe 'New-SIAStrongAccount' {
             $Script:response = New-SIAStrongAccount -safe StrongAccounts -account_name OS-WinDomain-pspete.dev-someuser -secret_name SomeUser -account_domain pspete.dev
         }
 
-        It 'sends request to the public v1 endpoint' {
+        It 'sends request to expected endpoint' {
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/secrets/public/v1'
+                $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/secrets'
             } -Times 1 -Exactly -Scope It
         }
 

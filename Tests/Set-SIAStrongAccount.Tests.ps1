@@ -42,9 +42,9 @@ Describe 'Set-SIAStrongAccount' {
 
     Context 'Request' {
 
-        It 'sends request to the public v1 by-id endpoint' {
+        It 'sends request to the by-id endpoint' {
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/secrets/public/v1/1234-abcd'
+                $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/secrets/1234-abcd'
             } -Times 1 -Exactly -Scope It
         }
 

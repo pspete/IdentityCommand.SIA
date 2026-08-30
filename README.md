@@ -190,10 +190,12 @@ The full list of commands currently available in the _`IdentityCommand.SIA`_ mod
 | `Update-SIAConnector`                  | Upgrade a SIA connector                                                          |
 | `Set-SIAConnectorMaintenanceMode`      | Set the maintenance mode of a SIA connector                                      |
 | `Add-SIAConnectorPoolMember`           | Assign connectors to a SIA connector pool                                        |
+| `Invoke-SIAConnectorCertificateRotation`| Rotate a SIA connector certificate                                              |
 | `Get-SIAHttpsRelay`                    | Get SIA HTTPS relays                                                             |
 | `Remove-SIAHttpsRelay`                 | Deletes a SIA HTTPS relay                                                        |
 | `Update-SIAHttpsRelay`                 | Upgrade a SIA HTTPS relay                                                        |
 | `Get-SIAHttpsRelaySetupScript`         | Get a SIA HTTPS relay setup script                                               |
+| `Invoke-SIAHttpsRelayCertificateRotation`| Rotate a SIA HTTPS relay certificate                                            |
 
 ## Installation
 

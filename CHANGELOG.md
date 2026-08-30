@@ -14,10 +14,10 @@ All notable changes to this project will be documented in this file.
   - Generate a new SSH CA public key version, or deactivate / reactivate the previous version.
 - `Get-SIAMFACachingKey`
   - Retrieve the SSH MFA caching key.
-- `Remove-SIAConnector`, `Test-SIAConnector`, `Update-SIAConnector`, `Set-SIAConnectorMaintenanceMode`, `Add-SIAConnectorPoolMember`
-  - Delete, test reachability of, upgrade, set maintenance mode on, and assign connectors to pools.
-- `Get-SIAHttpsRelay`, `Remove-SIAHttpsRelay`, `Update-SIAHttpsRelay`, `Get-SIAHttpsRelaySetupScript`
-  - Manage SIA HTTPS relays and generate relay installation scripts.
+- `Remove-SIAConnector`, `Test-SIAConnector`, `Update-SIAConnector`, `Set-SIAConnectorMaintenanceMode`, `Add-SIAConnectorPoolMember`, `Invoke-SIAConnectorCertificateRotation`
+  - Delete, test reachability of, upgrade, set maintenance mode on, assign to pools, and rotate the certificate of connectors.
+- `Get-SIAHttpsRelay`, `Remove-SIAHttpsRelay`, `Update-SIAHttpsRelay`, `Get-SIAHttpsRelaySetupScript`, `Invoke-SIAHttpsRelayCertificateRotation`
+  - Manage SIA HTTPS relays, generate relay installation scripts, and rotate relay certificates.
 - `Set-SIAStrongAccount`
   - Update an existing strong account for virtual machines or databases.
 

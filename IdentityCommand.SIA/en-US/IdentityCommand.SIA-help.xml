@@ -292,7 +292,7 @@
     </command:returnValues>
     <maml:alertSet>
       <maml:alert>
-        <maml:para></maml:para>
+        <maml:para>Requires the DpaAdmin role.</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
@@ -1325,7 +1325,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
           <maml:name>expiration_minutes</maml:name>
           <maml:description>
-            <maml:para>The number of minutes the generated installation script remains valid for.</maml:para>
+            <maml:para>The number of minutes the generated installation script remains valid for. Must be between 15 and 240.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
           <dev:type>
@@ -1337,7 +1337,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
           <maml:name>protocol_port_map</maml:name>
           <maml:description>
-            <maml:para>A hashtable mapping supported protocols (SSH, POSTGRES, MYSQL) to the local ports the HTTPS relay should listen on.</maml:para>
+            <maml:para>A hashtable mapping supported protocols to the local ports the HTTPS relay should listen on. Valid protocol keys: SSH, DB2, MONGO, MSSQL, MYSQL, ORACLE, POSTGRES. Ports must be between 1 and 65535 and must be unique.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Hashtable</command:parameterValue>
           <dev:type>
@@ -1388,7 +1388,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
         <maml:name>expiration_minutes</maml:name>
         <maml:description>
-          <maml:para>The number of minutes the generated installation script remains valid for.</maml:para>
+          <maml:para>The number of minutes the generated installation script remains valid for. Must be between 15 and 240.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
         <dev:type>
@@ -1412,7 +1412,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
         <maml:name>protocol_port_map</maml:name>
         <maml:description>
-          <maml:para>A hashtable mapping supported protocols (SSH, POSTGRES, MYSQL) to the local ports the HTTPS relay should listen on.</maml:para>
+          <maml:para>A hashtable mapping supported protocols to the local ports the HTTPS relay should listen on. Valid protocol keys: SSH, DB2, MONGO, MSSQL, MYSQL, ORACLE, POSTGRES. Ports must be between 1 and 65535 and must be unique.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">Hashtable</command:parameterValue>
         <dev:type>
@@ -1496,7 +1496,7 @@
     </command:returnValues>
     <maml:alertSet>
       <maml:alert>
-        <maml:para></maml:para>
+        <maml:para>Requires the DpaAdmin role.</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
@@ -2207,7 +2207,7 @@
     </command:returnValues>
     <maml:alertSet>
       <maml:alert>
-        <maml:para></maml:para>
+        <maml:para>Requires the DpaAdmin role.</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
@@ -2767,6 +2767,256 @@
         <dev:code>Get-SIATargetSet -strongAccountId 1234-abcd</dev:code>
         <dev:remarks>
           <maml:para>Get all target sets for a specific strong account from SIA</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Invoke-SIAConnectorCertificateRotation</command:name>
+      <command:verb>Invoke</command:verb>
+      <command:noun>SIAConnectorCertificateRotation</command:noun>
+      <maml:description>
+        <maml:para>Rotate a SIA connector certificate</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Initiates certificate rotation for a connector. The connector must be active and in available mode.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Invoke-SIAConnectorCertificateRotation</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="none">
+          <maml:name>connector_id</maml:name>
+          <maml:description>
+            <maml:para>The unique identifier of the SIA connector.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="none">
+        <maml:name>connector_id</maml:name>
+        <maml:description>
+          <maml:para>The unique identifier of the SIA connector.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+        <maml:name>Confirm</maml:name>
+        <maml:description>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+        <maml:name>WhatIf</maml:name>
+        <maml:description>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>System.String</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Object</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para>Requires the DpaAdmin role.</maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>Invoke-SIAConnectorCertificateRotation -connector_id 1234-abcd</dev:code>
+        <dev:remarks>
+          <maml:para>Queues a certificate rotation job for the specified connector.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Invoke-SIAHttpsRelayCertificateRotation</command:name>
+      <command:verb>Invoke</command:verb>
+      <command:noun>SIAHttpsRelayCertificateRotation</command:noun>
+      <maml:description>
+        <maml:para>Rotate a SIA HTTPS relay certificate</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Initiates certificate rotation for an HTTPS relay. The relay must be active, in available mode, and support certificate rotation.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Invoke-SIAHttpsRelayCertificateRotation</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="none">
+          <maml:name>https_relay_id</maml:name>
+          <maml:description>
+            <maml:para>The unique identifier of the HTTPS relay.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="none">
+        <maml:name>https_relay_id</maml:name>
+        <maml:description>
+          <maml:para>The unique identifier of the HTTPS relay.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+        <maml:name>Confirm</maml:name>
+        <maml:description>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+        <maml:name>WhatIf</maml:name>
+        <maml:description>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>System.String</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Object</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para>Requires the DpaAdmin role.</maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>Invoke-SIAHttpsRelayCertificateRotation -https_relay_id 1234-abcd</dev:code>
+        <dev:remarks>
+          <maml:para>Queues a certificate rotation job for the specified HTTPS relay.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -5755,7 +6005,7 @@ $UserData = New-SIAPolicyUserDataDefinition -User -name SomeOtherUser -UserDataD
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Deletes a connector from SIA.</maml:para>
+      <maml:para>Deletes a connector from SIA. An active connector cannot be deleted unless `-force_delete` is specified. The connector service should also be removed from the host machine.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -5771,6 +6021,17 @@ $UserData = New-SIAPolicyUserDataDefinition -User -name SomeOtherUser -UserDataD
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>force_delete</maml:name>
+          <maml:description>
+            <maml:para>Force deletion even when the connector or HTTPS relay is active or has active sessions.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
           <maml:name>Confirm</maml:name>
@@ -5808,6 +6069,18 @@ $UserData = New-SIAPolicyUserDataDefinition -User -name SomeOtherUser -UserDataD
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>force_delete</maml:name>
+        <maml:description>
+          <maml:para>Force deletion even when the connector or HTTPS relay is active or has active sessions.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
         <maml:name>Confirm</maml:name>
@@ -5856,7 +6129,7 @@ $UserData = New-SIAPolicyUserDataDefinition -User -name SomeOtherUser -UserDataD
     </command:returnValues>
     <maml:alertSet>
       <maml:alert>
-        <maml:para></maml:para>
+        <maml:para>Requires the DpaAdmin role.</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
@@ -5880,7 +6153,7 @@ $UserData = New-SIAPolicyUserDataDefinition -User -name SomeOtherUser -UserDataD
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Deletes an HTTPS relay from SIA.</maml:para>
+      <maml:para>Deletes an HTTPS relay and all associated resources from SIA. A relay with active sessions cannot be deleted unless `-force_delete` is specified.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -5896,6 +6169,17 @@ $UserData = New-SIAPolicyUserDataDefinition -User -name SomeOtherUser -UserDataD
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>force_delete</maml:name>
+          <maml:description>
+            <maml:para>Force deletion even when the connector or HTTPS relay is active or has active sessions.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
           <maml:name>Confirm</maml:name>
@@ -5922,6 +6206,18 @@ $UserData = New-SIAPolicyUserDataDefinition -User -name SomeOtherUser -UserDataD
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>force_delete</maml:name>
+        <maml:description>
+          <maml:para>Force deletion even when the connector or HTTPS relay is active or has active sessions.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="none">
         <maml:name>https_relay_id</maml:name>
         <maml:description>
@@ -5981,7 +6277,7 @@ $UserData = New-SIAPolicyUserDataDefinition -User -name SomeOtherUser -UserDataD
     </command:returnValues>
     <maml:alertSet>
       <maml:alert>
-        <maml:para></maml:para>
+        <maml:para>Requires the DpaAdmin role.</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
@@ -6231,7 +6527,7 @@ $UserData = New-SIAPolicyUserDataDefinition -User -name SomeOtherUser -UserDataD
     </command:returnValues>
     <maml:alertSet>
       <maml:alert>
-        <maml:para></maml:para>
+        <maml:para>Requires the DpaAdmin role.</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
@@ -8334,7 +8630,7 @@ $UserData = New-SIAPolicyUserDataDefinition -User -name SomeOtherUser -UserDataD
     </command:returnValues>
     <maml:alertSet>
       <maml:alert>
-        <maml:para></maml:para>
+        <maml:para>Requires the DpaAdmin role.</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
@@ -8920,7 +9216,7 @@ $UserData = New-SIAPolicyUserDataDefinition -User -name SomeOtherUser -UserDataD
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Runs a reachability check for a connector, optionally against specific targets and the SIA backend endpoints.</maml:para>
+      <maml:para>Tests reachability from a connector to the SIA backend endpoints and to one or more target hosts.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -8940,11 +9236,11 @@ $UserData = New-SIAPolicyUserDataDefinition -User -name SomeOtherUser -UserDataD
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
           <maml:name>targets</maml:name>
           <maml:description>
-            <maml:para>One or more target addresses to include in the connector reachability check.</maml:para>
+            <maml:para>One or more target endpoints to test connectivity to, each supplied as a hashtable - for example `@{ hostname = 'host.example.com'; port = 22 }`. The port defaults to 22 if omitted.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">Hashtable[]</command:parameterValue>
           <dev:type>
-            <maml:name>String[]</maml:name>
+            <maml:name>Hashtable[]</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -8991,11 +9287,11 @@ $UserData = New-SIAPolicyUserDataDefinition -User -name SomeOtherUser -UserDataD
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
         <maml:name>targets</maml:name>
         <maml:description>
-          <maml:para>One or more target addresses to include in the connector reachability check.</maml:para>
+          <maml:para>One or more target endpoints to test connectivity to, each supplied as a hashtable - for example `@{ hostname = 'host.example.com'; port = 22 }`. The port defaults to 22 if omitted.</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">Hashtable[]</command:parameterValue>
         <dev:type>
-          <maml:name>String[]</maml:name>
+          <maml:name>Hashtable[]</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -9012,7 +9308,7 @@ $UserData = New-SIAPolicyUserDataDefinition -User -name SomeOtherUser -UserDataD
       </command:inputType>
       <command:inputType>
         <dev:type>
-          <maml:name>System.String[]</maml:name>
+          <maml:name>System.Collections.Hashtable[]</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -9039,7 +9335,7 @@ $UserData = New-SIAPolicyUserDataDefinition -User -name SomeOtherUser -UserDataD
     </command:returnValues>
     <maml:alertSet>
       <maml:alert>
-        <maml:para></maml:para>
+        <maml:para>Requires the DpaAdmin role.</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>

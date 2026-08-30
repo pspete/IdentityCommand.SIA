@@ -119,7 +119,8 @@
         'Get-SIADatabaseStrongAccount',
         'New-SIADatabaseStrongAccount',
         'Set-SIADatabaseStrongAccount',
-        'Remove-SIADatabaseStrongAccount'
+        'Remove-SIADatabaseStrongAccount',
+        'Get-SIADatabaseTarget'
 
     )
 

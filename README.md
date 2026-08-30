@@ -183,6 +183,7 @@ The full list of commands currently available in the _`IdentityCommand.SIA`_ mod
 | `New-SIADatabaseStrongAccount`         | Creates a SIA database strong account                                            |
 | `Set-SIADatabaseStrongAccount`         | Updates a SIA database strong account                                            |
 | `Remove-SIADatabaseStrongAccount`      | Deletes a SIA database strong account                                            |
+| `Get-SIADatabaseTarget`                | Get SIA database targets                                                         |
 | `Get-SIASSHHostKeyFingerprint`         | Get a stored SSH host key fingerprint                                            |
 | `Add-SIASSHHostKeyFingerprint`         | Add an SSH host key fingerprint                                                  |
 | `Set-SIASSHHostKeyFingerprint`         | Update an SSH host key fingerprint                                               |

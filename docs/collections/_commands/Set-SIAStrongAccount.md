@@ -5,7 +5,6 @@ online version:
 schema: 2.0.0
 ---
 
-
 # Set-SIAStrongAccount
 
 ## SYNOPSIS
@@ -16,15 +15,15 @@ Update a strong account in SIA
 ### VaultedInPrivilegeCloud
 ```
 Set-SIAStrongAccount -secret_id <String> -safe <String> -account_name <String> -secret_name <String>
- -account_domain <String> [-certFileName <String>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ -account_domain <String> [-certFileName <String>] [-enable_bulk_elevation <Boolean>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### StoredInSIA
 ```
 Set-SIAStrongAccount -secret_id <String> -username <String> -password <SecureString> -secret_name <String>
- -account_domain <String> [-certFileName <String>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ -account_domain <String> [-certFileName <String>] [-enable_bulk_elevation <Boolean>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -76,6 +75,21 @@ The filename of the certificate to use for authentication.
 
 ```yaml
 Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -enable_bulk_elevation
+Whether bulk elevation is enabled for the strong account.
+
+```yaml
+Type: Boolean
 Parameter Sets: (All)
 Aliases:
 

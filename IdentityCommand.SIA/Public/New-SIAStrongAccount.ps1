@@ -65,19 +65,12 @@ function New-SIAStrongAccount {
             'is_active'      = $true
             'secret'         = [ordered]@{
                 'tenant_encrypted' = $false
-                'secret_data'      = [ordered]@{
-                    'safe'         = ''
-                    'account_name' = ''
-                    'username'     = ''
-                    'password'     = ''
-                }
+                'secret_data'      = [ordered]@{ }
             }
             'secret_name'    = $secret_name
             'secret_type'    = $null
             'secret_details' = [ordered]@{
                 'certFileName'               = "$certFileName"
-                'domain'                     = ''
-                'domains'                    = @()
                 'account_domain'             = $account_domain
                 'enable_bulk_elevation'      = [bool]$enable_bulk_elevation
                 'ephemeral_domain_user_data' = @{}
@@ -91,8 +84,8 @@ function New-SIAStrongAccount {
             'VaultedInPrivilegeCloud' {
 
                 $StrongAccount.secret_type = 'PCloudAccount'
-                $StrongAccount.secret.secret_data.safe = $safe
-                $StrongAccount.secret.secret_data.account_name = $account_name
+                $StrongAccount.secret.secret_data.Add('safe', $safe)
+                $StrongAccount.secret.secret_data.Add('account_name', $account_name)
                 break
 
             }
@@ -100,8 +93,8 @@ function New-SIAStrongAccount {
             'StoredInSIA' {
 
                 $StrongAccount.secret_type = 'ProvisionerUser'
-                $StrongAccount.secret.secret_data.username = $username
-                $StrongAccount.secret.secret_data.password = $(ConvertTo-InsecureString -SecureString $password)
+                $StrongAccount.secret.secret_data.Add('username', $username)
+                $StrongAccount.secret.secret_data.Add('password', $(ConvertTo-InsecureString -SecureString $password))
                 break
 
             }

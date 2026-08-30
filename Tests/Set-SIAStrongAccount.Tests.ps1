@@ -52,12 +52,20 @@ Describe 'Set-SIAStrongAccount' {
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter { $Method -eq 'PUT' } -Times 1 -Exactly -Scope It
         }
 
-        It 'sends request with expected body' {
+        It 'sends the full strong account body including secret_type and all secret_data / secret_details keys' {
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
                 $request = $Body | ConvertFrom-Json
+                ($request.is_active -eq $true) -and
                 ($request.secret_name -eq 'MyAccount') -and
+                ($request.secret_type -eq 'ProvisionerUser') -and
+                ($request.secret.tenant_encrypted -eq $false) -and
                 ($request.secret.secret_data.username -eq 'svc') -and
-                ($request.secret_details.account_domain -eq 'ad.example.com')
+                ($request.secret.secret_data.PSObject.Properties.Name -contains 'safe') -and
+                ($request.secret.secret_data.PSObject.Properties.Name -contains 'account_name') -and
+                ($request.secret_details.account_domain -eq 'ad.example.com') -and
+                ($request.secret_details.PSObject.Properties.Name -contains 'certFileName') -and
+                ($request.secret_details.PSObject.Properties.Name -contains 'ephemeral_domain_user_data') -and
+                ($request.secret_details.enable_bulk_elevation -eq $false)
             } -Times 1 -Exactly -Scope It
         }
     }

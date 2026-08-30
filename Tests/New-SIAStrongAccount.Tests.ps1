@@ -55,15 +55,19 @@ Describe 'New-SIAStrongAccount' {
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter { $Method -eq 'POST' } -Times 1 -Exactly -Scope It
         }
 
-        It 'sends request with expected body' {
+        It 'sends the create body with only the relevant secret_data keys and a four-key secret_details' {
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
                 $request = $Body | ConvertFrom-Json
                 ($request.is_active -eq $true) -and
                 ($request.secret_name -eq 'SomeName') -and
                 ($request.secret_type -eq 'ProvisionerUser') -and
-                ($request.secret_details.account_domain -eq 'SomeDomain.com') -and
                 ($request.secret.secret_data.username -eq 'SomeUser') -and
-                ($request.secret.secret_data.password -eq 'SomePassword')
+                ($request.secret.secret_data.password -eq 'SomePassword') -and
+                ($request.secret.secret_data.PSObject.Properties.Name -notcontains 'safe') -and
+                ($request.secret_details.account_domain -eq 'SomeDomain.com') -and
+                ($request.secret_details.enable_bulk_elevation -eq $false) -and
+                ($request.secret_details.PSObject.Properties.Name -contains 'ephemeral_domain_user_data') -and
+                ($request.secret_details.PSObject.Properties.Name -notcontains 'domains')
             } -Times 1 -Exactly -Scope It
         }
     }

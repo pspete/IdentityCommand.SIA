@@ -14,6 +14,7 @@ function Get-SIAHttpsRelaySetupScript {
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true
         )]
+        [ValidateRange(15, 240)]
         [int]$expiration_minutes,
 
         [parameter(
@@ -45,7 +46,7 @@ function Get-SIAHttpsRelaySetupScript {
 
     PROCESS {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/https-relay/setup-script"
+        $URI = "$($ISPSSSession.tenant_url)/api/https-relays/setup-script"
 
         #Create Request Body
         $body = $PSBoundParameters | Get-Parameter | ConvertTo-Json

@@ -13,7 +13,7 @@ function Update-SIAHttpsRelay {
 
     PROCESS {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/https-relay/$https_relay_id/upgrade"
+        $URI = "$($ISPSSSession.tenant_url)/api/https-relays/$https_relay_id/upgrade"
 
         if ($PSCmdlet.ShouldProcess($https_relay_id, 'Upgrade SIA HTTPS Relay')) {
 

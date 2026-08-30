@@ -13,23 +13,39 @@ Delete a SIA HTTPS relay
 ## SYNTAX
 
 ```
-Remove-SIAHttpsRelay [-https_relay_id] <String> [-WhatIf] [-Confirm]
- [<CommonParameters>]
+Remove-SIAHttpsRelay [-https_relay_id] <String> [-force_delete] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Deletes an HTTPS relay from SIA.
+Deletes an HTTPS relay and all associated resources from SIA.
+A relay with active sessions cannot be deleted unless `-force_delete` is specified.
 
 ## EXAMPLES
 
 ### Example 1
-```powershell
+```
 Remove-SIAHttpsRelay -https_relay_id 1234-abcd
 ```
 
 Deletes the specified HTTPS relay.
 
 ## PARAMETERS
+
+### -force_delete
+Force deletion even when the connector or HTTPS relay is active or has active sessions.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
 
 ### -https_relay_id
 The unique identifier of the HTTPS relay.
@@ -56,7 +72,7 @@ Aliases: cf
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -72,7 +88,7 @@ Aliases: wi
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -83,10 +99,10 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### System.String
-
 ## OUTPUTS
 
 ### System.Object
 ## NOTES
+Requires the DpaAdmin role.
 
 ## RELATED LINKS

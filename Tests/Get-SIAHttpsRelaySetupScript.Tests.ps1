@@ -47,7 +47,7 @@ Describe 'Get-SIAHttpsRelaySetupScript' {
 
         It 'sends request to expected endpoint' {
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/https-relay/setup-script'
+                $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/https-relays/setup-script'
             } -Times 1 -Exactly -Scope It
         }
 

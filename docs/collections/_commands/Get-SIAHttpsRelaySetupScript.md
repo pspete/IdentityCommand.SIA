@@ -24,7 +24,7 @@ Generates an installation script used to deploy a SIA HTTPS relay on the specifi
 ## EXAMPLES
 
 ### Example 1
-```powershell
+```
 Get-SIAHttpsRelaySetupScript -https_relay_os linux
 ```
 
@@ -34,6 +34,7 @@ Generates an HTTPS relay installation script for Linux.
 
 ### -expiration_minutes
 The number of minutes the generated installation script remains valid for.
+Must be between 15 and 240.
 
 ```yaml
 Type: Int32
@@ -64,7 +65,9 @@ Accept wildcard characters: False
 ```
 
 ### -protocol_port_map
-A hashtable mapping supported protocols (SSH, POSTGRES, MYSQL) to the local ports the HTTPS relay should listen on.
+A hashtable mapping supported protocols to the local ports the HTTPS relay should listen on.
+Valid protocol keys: SSH, DB2, MONGO, MSSQL, MYSQL, ORACLE, POSTGRES.
+Ports must be between 1 and 65535 and must be unique.
 
 ```yaml
 Type: Hashtable
@@ -129,14 +132,12 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### System.String
-
 ### System.Int32
-
 ### System.Collections.Hashtable
-
 ## OUTPUTS
 
 ### System.Object
 ## NOTES
+Requires the DpaAdmin role.
 
 ## RELATED LINKS

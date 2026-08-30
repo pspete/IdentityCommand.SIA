@@ -47,7 +47,7 @@ Describe 'Remove-SIAHttpsRelay' {
 
         It 'sends request to expected endpoint' {
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/https-relay/RELAY1'
+                $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/https-relays/RELAY1'
             } -Times 1 -Exactly -Scope It
         }
 
@@ -60,6 +60,17 @@ Describe 'Remove-SIAHttpsRelay' {
         It 'sends request with no body' {
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
                 $null -eq $Body
+            } -Times 1 -Exactly -Scope It
+        }
+
+        It 'adds force_delete query parameter when specified' {
+            InModuleScope -ModuleName $Script:SIAModuleName {
+                $ISPSSSession = [ordered]@{ tenant_url = 'https://somedomain.dpa.cyberark.cloud' }
+                New-Variable -Name ISPSSSession -Value $ISPSSSession -Scope Script -Force
+            }
+            Remove-SIAHttpsRelay -https_relay_id 'RELAY1' -force_delete
+            Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
+                $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/https-relays/RELAY1?force_delete=true'
             } -Times 1 -Exactly -Scope It
         }
     }

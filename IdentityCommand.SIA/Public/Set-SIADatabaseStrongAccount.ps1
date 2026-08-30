@@ -64,6 +64,20 @@ function Set-SIADatabaseStrongAccount {
             ValueFromPipelinebyPropertyName = $true,
             ParameterSetName = 'Managed'
         )]
+        [securestring]$password,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'Managed'
+        )]
+        [securestring]$secret_access_key,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'Managed'
+        )]
         [string]$address,
 
         [parameter(
@@ -132,6 +146,13 @@ function Set-SIADatabaseStrongAccount {
                     'store_type'         = 'managed'
                     'name'               = $name
                     'account_properties' = $props
+                }
+
+                #Only include the password object when a new credential is supplied
+                if ($PSBoundParameters.ContainsKey('secret_access_key')) {
+                    $requestBody['password_secret_object'] = @{'secret_access_key' = $(ConvertTo-InsecureString -SecureString $secret_access_key) }
+                } elseif ($PSBoundParameters.ContainsKey('password')) {
+                    $requestBody['password_secret_object'] = @{'password' = $(ConvertTo-InsecureString -SecureString $password) }
                 }
                 break
 

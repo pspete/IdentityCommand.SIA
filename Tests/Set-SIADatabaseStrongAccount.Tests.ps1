@@ -64,6 +64,33 @@ Describe 'Set-SIADatabaseStrongAccount' {
         }
     }
 
+    Context 'Managed account password' {
+
+        BeforeEach {
+            InModuleScope -ModuleName $Script:SIAModuleName {
+                $ISPSSSession = [ordered]@{ tenant_url = 'https://somedomain.dpa.cyberark.cloud' }
+                New-Variable -Name ISPSSSession -Value $ISPSSSession -Scope Script -Force
+            }
+            $Script:pw = ConvertTo-SecureString 'NewPassword' -AsPlainText -Force
+        }
+
+        It 'omits password_secret_object when no new password is supplied' {
+            Set-SIADatabaseStrongAccount -strong_account_id '550e8400' -Managed -name 'TestScrt' -platform MySQL -username 'TestString' -address 'testaddress'
+            Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
+                $request = $Body | ConvertFrom-Json
+                ($request.account_properties.address -eq 'testaddress') -and
+                ($null -eq $request.password_secret_object)
+            } -Times 1 -Exactly -Scope It
+        }
+
+        It 'includes password_secret_object when a new password is supplied' {
+            Set-SIADatabaseStrongAccount -strong_account_id '550e8400' -Managed -name 'TestScrt' -platform MySQL -username 'TestString' -address 'testaddress' -password $Script:pw
+            Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
+                ($Body | ConvertFrom-Json).password_secret_object.password -eq 'NewPassword'
+            } -Times 1 -Exactly -Scope It
+        }
+    }
+
     Context 'Response' {
 
         It 'provides output' {

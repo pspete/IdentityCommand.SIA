@@ -22,7 +22,8 @@ Set-SIADatabaseStrongAccount -strong_account_id <String> -name <String> [-PAM] -
 ### Managed
 ```
 Set-SIADatabaseStrongAccount -strong_account_id <String> -name <String> [-Managed] -platform <String>
- -username <String> [-address <String>] [-port <Int32>] [-database <String>] [-account_properties <Hashtable>]
+ -username <String> [-password <SecureString>] [-secret_access_key <SecureString>] [-address <String>]
+ [-port <Int32>] [-database <String>] [-account_properties <Hashtable>]
  [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
@@ -145,6 +146,21 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
+### -password
+A new account password, as a SecureString (non-AWS platforms). Omit to leave the password unchanged.
+
+```yaml
+Type: SecureString
+Parameter Sets: Managed
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
 ### -platform
 The account platform - one of PostgreSQL, MySQL, MariaDB, MSSql, Oracle, MongoDB, DB2UnixSSH, WinDomain or AWSAccessKeys.
 
@@ -185,6 +201,21 @@ Parameter Sets: PAM
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -secret_access_key
+A new AWS secret access key, as a SecureString (AWSAccessKeys platform). Omit to leave it unchanged.
+
+```yaml
+Type: SecureString
+Parameter Sets: Managed
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)

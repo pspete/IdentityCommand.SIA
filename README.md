@@ -178,6 +178,22 @@ The full list of commands currently available in the _`IdentityCommand.SIA`_ mod
 | `Remove-SIATargetSet`                  | Deletes a SIA target set                                                         |
 | `Set-SIAPolicy`                        | Updates a SIA policy                                                             |
 | `Set-SIASetting`                       | Update SIA settings                                                              |
+| `Set-SIAStrongAccount`                 | Updates a strong account in SIA                                                  |
+| `Get-SIASSHHostKeyFingerprint`         | Get a stored SSH host key fingerprint                                            |
+| `Add-SIASSHHostKeyFingerprint`         | Add an SSH host key fingerprint                                                  |
+| `Set-SIASSHHostKeyFingerprint`         | Update an SSH host key fingerprint                                               |
+| `Remove-SIASSHHostKeyFingerprint`      | Delete an SSH host key fingerprint                                               |
+| `Invoke-SIASSHPublicKeyRotation`       | Rotate, deactivate or reactivate the SSH CA public key                           |
+| `Get-SIAMFACachingKey`                 | Get the SSH MFA caching key                                                      |
+| `Remove-SIAConnector`                  | Deletes a SIA connector                                                          |
+| `Test-SIAConnector`                    | Test SIA connector reachability                                                  |
+| `Update-SIAConnector`                  | Upgrade a SIA connector                                                          |
+| `Set-SIAConnectorMaintenanceMode`      | Set the maintenance mode of a SIA connector                                      |
+| `Add-SIAConnectorPoolMember`           | Assign connectors to a SIA connector pool                                        |
+| `Get-SIAHttpsRelay`                    | Get SIA HTTPS relays                                                             |
+| `Remove-SIAHttpsRelay`                 | Deletes a SIA HTTPS relay                                                        |
+| `Update-SIAHttpsRelay`                 | Upgrade a SIA HTTPS relay                                                        |
+| `Get-SIAHttpsRelaySetupScript`         | Get a SIA HTTPS relay setup script                                               |
 
 ## Installation
 

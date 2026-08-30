@@ -6,6 +6,21 @@ All notable changes to this project will be documented in this file.
 
 ## 0.3.X
 
+### Added
+
+- `Get-SIASSHHostKeyFingerprint`, `Add-SIASSHHostKeyFingerprint`, `Set-SIASSHHostKeyFingerprint`, `Remove-SIASSHHostKeyFingerprint`
+  - Manage SSH host key fingerprints for targets.
+- `Invoke-SIASSHPublicKeyRotation`
+  - Generate a new SSH CA public key version, or deactivate / reactivate the previous version.
+- `Get-SIAMFACachingKey`
+  - Retrieve the SSH MFA caching key.
+- `Remove-SIAConnector`, `Test-SIAConnector`, `Update-SIAConnector`, `Set-SIAConnectorMaintenanceMode`, `Add-SIAConnectorPoolMember`
+  - Delete, test reachability of, upgrade, set maintenance mode on, and assign connectors to pools.
+- `Get-SIAHttpsRelay`, `Remove-SIAHttpsRelay`, `Update-SIAHttpsRelay`, `Get-SIAHttpsRelaySetupScript`
+  - Manage SIA HTTPS relays and generate relay installation scripts.
+- `Set-SIAStrongAccount`
+  - Update an existing strong account for virtual machines or databases.
+
 ### Changed
 
 - Module renamed from `IdentityCommand.DPA` to `IdentityCommand.SIA`, reflecting the rebrand of CyberArk Dynamic Privileged Access to CyberArk Secure Infrastructure Access.

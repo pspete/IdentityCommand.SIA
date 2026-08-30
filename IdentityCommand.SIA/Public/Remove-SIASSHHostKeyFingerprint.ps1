@@ -6,6 +6,7 @@ function Remove-SIASSHHostKeyFingerprint {
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true
         )]
+        [ValidateLength(1, 255)]
         [String]$target_id
     )
 

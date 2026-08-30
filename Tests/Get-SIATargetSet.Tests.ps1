@@ -51,7 +51,7 @@ Describe 'Get-SIATargetSet' {
 
         It 'sends request to expected endpoint with query string' {
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                ($URI -like 'https://somedomain.dpa.cyberark.cloud/api/discovery/targetsets`?*') -and
+                ($URI -like 'https://somedomain.dpa.cyberark.cloud/api/targetsets`?*') -and
                 ($URI -match 'strongAccountId=SomeID') -and
                 ($URI -match 'name=SomeName')
             } -Times 1 -Exactly -Scope It

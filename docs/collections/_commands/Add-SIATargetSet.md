@@ -14,9 +14,9 @@ Add a new target set in SIA
 ## SYNTAX
 
 ```
-Add-SIATargetSet -strong_account_id <String> [-name] <String> [[-provision_format] <String>]
- [[-description] <String>] [-enable_certificate_validation] <Boolean> [-secret_type] <String>
- [-secret_id] <String> [-type] <String> [<CommonParameters>]
+Add-SIATargetSet [-name] <String> [[-provision_format] <String>] [[-description] <String>]
+ [-enable_certificate_validation] <Boolean> [-secret_type] <String> [-secret_id] <String> [-type] <String>
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -126,21 +126,6 @@ Accepted values: ProvisionerUser, PCloudAccount, IdentityUser, IdentityMgmtUser,
 
 Required: True
 Position: 4
-Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -strong_account_id
-The ID of the strong account the target set is mapped to.
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False

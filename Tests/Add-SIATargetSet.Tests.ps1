@@ -22,7 +22,7 @@ Describe 'Add-SIATargetSet' {
     BeforeEach {
 
         Mock -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -MockWith {
-            [pscustomobject]@{ 'results' = @([pscustomobject]@{ 'target_set_name' = 'somename'; 'success' = $true }) }
+            [pscustomobject]@{ 'target_set' = [pscustomobject]@{ 'name' = 'abc12' } }
         }
 
         InModuleScope -ModuleName $Script:SIAModuleName {
@@ -37,48 +37,53 @@ Describe 'Add-SIATargetSet' {
         }
 
         $InputObject = [pscustomobject]@{
-            'strong_account_id'             = 'StrongID'
-            'name'                          = 'somename'
+            'name'                          = 'abc12'
             'enable_certificate_validation' = $true
             'secret_type'                   = 'ProvisionerUser'
-            'secret_id'                     = 'SomeID'
-            'type'                          = 'Domain'
+            'secret_id'                     = '7e8a372f-c610-42a8-8f10-9c764d7a32ba'
+            'type'                          = 'Suffix'
         }
         $Script:response = $InputObject | Add-SIATargetSet
     }
 
     Context 'Request' {
 
-        It 'sends request' {
-            Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -Times 1 -Exactly -Scope It
-        }
-
-        It 'sends request to the bulk endpoint' {
+        It 'POSTs to /api/targetsets' {
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/discovery/targetsets/bulk'
+                ($URI -eq 'https://somedomain.dpa.cyberark.cloud/api/targetsets') -and ($Method -eq 'POST')
             } -Times 1 -Exactly -Scope It
         }
 
-        It 'uses expected method' {
-            Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                $Method -eq 'POST'
-            } -Times 1 -Exactly -Scope It
-        }
-
-        It 'maps the target set to the strong account id in the request body' {
+        It 'sends a single flat target set body' {
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
                 $request = $Body | ConvertFrom-Json
-                ($request.target_sets_mapping[0].strong_account_id -eq 'StrongID') -and
-                ($request.target_sets_mapping[0].target_sets[0].name -eq 'somename') -and
-                ($request.target_sets_mapping[0].target_sets[0].provision_format -eq '<user>-<session-guid>')
+                ($request.name -eq 'abc12') -and
+                ($request.secret_type -eq 'ProvisionerUser') -and
+                ($request.secret_id -eq '7e8a372f-c610-42a8-8f10-9c764d7a32ba') -and
+                ($request.type -eq 'Suffix') -and
+                ($request.enable_certificate_validation -eq $true) -and
+                ($request.provision_format -eq '<user>-<session-guid>') -and
+                ($request.PSObject.Properties.Name -contains 'description') -and
+                ($request.PSObject.Properties.Name -notcontains 'target_sets_mapping')
+            } -Times 1 -Exactly -Scope It
+        }
+
+        It 'keeps a supplied provision_format' {
+            InModuleScope -ModuleName $Script:SIAModuleName {
+                $ISPSSSession = [ordered]@{ tenant_url = 'https://somedomain.dpa.cyberark.cloud' }
+                New-Variable -Name ISPSSSession -Value $ISPSSSession -Scope Script -Force
+            }
+            Add-SIATargetSet -name n -enable_certificate_validation $true -secret_type ProvisionerUser -secret_id s -type Domain -provision_format 'custom-format'
+            Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
+                ($Body | ConvertFrom-Json).provision_format -eq 'custom-format'
             } -Times 1 -Exactly -Scope It
         }
     }
 
     Context 'Response' {
 
-        It 'provides output' {
-            $Script:response | Should -Not -BeNullOrEmpty
+        It 'returns the target_set property' {
+            $Script:response.name | Should -Be 'abc12'
         }
     }
 }

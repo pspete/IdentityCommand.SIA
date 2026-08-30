@@ -36,7 +36,7 @@ Describe 'Set-SIADatabaseStrongAccount' {
             New-Variable -Name ISPSSSession -Value $ISPSSSession -Scope Script -Force
         }
 
-        $Script:response = Set-SIADatabaseStrongAccount -strong_account_id '550e8400' -PAM -name 'UpdatedPAMAccount' -safe 'UpdatedSafe' -accountName 'admin@newdomain.com'
+        $Script:response = Set-SIADatabaseStrongAccount -strong_account_id '550e8400' -PAM -name 'UpdatedPAMAccount' -safe 'UpdatedSafe' -account_name 'admin@newdomain.com'
     }
 
     Context 'Request' {
@@ -56,9 +56,10 @@ Describe 'Set-SIADatabaseStrongAccount' {
         It 'sends the updated account properties in the body' {
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
                 $request = $Body | ConvertFrom-Json
-                ($request.storeType -eq 'pam') -and
+                ($request.store_type -eq 'pam') -and
                 ($request.name -eq 'UpdatedPAMAccount') -and
-                ($request.accountProperties.safe -eq 'UpdatedSafe')
+                ($request.account_properties.safe -eq 'UpdatedSafe') -and
+                ($request.account_properties.account_name -eq 'admin@newdomain.com')
             } -Times 1 -Exactly -Scope It
         }
     }

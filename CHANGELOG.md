@@ -21,7 +21,7 @@ All notable changes to this project will be documented in this file.
 - `Set-SIAStrongAccount`
   - Update an existing virtual machine strong account.
 - `Get-SIADatabaseStrongAccount`, `New-SIADatabaseStrongAccount`, `Set-SIADatabaseStrongAccount`, `Remove-SIADatabaseStrongAccount`
-  - Manage database strong accounts via the `/api/database-strong-accounts` API, supporting PAM accounts and managed accounts for PostgreSQL, MySQL, MariaDB, MSSql, Oracle, MongoDB, DB2UnixSSH, WinDomain and AWSAccessKeys platforms.
+  - Manage database strong accounts via the `/api/database-strong-accounts` API (`store_type` / `account_properties` / `password_secret_object` body), supporting PAM accounts and managed accounts for PostgreSQL, MySQL, MariaDB, MSSql, Oracle, MongoDB, DB2UnixSSH, WinDomain and AWSAccessKeys platforms.
 
 ### Changed
 

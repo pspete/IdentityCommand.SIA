@@ -16,13 +16,13 @@ Update a SIA database strong account
 ### PAM
 ```
 Set-SIADatabaseStrongAccount -strong_account_id <String> -name <String> [-PAM] -safe <String>
- -accountName <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+ -account_name <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Managed
 ```
 Set-SIADatabaseStrongAccount -strong_account_id <String> -name <String> [-Managed] -platform <String>
- -username <String> [-address <String>] [-port <Int32>] [-database <String>] [-accountProperties <Hashtable>]
+ -username <String> [-address <String>] [-port <Int32>] [-database <String>] [-account_properties <Hashtable>]
  [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
@@ -32,7 +32,7 @@ Updates an existing database strong account (PAM or managed) in SIA.
 ## EXAMPLES
 
 ### Example 1
-```powershell
+```
 Set-SIADatabaseStrongAccount -strong_account_id 550e8400 -PAM -name UpdatedAccount -safe UpdatedSafe -accountName admin@newdomain.com
 ```
 
@@ -40,8 +40,8 @@ Updates the specified PAM database strong account.
 
 ## PARAMETERS
 
-### -accountName
-The PAM account name.
+### -account_name
+The CyberArk Privilege Cloud account name (PAM accounts).
 
 ```yaml
 Type: String
@@ -55,8 +55,8 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -accountProperties
-A hashtable of additional platform-specific account properties (for example dsn, authDatabase, replicaSet, logOnTo, userDN, region, awsAccountId, awsAccessKeyId, reconcileIsWinAccount).
+### -account_properties
+A hashtable of additional platform-specific account properties, with keys as expected by the API (for example dsn, auth_database, replica_set, use_ssl, log_on_to, user_dn, region, aws_account_id, aws_access_key_id, reconcile_is_win_account).
 
 ```yaml
 Type: Hashtable
@@ -110,7 +110,7 @@ Aliases:
 
 Required: True
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
@@ -140,7 +140,7 @@ Aliases:
 
 Required: True
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
@@ -231,7 +231,7 @@ Aliases: cf
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -247,7 +247,7 @@ Aliases: wi
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -258,16 +258,13 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### System.String
-
 ### System.Management.Automation.SwitchParameter
-
 ### System.Int32
-
 ### System.Collections.Hashtable
-
 ## OUTPUTS
 
 ### System.Object
 ## NOTES
+Requires the DpaAdmin role.
 
 ## RELATED LINKS

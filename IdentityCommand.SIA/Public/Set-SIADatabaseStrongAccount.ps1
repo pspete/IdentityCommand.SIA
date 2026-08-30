@@ -35,7 +35,7 @@ function Set-SIADatabaseStrongAccount {
             ValueFromPipelinebyPropertyName = $true,
             ParameterSetName = 'PAM'
         )]
-        [string]$accountName,
+        [string]$account_name,
 
         [parameter(
             Mandatory = $true,
@@ -86,7 +86,7 @@ function Set-SIADatabaseStrongAccount {
             ValueFromPipelinebyPropertyName = $true,
             ParameterSetName = 'Managed'
         )]
-        [hashtable]$accountProperties
+        [hashtable]$account_properties
     )
 
     BEGIN { }#begin
@@ -100,11 +100,11 @@ function Set-SIADatabaseStrongAccount {
             'PAM' {
 
                 $requestBody = @{
-                    'storeType'         = 'pam'
-                    'name'              = $name
-                    'accountProperties' = @{
-                        'safe'        = $safe
-                        'accountName' = $accountName
+                    'store_type'         = 'pam'
+                    'name'               = $name
+                    'account_properties' = @{
+                        'safe'         = $safe
+                        'account_name' = $account_name
                     }
                 }
                 break
@@ -124,14 +124,14 @@ function Set-SIADatabaseStrongAccount {
                     }
                 }
 
-                if ($PSBoundParameters.ContainsKey('accountProperties')) {
-                    $accountProperties.GetEnumerator() | ForEach-Object { $props[$PSItem.Key] = $PSItem.Value }
+                if ($PSBoundParameters.ContainsKey('account_properties')) {
+                    $account_properties.GetEnumerator() | ForEach-Object { $props[$PSItem.Key] = $PSItem.Value }
                 }
 
                 $requestBody = @{
-                    'storeType'         = 'managed'
-                    'name'              = $name
-                    'accountProperties' = $props
+                    'store_type'         = 'managed'
+                    'name'               = $name
+                    'account_properties' = $props
                 }
                 break
 

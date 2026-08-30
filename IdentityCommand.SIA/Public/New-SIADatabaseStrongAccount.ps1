@@ -28,7 +28,7 @@ function New-SIADatabaseStrongAccount {
             ValueFromPipelinebyPropertyName = $true,
             ParameterSetName = 'PAM'
         )]
-        [string]$accountName,
+        [string]$account_name,
 
         [parameter(
             Mandatory = $true,
@@ -64,7 +64,7 @@ function New-SIADatabaseStrongAccount {
             ValueFromPipelinebyPropertyName = $true,
             ParameterSetName = 'Managed'
         )]
-        [securestring]$secretAccessKey,
+        [securestring]$secret_access_key,
 
         [parameter(
             Mandatory = $false,
@@ -93,7 +93,7 @@ function New-SIADatabaseStrongAccount {
             ValueFromPipelinebyPropertyName = $true,
             ParameterSetName = 'Managed'
         )]
-        [hashtable]$accountProperties
+        [hashtable]$account_properties
     )
 
     BEGIN { }#begin
@@ -107,11 +107,11 @@ function New-SIADatabaseStrongAccount {
             'PAM' {
 
                 $requestBody = @{
-                    'storeType'         = 'pam'
-                    'name'              = $name
-                    'accountProperties' = @{
-                        'safe'        = $safe
-                        'accountName' = $accountName
+                    'store_type'         = 'pam'
+                    'name'               = $name
+                    'account_properties' = @{
+                        'safe'         = $safe
+                        'account_name' = $account_name
                     }
                 }
                 break
@@ -132,21 +132,21 @@ function New-SIADatabaseStrongAccount {
                     }
                 }
 
-                #Merge any additional platform-specific properties
-                if ($PSBoundParameters.ContainsKey('accountProperties')) {
-                    $accountProperties.GetEnumerator() | ForEach-Object { $props[$PSItem.Key] = $PSItem.Value }
+                #Merge any additional platform-specific properties (keys as expected by the API, e.g. auth_database, replica_set, aws_account_id)
+                if ($PSBoundParameters.ContainsKey('account_properties')) {
+                    $account_properties.GetEnumerator() | ForEach-Object { $props[$PSItem.Key] = $PSItem.Value }
                 }
 
                 $requestBody = @{
-                    'storeType'         = 'managed'
-                    'name'              = $name
-                    'accountProperties' = $props
+                    'store_type'         = 'managed'
+                    'name'               = $name
+                    'account_properties' = $props
                 }
 
-                if ($PSBoundParameters.ContainsKey('secretAccessKey')) {
-                    $requestBody['passwordSecretObject'] = @{'secretAccessKey' = $(ConvertTo-InsecureString -SecureString $secretAccessKey) }
+                if ($PSBoundParameters.ContainsKey('secret_access_key')) {
+                    $requestBody['password_secret_object'] = @{'secret_access_key' = $(ConvertTo-InsecureString -SecureString $secret_access_key) }
                 } elseif ($PSBoundParameters.ContainsKey('password')) {
-                    $requestBody['passwordSecretObject'] = @{'password' = $(ConvertTo-InsecureString -SecureString $password) }
+                    $requestBody['password_secret_object'] = @{'password' = $(ConvertTo-InsecureString -SecureString $password) }
                 }
                 break
 

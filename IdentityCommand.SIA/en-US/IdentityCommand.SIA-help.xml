@@ -3522,9 +3522,9 @@
       <command:syntaxItem>
         <maml:name>New-SIADatabaseStrongAccount</maml:name>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>accountName</maml:name>
+          <maml:name>account_name</maml:name>
           <maml:description>
-            <maml:para>The PAM account name.</maml:para>
+            <maml:para>The CyberArk Privilege Cloud account name (PAM accounts).</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -3594,9 +3594,9 @@
       <command:syntaxItem>
         <maml:name>New-SIADatabaseStrongAccount</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>accountProperties</maml:name>
+          <maml:name>account_properties</maml:name>
           <maml:description>
-            <maml:para>A hashtable of additional platform-specific account properties (for example dsn, authDatabase, replicaSet, logOnTo, userDN, region, awsAccountId, awsAccessKeyId, reconcileIsWinAccount).</maml:para>
+            <maml:para>A hashtable of additional platform-specific account properties, with keys as expected by the API (for example dsn, auth_database, replica_set, use_ssl, log_on_to, user_dn, region, aws_account_id, aws_access_key_id, reconcile_is_win_account).</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Hashtable</command:parameterValue>
           <dev:type>
@@ -3700,7 +3700,7 @@
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>secretAccessKey</maml:name>
+          <maml:name>secret_access_key</maml:name>
           <maml:description>
             <maml:para>The AWS secret access key, as a SecureString (AWSAccessKeys platform).</maml:para>
           </maml:description>
@@ -3749,9 +3749,9 @@
     </command:syntax>
     <command:parameters>
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-        <maml:name>accountName</maml:name>
+        <maml:name>account_name</maml:name>
         <maml:description>
-          <maml:para>The PAM account name.</maml:para>
+          <maml:para>The CyberArk Privilege Cloud account name (PAM accounts).</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -3761,9 +3761,9 @@
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-        <maml:name>accountProperties</maml:name>
+        <maml:name>account_properties</maml:name>
         <maml:description>
-          <maml:para>A hashtable of additional platform-specific account properties (for example dsn, authDatabase, replicaSet, logOnTo, userDN, region, awsAccountId, awsAccessKeyId, reconcileIsWinAccount).</maml:para>
+          <maml:para>A hashtable of additional platform-specific account properties, with keys as expected by the API (for example dsn, auth_database, replica_set, use_ssl, log_on_to, user_dn, region, aws_account_id, aws_access_key_id, reconcile_is_win_account).</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">Hashtable</command:parameterValue>
         <dev:type>
@@ -3881,7 +3881,7 @@
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-        <maml:name>secretAccessKey</maml:name>
+        <maml:name>secret_access_key</maml:name>
         <maml:description>
           <maml:para>The AWS secret access key, as a SecureString (AWSAccessKeys platform).</maml:para>
         </maml:description>
@@ -3983,7 +3983,7 @@
     </command:returnValues>
     <maml:alertSet>
       <maml:alert>
-        <maml:para></maml:para>
+        <maml:para>Requires the DpaAdmin role.</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
@@ -7710,9 +7710,9 @@ $UserData = New-SIAPolicyUserDataDefinition -User -name SomeOtherUser -UserDataD
       <command:syntaxItem>
         <maml:name>Set-SIADatabaseStrongAccount</maml:name>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>accountName</maml:name>
+          <maml:name>account_name</maml:name>
           <maml:description>
-            <maml:para>The PAM account name.</maml:para>
+            <maml:para>The CyberArk Privilege Cloud account name (PAM accounts).</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -7794,9 +7794,9 @@ $UserData = New-SIAPolicyUserDataDefinition -User -name SomeOtherUser -UserDataD
       <command:syntaxItem>
         <maml:name>Set-SIADatabaseStrongAccount</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>accountProperties</maml:name>
+          <maml:name>account_properties</maml:name>
           <maml:description>
-            <maml:para>A hashtable of additional platform-specific account properties (for example dsn, authDatabase, replicaSet, logOnTo, userDN, region, awsAccountId, awsAccessKeyId, reconcileIsWinAccount).</maml:para>
+            <maml:para>A hashtable of additional platform-specific account properties, with keys as expected by the API (for example dsn, auth_database, replica_set, use_ssl, log_on_to, user_dn, region, aws_account_id, aws_access_key_id, reconcile_is_win_account).</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Hashtable</command:parameterValue>
           <dev:type>
@@ -7937,9 +7937,9 @@ $UserData = New-SIAPolicyUserDataDefinition -User -name SomeOtherUser -UserDataD
     </command:syntax>
     <command:parameters>
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-        <maml:name>accountName</maml:name>
+        <maml:name>account_name</maml:name>
         <maml:description>
-          <maml:para>The PAM account name.</maml:para>
+          <maml:para>The CyberArk Privilege Cloud account name (PAM accounts).</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -7949,9 +7949,9 @@ $UserData = New-SIAPolicyUserDataDefinition -User -name SomeOtherUser -UserDataD
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-        <maml:name>accountProperties</maml:name>
+        <maml:name>account_properties</maml:name>
         <maml:description>
-          <maml:para>A hashtable of additional platform-specific account properties (for example dsn, authDatabase, replicaSet, logOnTo, userDN, region, awsAccountId, awsAccessKeyId, reconcileIsWinAccount).</maml:para>
+          <maml:para>A hashtable of additional platform-specific account properties, with keys as expected by the API (for example dsn, auth_database, replica_set, use_ssl, log_on_to, user_dn, region, aws_account_id, aws_access_key_id, reconcile_is_win_account).</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">Hashtable</command:parameterValue>
         <dev:type>
@@ -8151,7 +8151,7 @@ $UserData = New-SIAPolicyUserDataDefinition -User -name SomeOtherUser -UserDataD
     </command:returnValues>
     <maml:alertSet>
       <maml:alert>
-        <maml:para></maml:para>
+        <maml:para>Requires the DpaAdmin role.</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>

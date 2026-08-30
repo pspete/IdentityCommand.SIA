@@ -37,7 +37,7 @@ Describe 'New-SIADatabaseStrongAccount' {
         }
 
         $Script:pw = ConvertTo-SecureString 'SomePassword' -AsPlainText -Force
-        $Script:response = New-SIADatabaseStrongAccount -PAM -name 'MyPAMAccount' -safe 'MySafe' -accountName 'admin@example.com'
+        $Script:response = New-SIADatabaseStrongAccount -PAM -name 'MyPAMAccount' -safe 'MySafe' -account_name 'admin@example.com'
     }
 
     Context 'Request' {
@@ -58,12 +58,12 @@ Describe 'New-SIADatabaseStrongAccount' {
             } -Times 1 -Exactly -Scope It
         }
 
-        It 'sends a pam store type body for a PAM account' {
+        It 'sends a snake_case pam store type body for a PAM account' {
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
                 $request = $Body | ConvertFrom-Json
-                ($request.storeType -eq 'pam') -and
-                ($request.accountProperties.safe -eq 'MySafe') -and
-                ($request.accountProperties.accountName -eq 'admin@example.com')
+                ($request.store_type -eq 'pam') -and
+                ($request.account_properties.safe -eq 'MySafe') -and
+                ($request.account_properties.account_name -eq 'admin@example.com')
             } -Times 1 -Exactly -Scope It
         }
     }
@@ -77,23 +77,23 @@ Describe 'New-SIADatabaseStrongAccount' {
             }
         }
 
-        It 'sends a managed store type body with platform and password' {
+        It 'sends a snake_case managed store type body with platform and password' {
             New-SIADatabaseStrongAccount -Managed -name 'PG' -platform PostgreSQL -username 'dbuser' -password $Script:pw -address 'db.example.com' -port 5432 -database 'mydb'
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
                 $request = $Body | ConvertFrom-Json
-                ($request.storeType -eq 'managed') -and
-                ($request.accountProperties.platform -eq 'PostgreSQL') -and
-                ($request.accountProperties.port -eq 5432) -and
-                ($request.passwordSecretObject.password -eq 'SomePassword')
+                ($request.store_type -eq 'managed') -and
+                ($request.account_properties.platform -eq 'PostgreSQL') -and
+                ($request.account_properties.port -eq 5432) -and
+                ($request.password_secret_object.password -eq 'SomePassword')
             } -Times 1 -Exactly -Scope It
         }
 
-        It 'uses secretAccessKey for an AWSAccessKeys account' {
-            New-SIADatabaseStrongAccount -Managed -name 'AWS' -platform AWSAccessKeys -username 'iam' -secretAccessKey $Script:pw -accountProperties @{ awsAccountId = '123456789012'; awsAccessKeyId = 'AKIA...' }
+        It 'uses secret_access_key for an AWSAccessKeys account' {
+            New-SIADatabaseStrongAccount -Managed -name 'AWS' -platform AWSAccessKeys -username 'iam' -secret_access_key $Script:pw -account_properties @{ aws_account_id = '123456789012'; aws_access_key_id = 'AKIA...' }
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
                 $request = $Body | ConvertFrom-Json
-                ($request.accountProperties.awsAccountId -eq '123456789012') -and
-                ($request.passwordSecretObject.secretAccessKey -eq 'SomePassword')
+                ($request.account_properties.aws_account_id -eq '123456789012') -and
+                ($request.password_secret_object.secret_access_key -eq 'SomePassword')
             } -Times 1 -Exactly -Scope It
         }
     }

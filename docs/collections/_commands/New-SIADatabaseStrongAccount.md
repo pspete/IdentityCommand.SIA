@@ -15,15 +15,15 @@ Create a SIA database strong account
 
 ### PAM
 ```
-New-SIADatabaseStrongAccount -name <String> [-PAM] -safe <String> -accountName <String>
+New-SIADatabaseStrongAccount -name <String> [-PAM] -safe <String> -account_name <String>
  [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Managed
 ```
 New-SIADatabaseStrongAccount -name <String> [-Managed] -platform <String> -username <String>
- [-password <SecureString>] [-secretAccessKey <SecureString>] [-address <String>] [-port <Int32>]
- [-database <String>] [-accountProperties <Hashtable>] [-WhatIf]
+ [-password <SecureString>] [-secret_access_key <SecureString>] [-address <String>] [-port <Int32>]
+ [-database <String>] [-account_properties <Hashtable>] [-WhatIf]
  [-Confirm] [<CommonParameters>]
 ```
 
@@ -33,7 +33,7 @@ Creates a database strong account in SIA - a PAM account (vaulted in Privilege C
 ## EXAMPLES
 
 ### Example 1
-```powershell
+```
 New-SIADatabaseStrongAccount -Managed -name MyPostgres -platform PostgreSQL -username dbuser -password $pwd -address db.example.com -port 5432 -database mydb
 ```
 
@@ -41,8 +41,8 @@ Creates a managed PostgreSQL database strong account.
 
 ## PARAMETERS
 
-### -accountName
-The PAM account name.
+### -account_name
+The CyberArk Privilege Cloud account name (PAM accounts).
 
 ```yaml
 Type: String
@@ -56,8 +56,8 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -accountProperties
-A hashtable of additional platform-specific account properties (for example dsn, authDatabase, replicaSet, logOnTo, userDN, region, awsAccountId, awsAccessKeyId, reconcileIsWinAccount).
+### -account_properties
+A hashtable of additional platform-specific account properties, with keys as expected by the API (for example dsn, auth_database, replica_set, use_ssl, log_on_to, user_dn, region, aws_account_id, aws_access_key_id, reconcile_is_win_account).
 
 ```yaml
 Type: Hashtable
@@ -111,7 +111,7 @@ Aliases:
 
 Required: True
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
@@ -141,7 +141,7 @@ Aliases:
 
 Required: True
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
@@ -207,7 +207,7 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -secretAccessKey
+### -secret_access_key
 The AWS secret access key, as a SecureString (AWSAccessKeys platform).
 
 ```yaml
@@ -247,7 +247,7 @@ Aliases: cf
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -263,7 +263,7 @@ Aliases: wi
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -274,18 +274,14 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### System.String
-
 ### System.Management.Automation.SwitchParameter
-
 ### System.Security.SecureString
-
 ### System.Int32
-
 ### System.Collections.Hashtable
-
 ## OUTPUTS
 
 ### System.Object
 ## NOTES
+Requires the DpaAdmin role.
 
 ## RELATED LINKS

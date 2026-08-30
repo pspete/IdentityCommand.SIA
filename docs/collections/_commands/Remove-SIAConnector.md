@@ -13,17 +13,19 @@ Delete a SIA connector
 ## SYNTAX
 
 ```
-Remove-SIAConnector [-connector_id] <String> [-WhatIf] [-Confirm]
- [<CommonParameters>]
+Remove-SIAConnector [-connector_id] <String> [-force_delete] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 Deletes a connector from SIA.
+An active connector cannot be deleted unless `-force_delete` is specified.
+The connector service should also be removed from the host machine.
 
 ## EXAMPLES
 
 ### Example 1
-```powershell
+```
 Remove-SIAConnector -connector_id 1234-abcd
 ```
 
@@ -46,6 +48,21 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
+### -force_delete
+Force deletion even when the connector or HTTPS relay is active or has active sessions.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
 ### -Confirm
 Prompts you for confirmation before running the cmdlet.
 
@@ -56,7 +73,7 @@ Aliases: cf
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -72,7 +89,7 @@ Aliases: wi
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -83,10 +100,10 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### System.String
-
 ## OUTPUTS
 
 ### System.Object
 ## NOTES
+Requires the DpaAdmin role.
 
 ## RELATED LINKS

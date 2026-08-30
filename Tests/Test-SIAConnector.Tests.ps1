@@ -59,7 +59,18 @@ Describe 'Test-SIAConnector' {
 
         It 'sends request with expected body' {
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                ($null -ne $Body) -and ($Body -match 'checkBackendEndpoints')
+                ($null -ne $Body) -and ($Body -match 'checkBackendEndpoints') -and ($Body -match 'targets')
+            } -Times 1 -Exactly -Scope It
+        }
+
+        It 'serialises target objects into the request body' {
+            InModuleScope -ModuleName $Script:SIAModuleName {
+                $ISPSSSession = [ordered]@{ tenant_url = 'https://somedomain.dpa.cyberark.cloud' }
+                New-Variable -Name ISPSSSession -Value $ISPSSSession -Scope Script -Force
+            }
+            Test-SIAConnector -connector_id '1234-abcd' -targets @{ hostname = 'host.example.com'; port = 22 }
+            Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
+                ($Body -match 'host\.example\.com') -and ($Body -match 'hostname')
             } -Times 1 -Exactly -Scope It
         }
     }

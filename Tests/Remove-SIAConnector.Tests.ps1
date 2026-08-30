@@ -62,6 +62,17 @@ Describe 'Remove-SIAConnector' {
                 $null -eq $Body
             } -Times 1 -Exactly -Scope It
         }
+
+        It 'adds force_delete query parameter when specified' {
+            InModuleScope -ModuleName $Script:SIAModuleName {
+                $ISPSSSession = [ordered]@{ tenant_url = 'https://somedomain.dpa.cyberark.cloud' }
+                New-Variable -Name ISPSSSession -Value $ISPSSSession -Scope Script -Force
+            }
+            Remove-SIAConnector -connector_id '1234-abcd' -force_delete
+            Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
+                $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/connectors/1234-abcd?force_delete=true'
+            } -Times 1 -Exactly -Scope It
+        }
     }
 
     Context 'Response' {

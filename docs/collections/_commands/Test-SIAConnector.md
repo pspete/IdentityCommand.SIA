@@ -13,17 +13,17 @@ Test SIA connector reachability
 ## SYNTAX
 
 ```
-Test-SIAConnector [-connector_id] <String> [[-targets] <String[]>] [[-checkBackendEndpoints] <Boolean>]
+Test-SIAConnector [-connector_id] <String> [[-targets] <Hashtable[]>] [[-checkBackendEndpoints] <Boolean>]
  [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Runs a reachability check for a connector, optionally against specific targets and the SIA backend endpoints.
+Tests reachability from a connector to the SIA backend endpoints and to one or more target hosts.
 
 ## EXAMPLES
 
 ### Example 1
-```powershell
+```
 Test-SIAConnector -connector_id 1234-abcd
 ```
 
@@ -62,10 +62,11 @@ Accept wildcard characters: False
 ```
 
 ### -targets
-One or more target addresses to include in the connector reachability check.
+One or more target endpoints to test connectivity to, each supplied as a hashtable - for example `@{ hostname = 'host.example.com'; port = 22 }`.
+The port defaults to 22 if omitted.
 
 ```yaml
-Type: String[]
+Type: Hashtable[]
 Parameter Sets: (All)
 Aliases:
 
@@ -82,14 +83,12 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### System.String
-
-### System.String[]
-
+### System.Collections.Hashtable[]
 ### System.Boolean
-
 ## OUTPUTS
 
 ### System.Object
 ## NOTES
+Requires the DpaAdmin role.
 
 ## RELATED LINKS

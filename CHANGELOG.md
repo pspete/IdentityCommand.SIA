@@ -28,6 +28,14 @@ All notable changes to this project will be documented in this file.
   - Repository, folder structure, and help content updated to match.
 - `Get-SIAStrongAccount`, `New-SIAStrongAccount`, `Remove-SIAStrongAccount`, `Set-SIAStrongAccount`
   - Virtual machine strong accounts now use the `/api/secrets/public/v1` endpoint (previously `/api/secrets`), matching the current SIA strong accounts API. Database strong accounts are unchanged.
+- `Add-SIATargetSet` **(breaking)**
+  - Now uses the bulk target sets endpoint and requires a `-strong_account_id` parameter to map the target set to a strong account.
+  - `-secret_type` now accepts `EphemeralUser`.
+  - Fixed `-provision_format` handling - the default is now applied only when the parameter is omitted (previously it overwrote a supplied value).
+- `Get-SIATargetSet` **(breaking)**
+  - `-strongAccountId` is now mandatory, as required by the target sets API.
+- `Remove-SIATargetSet`
+  - Always uses the bulk delete endpoint, including for a single target set name.
 
 ### Fixed
 

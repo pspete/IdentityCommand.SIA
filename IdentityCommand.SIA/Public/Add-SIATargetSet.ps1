@@ -1,7 +1,14 @@
 # .ExternalHelp IdentityCommand.SIA-help.xml
 function Add-SIATargetSet {
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '', Justification = 'False Positive')]
     [CmdletBinding()]
     param(
+        [parameter(
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true
+        )]
+        [String]$strong_account_id,
+
         [parameter(
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true
@@ -30,7 +37,7 @@ function Add-SIATargetSet {
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true
         )]
-        [ValidateSet('ProvisionerUser', 'PCloudAccount', 'IdentityUser', 'IdentityMgmtUser', 'TargetCertificate', 'General')]
+        [ValidateSet('IdentityUser', 'IdentityMgmtUser', 'ProvisionerUser', 'TargetCertificate', 'PCloudAccount', 'EphemeralUser', 'General')]
         [string]$secret_type,
 
         [parameter(
@@ -52,32 +59,39 @@ function Add-SIATargetSet {
 
     PROCESS {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/discovery/targetsets"
+        $URI = "$($ISPSSSession.tenant_url)/api/discovery/targetsets/bulk"
 
-        #Create Request Body
-        $boundParameters = $PSBoundParameters | Get-Parameter
+        #Build the target set from the target set parameters
+        $targetSet = $PSBoundParameters | Get-Parameter -ParametersToRemove strong_account_id
 
-        if ($null -ne $provision_format) {
+        if ( -not ($PSBoundParameters.ContainsKey('provision_format'))) {
             #Use default provision format if none specified
-            $boundParameters['provision_format'] = '<user>-<session-guid>'
+            $targetSet['provision_format'] = '<user>-<session-guid>'
         }
 
-        #Create Request Body
-        $body = $boundParameters | ConvertTo-Json
+        #Create Request Body - map the target set to the strong account
+        $requestBody = @{
+            'target_sets_mapping' = @(
+                @{
+                    'strong_account_id' = $strong_account_id
+                    'target_sets'       = @($targetSet)
+                }
+            )
+        }
+
+        $body = $requestBody | ConvertTo-Json -Depth 5
 
         #Send Request
         $result = Invoke-IDRestMethod -Uri $URI -Method POST -Body $body
 
         if ($null -ne $result) {
 
-            $result.target_set
+            $result.results
 
         }
 
     }#process
 
-    END {
-
-    }#end
+    END { }#end
 
 }

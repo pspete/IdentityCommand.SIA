@@ -1,103 +1,84 @@
-Describe $($PSCommandPath -Replace '.Tests.ps1') {
+BeforeAll {
+    $Script:SIAModuleName = 'IdentityCommand.SIA'
 
-    BeforeAll {
-        #Get Current Directory
-        $Here = Split-Path -Parent $PSCommandPath
+    #Get Current Directory
+    $Here = Split-Path -Parent $PSCommandPath
 
-        #Assume ModuleName from Repository Root folder
-        $ModuleName = Split-Path (Split-Path $Here -Parent) -Leaf
+    #Resolve Path to Module Directory
+    $ModulePath = Resolve-Path "$Here\..\$Script:SIAModuleName"
 
-        #Resolve Path to Module Directory
-        $ModulePath = Resolve-Path "$Here\..\$ModuleName"
+    #Define Path to Module Manifest
+    $ManifestPath = Join-Path "$ModulePath" "$Script:SIAModuleName.psd1"
 
-        #Define Path to Module Manifest
-        $ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
+    if ( -not (Get-Module -Name $Script:SIAModuleName -All)) {
 
-        if ( -not (Get-Module -Name $ModuleName -All)) {
-
-            Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
-
-        }
+        Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
 
     }
+}
 
-    InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
+Describe 'Get-SIATargetSet' {
 
-        BeforeEach {
+    BeforeEach {
 
+        Mock -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -MockWith {
+            [pscustomobject]@{ 'target_sets' = 'value' }
+        }
+
+        InModuleScope -ModuleName $Script:SIAModuleName {
             $ISPSSSession = [ordered]@{
-                tenant_url         = 'https://somedomain.dpa.cyberark.cloud'
-                User               = $null
-                TenantId           = 'SomeTenant'
-                SessionId          = 'SomeSession'
-                WebSession         = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-                StartTime          = $null
-                ElapsedTime        = $null
-                LastCommand        = $null
-                LastCommandTime    = $null
-                LastCommandResults = $null
+                tenant_url = 'https://somedomain.dpa.cyberark.cloud'
+                User       = $null
+                TenantId   = 'SomeTenant'
+                SessionId  = 'SomeSession'
+                WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
             }
             New-Variable -Name ISPSSSession -Value $ISPSSSession -Scope Script -Force
-
-            $InputObject = [pscustomobject]@{
-                name            = 'SomeName'
-                strongAccountId = 'SomeID'
-            }
-
-            Mock Invoke-IDRestMethod -MockWith {
-                [pscustomobject]@{'target_sets' = 'value' }
-            }
-
-
-            $response = $InputObject | Get-SIATargetSet
-
         }
 
-        Context 'Input' {
-
-            It 'sends request' {
-
-                Assert-MockCalled Invoke-IDRestMethod -Times 1 -Exactly -Scope It
-
-            }
-
-            It 'sends request to expected endpoint' {
-
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
-
-                    $URI -contains 'https://somedomain.dpa.cyberark.cloud/api/discovery/targetsets'
-                    $URI -contains '&'
-                    $URI -contains 'strongAccountId=SomeID'
-                    $URI -contains 'name=SomeName'
-
-                } -Times 1 -Exactly -Scope It
-
-            }
-
-            It 'uses expected method' {
-
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
-
-            }
-
-            It 'sends request with no body' {
-
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
-
-            }
-
+        $InputObject = [pscustomobject]@{
+            name            = 'SomeName'
+            strongAccountId = 'SomeID'
         }
-
-        Context 'Output' {
-
-            It 'provides output' {
-
-                $response | Should -Not -BeNullOrEmpty
-
-            }
-
-        }
-
+        $Script:response = $InputObject | Get-SIATargetSet
     }
 
+    Context 'Request' {
+
+        It 'sends request' {
+            Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -Times 1 -Exactly -Scope It
+        }
+
+        It 'sends request to expected endpoint with query string' {
+            Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
+                ($URI -like 'https://somedomain.dpa.cyberark.cloud/api/discovery/targetsets`?*') -and
+                ($URI -match 'strongAccountId=SomeID') -and
+                ($URI -match 'name=SomeName')
+            } -Times 1 -Exactly -Scope It
+        }
+
+        It 'uses expected method' {
+            Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
+                $Method -eq 'GET'
+            } -Times 1 -Exactly -Scope It
+        }
+
+        It 'sends request with no body' {
+            Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
+                $null -eq $Body
+            } -Times 1 -Exactly -Scope It
+        }
+
+        It 'requires the strongAccountId parameter' {
+            (Get-Command Get-SIATargetSet).Parameters['strongAccountId'].Attributes.Mandatory |
+                Should -Contain $true
+        }
+    }
+
+    Context 'Response' {
+
+        It 'provides output' {
+            $Script:response | Should -Not -BeNullOrEmpty
+        }
+    }
 }

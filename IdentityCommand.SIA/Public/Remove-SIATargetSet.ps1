@@ -9,40 +9,30 @@ function Remove-SIATargetSet {
         [String[]]$name
     )
 
-    BEGIN {
-        $Request = @{
-            'Method' = 'DELETE'
-        }
-    }#begin
+    BEGIN { }#begin
 
     PROCESS {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/discovery/targetsets"
+        $URI = "$($ISPSSSession.tenant_url)/api/discovery/targetsets/bulk"
 
-        if ($name.count -eq 1) {
-            $URI = "$URI/$name"
-        } elseif ($name.count -gt 1) {
-            $URI = "$URI/bulk"
-            $boundParameters = $PSBoundParameters | Get-Parameter
-            $body = $boundParameters['name'] | ConvertTo-Json
-            $Request.Add('Body', $body)
-        }
-
-        $Request.Add('Uri', $URI)
+        #Request body is a JSON array of the target set names to delete
+        $body = '[{0}]' -f (($name | ForEach-Object { $PSItem | ConvertTo-Json }) -join ',')
 
         if ($PSCmdlet.ShouldProcess($name, 'Delete SIA Target Set')) {
+
             #Send Request
-            $result = Invoke-IDRestMethod @Request
+            $result = Invoke-IDRestMethod -Uri $URI -Method DELETE -Body $body
 
             if ($null -ne $result) {
+
                 $result.results
+
             }
+
         }
 
     }#process
 
-    END {
-
-    }#end
+    END { }#end
 
 }

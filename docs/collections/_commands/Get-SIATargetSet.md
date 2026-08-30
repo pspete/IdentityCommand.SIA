@@ -5,6 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
+
 # Get-SIATargetSet
 
 ## SYNOPSIS
@@ -13,7 +14,7 @@ Get details of target sets from SIA
 ## SYNTAX
 
 ```
-Get-SIATargetSet [[-b64StartKey] <String>] [[-name] <String>] [[-strongAccountId] <String>]
+Get-SIATargetSet [[-b64StartKey] <String>] [[-name] <String>] [-strongAccountId] <String>
  [<CommonParameters>]
 ```
 
@@ -83,7 +84,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: 2
 Default value: None
 Accept pipeline input: True (ByPropertyName)

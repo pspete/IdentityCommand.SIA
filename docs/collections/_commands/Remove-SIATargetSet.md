@@ -5,6 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
+
 # Remove-SIATargetSet
 
 ## SYNOPSIS
@@ -13,7 +14,8 @@ Deletes a Target Set from SIA
 ## SYNTAX
 
 ```
-Remove-SIATargetSet [-name] <String[]> [-WhatIf] [-Confirm] [<CommonParameters>]
+Remove-SIATargetSet [-name] <String[]> [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION

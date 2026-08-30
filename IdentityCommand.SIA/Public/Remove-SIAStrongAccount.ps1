@@ -29,7 +29,7 @@ function Remove-SIAStrongAccount {
             }
 
             default {
-                $URI = "$($ISPSSSession.tenant_url)/api/secrets/$secret_id"
+                $URI = "$($ISPSSSession.tenant_url)/api/secrets/public/v1/$secret_id"
             }
         }
 

@@ -116,7 +116,7 @@ function Set-SIAStrongAccount {
                     'secret_details' = @{'certFileName' = $null; 'account_domain' = $null }
                 }
 
-                $URI = "$($ISPSSSession.tenant_url)/api/secrets/$secret_id"
+                $URI = "$($ISPSSSession.tenant_url)/api/secrets/public/v1/$secret_id"
                 $StrongAccount.secret_details.account_domain = $account_domain
                 $StrongAccount.secret_details.certFileName = $certFileName
 

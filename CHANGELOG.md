@@ -26,6 +26,8 @@ All notable changes to this project will be documented in this file.
 - Module renamed from `IdentityCommand.DPA` to `IdentityCommand.SIA`, reflecting the rebrand of CyberArk Dynamic Privileged Access to CyberArk Secure Infrastructure Access.
   - All commands renamed to use the `SIA` noun prefix in place of `DPA` (e.g. `Get-DPAPolicy` is now `Get-SIAPolicy`).
   - Repository, folder structure, and help content updated to match.
+- `Get-SIAStrongAccount`, `New-SIAStrongAccount`, `Remove-SIAStrongAccount`, `Set-SIAStrongAccount`
+  - Virtual machine strong accounts now use the `/api/secrets/public/v1` endpoint (previously `/api/secrets`), matching the current SIA strong accounts API. Database strong accounts are unchanged.
 
 ### Fixed
 

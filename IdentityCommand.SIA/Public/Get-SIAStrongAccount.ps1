@@ -24,7 +24,7 @@ function Get-SIAStrongAccount {
 
         switch ($PSCmdlet.ParameterSetName) {
             'VirtualMachines' {
-                $URI = "$($ISPSSSession.tenant_url)/api/secrets"
+                $URI = "$($ISPSSSession.tenant_url)/api/secrets/public/v1"
 
                 $QueryString = $($PSBoundParameters | Get-Parameter | ConvertTo-QueryString)
 

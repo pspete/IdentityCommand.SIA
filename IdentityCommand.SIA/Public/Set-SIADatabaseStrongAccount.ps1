@@ -49,13 +49,18 @@ function Set-SIADatabaseStrongAccount {
             ValueFromPipelinebyPropertyName = $true,
             ParameterSetName = 'Managed'
         )]
-        [ValidateSet('PostgreSQL', 'MySQL', 'MariaDB', 'MSSql', 'Oracle', 'MongoDB', 'DB2UnixSSH', 'WinDomain', 'AWSAccessKeys')]
+        [ValidateSet('PostgreSQL', 'MySQL', 'MariaDB', 'MSSql', 'Oracle', 'MongoDB', 'DB2UnixSSH', 'WinDomain')]
         [string]$platform,
 
         [parameter(
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true,
             ParameterSetName = 'Managed'
+        )]
+        [parameter(
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'AWS'
         )]
         [string]$username,
 
@@ -65,13 +70,6 @@ function Set-SIADatabaseStrongAccount {
             ParameterSetName = 'Managed'
         )]
         [securestring]$password,
-
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = 'Managed'
-        )]
-        [securestring]$secret_access_key,
 
         [parameter(
             Mandatory = $false,
@@ -100,7 +98,57 @@ function Set-SIADatabaseStrongAccount {
             ValueFromPipelinebyPropertyName = $true,
             ParameterSetName = 'Managed'
         )]
-        [hashtable]$account_properties
+        [string]$dsn,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'Managed'
+        )]
+        [hashtable]$account_properties,
+
+        [parameter(
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'AWS'
+        )]
+        [switch]$AWS,
+
+        [parameter(
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'AWS'
+        )]
+        [string]$aws_account_id,
+
+        [parameter(
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'AWS'
+        )]
+        [string]$aws_access_key_id,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'AWS'
+        )]
+        [securestring]$secret_access_key,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'AWS'
+        )]
+        [string]$aws_account_alias_name,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'AWS'
+        )]
+        [ValidateSet('us-east-1', 'us-west-1', 'us-west-2', 'eu-west-1', 'eu-central-1', 'ap-northeast-1', 'ap-southeast-1', 'ap-southeast-2', 'sa-east-1', 'us-gov-west-1')]
+        [string]$region
     )
 
     BEGIN { }#begin
@@ -127,12 +175,19 @@ function Set-SIADatabaseStrongAccount {
 
             'Managed' {
 
+                if (($platform -in 'MongoDB', 'DB2UnixSSH', 'WinDomain') -and ( -not $PSBoundParameters.ContainsKey('address'))) {
+                    throw "The $platform platform requires -address."
+                }
+                if (($platform -eq 'MongoDB') -and ( -not $PSBoundParameters.ContainsKey('database'))) {
+                    throw 'The MongoDB platform requires -database.'
+                }
+
                 $props = @{
                     'platform' = $platform
                     'username' = $username
                 }
 
-                foreach ($key in @('address', 'port', 'database')) {
+                foreach ($key in @('address', 'port', 'database', 'dsn')) {
                     if ($PSBoundParameters.ContainsKey($key)) {
                         $props[$key] = $PSBoundParameters[$key]
                     }
@@ -149,10 +204,36 @@ function Set-SIADatabaseStrongAccount {
                 }
 
                 #Only include the password object when a new credential is supplied
+                if ($PSBoundParameters.ContainsKey('password')) {
+                    $requestBody['password_secret_object'] = @{'password' = $(ConvertTo-InsecureString -SecureString $password) }
+                }
+                break
+
+            }
+
+            'AWS' {
+
+                $props = @{
+                    'platform'          = 'AWSAccessKeys'
+                    'username'          = $username
+                    'aws_account_id'    = $aws_account_id
+                    'aws_access_key_id' = $aws_access_key_id
+                }
+
+                foreach ($key in @('aws_account_alias_name', 'region')) {
+                    if ($PSBoundParameters.ContainsKey($key)) {
+                        $props[$key] = $PSBoundParameters[$key]
+                    }
+                }
+
+                $requestBody = @{
+                    'store_type'         = 'managed'
+                    'name'               = $name
+                    'account_properties' = $props
+                }
+
                 if ($PSBoundParameters.ContainsKey('secret_access_key')) {
                     $requestBody['password_secret_object'] = @{'secret_access_key' = $(ConvertTo-InsecureString -SecureString $secret_access_key) }
-                } elseif ($PSBoundParameters.ContainsKey('password')) {
-                    $requestBody['password_secret_object'] = @{'password' = $(ConvertTo-InsecureString -SecureString $password) }
                 }
                 break
 

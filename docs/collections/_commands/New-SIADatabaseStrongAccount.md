@@ -22,9 +22,16 @@ New-SIADatabaseStrongAccount -name <String> [-PAM] -safe <String> -account_name 
 ### Managed
 ```
 New-SIADatabaseStrongAccount -name <String> [-Managed] -platform <String> -username <String>
- [-password <SecureString>] [-secret_access_key <SecureString>] [-address <String>] [-port <Int32>]
- [-database <String>] [-account_properties <Hashtable>] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ -password <SecureString> [-address <String>] [-port <Int32>] [-database <String>] [-dsn <String>]
+ [-account_properties <Hashtable>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
+```
+
+### AWS
+```
+New-SIADatabaseStrongAccount -name <String> -username <String> [-AWS] -aws_account_id <String>
+ -aws_access_key_id <String> -secret_access_key <SecureString> [-aws_account_alias_name <String>]
+ [-region <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -86,8 +93,83 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
+### -AWS
+Create/update a managed AWS Access Keys database strong account.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: AWS
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -aws_access_key_id
+The AWS access key ID.
+
+```yaml
+Type: String
+Parameter Sets: AWS
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -aws_account_alias_name
+The AWS account alias name. Optional.
+
+```yaml
+Type: String
+Parameter Sets: AWS
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -aws_account_id
+The AWS account ID number.
+
+```yaml
+Type: String
+Parameter Sets: AWS
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
 ### -database
 The database name.
+
+```yaml
+Type: String
+Parameter Sets: Managed
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -dsn
+The data source name. Optional.
 
 ```yaml
 Type: String
@@ -154,7 +236,7 @@ Type: SecureString
 Parameter Sets: Managed
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
@@ -192,6 +274,21 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
+### -region
+The AWS region. Optional.
+
+```yaml
+Type: String
+Parameter Sets: AWS
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
 ### -safe
 The name of the CyberArk Privilege Cloud safe where the account is vaulted.
 
@@ -212,10 +309,10 @@ The AWS secret access key, as a SecureString (AWSAccessKeys platform).
 
 ```yaml
 Type: SecureString
-Parameter Sets: Managed
+Parameter Sets: AWS
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
@@ -227,7 +324,7 @@ The username of the strong account credential.
 
 ```yaml
 Type: String
-Parameter Sets: Managed
+Parameter Sets: Managed, AWS
 Aliases:
 
 Required: True

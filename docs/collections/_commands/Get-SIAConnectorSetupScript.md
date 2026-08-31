@@ -13,33 +13,34 @@ Gets SIA connector setup script
 ## SYNTAX
 
 ```
-Get-SIAConnectorSetupScript [-connector_type] <String> [-connector_os] <String> [[-connector_pool_id] <String>]
- [<CommonParameters>]
+Get-SIAConnectorSetupScript [-connector_os] <String> [[-connector_pool_id] <String>]
+ [-expiration_minutes <Int32>] [-proxy_host <String>] [-proxy_port <Int32>]
+ [-windows_installation_path <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Generates and retuns setup scripts for SIA connectors based on the provided parameters
+Generates and returns a setup script used to install a SIA connector on a target server.
 
 ## EXAMPLES
 
 ### Example 1
 ```
-Get-SIAConnectorSetupScript -connector_type windows -connector_os ON-PREMISE
+Get-SIAConnectorSetupScript -connector_os windows -connector_pool_id 86fde987-c84f-4e85-8110-90b6df3f7c4c
 ```
 
-Generates a setup script for an on-premise windows SIA connector server
+Generates a setup script for a Windows SIA connector joining the specified connector pool
 
 ### Example 2
 ```
-Get-SIAConnectorSetupScript -connector_type linux -connector_os AZURE
+Get-SIAConnectorSetupScript -connector_os linux -connector_pool_id 86fde987-c84f-4e85-8110-90b6df3f7c4c -expiration_minutes 60
 ```
 
-Generates a setup script for an Azure linux SIA connector server
+Generates a setup script for a Linux SIA connector, valid for 60 minutes
 
 ## PARAMETERS
 
 ### -connector_os
-{{ Fill connector_os Description }}
+The operating system of the server the connector will be installed on
 
 ```yaml
 Type: String
@@ -55,7 +56,7 @@ Accept wildcard characters: False
 ```
 
 ### -connector_pool_id
-{{ Fill connector_pool_id Description }}
+The identifier of the connector pool the connector should join
 
 ```yaml
 Type: String
@@ -69,17 +70,61 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -connector_type
-{{ Fill connector_type Description }}
+### -expiration_minutes
+The number of minutes the generated setup script remains valid for. Accepts 15 - 240.
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -proxy_host
+The proxy host the connector should use for outbound connectivity
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
-Accepted values: AWS, AZURE, ON-PREMISE, GCP
 
-Required: True
-Position: 0
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -proxy_port
+The proxy port the connector should use for outbound connectivity
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -windows_installation_path
+The installation path to use when installing the connector on Windows
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False

@@ -11,37 +11,16 @@ function Set-SIAStrongAccount {
 
         [parameter(
             Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = 'VaultedInPrivilegeCloud'
+            ValueFromPipelinebyPropertyName = $true
         )]
-        [string]$safe,
-
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = 'VaultedInPrivilegeCloud'
-        )]
-        [string]$account_name,
-
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = 'StoredInSIA'
-        )]
-        [string]$username,
-
-        [parameter(
-            Mandatory = $true,
-            ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = 'StoredInSIA'
-        )]
-        [securestring]$password,
+        [string]$secret_name,
 
         [parameter(
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true
         )]
-        [string]$secret_name,
+        [ValidateSet('PCloudAccount', 'ProvisionerUser')]
+        [string]$secret_type,
 
         [parameter(
             Mandatory = $true,
@@ -53,13 +32,43 @@ function Set-SIAStrongAccount {
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true
         )]
+        [string]$safe,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
+        )]
+        [string]$account_name,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
+        )]
+        [string]$username,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
+        )]
+        [securestring]$password,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
+        )]
         [string]$certFileName,
 
         [parameter(
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true
         )]
-        [bool]$enable_bulk_elevation
+        [bool]$enable_bulk_elevation,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
+        )]
+        [hashtable]$ephemeral_domain_user_data
 
     )
 
@@ -69,50 +78,34 @@ function Set-SIAStrongAccount {
 
         $StrongAccount = [ordered]@{
             'is_active'      = $true
-            'secret'         = [ordered]@{
-                'tenant_encrypted' = $false
-                'secret_data'      = [ordered]@{
-                    'safe'         = ''
-                    'account_name' = ''
-                    'username'     = ''
-                    'password'     = ''
-                }
-            }
             'secret_name'    = $secret_name
-            'secret_type'    = $null
+            'secret_type'    = $secret_type
             'secret_details' = [ordered]@{
                 'certFileName'               = "$certFileName"
                 'domain'                     = ''
                 'domains'                    = @()
                 'account_domain'             = $account_domain
                 'enable_bulk_elevation'      = [bool]$enable_bulk_elevation
-                'ephemeral_domain_user_data' = @{}
+                'ephemeral_domain_user_data' = if ($PSBoundParameters.ContainsKey('ephemeral_domain_user_data')) { $ephemeral_domain_user_data } else { @{} }
             }
+        }
+
+        #Only include the secret object when a credential field is supplied
+        if (($PSBoundParameters.ContainsKey('safe')) -or ($PSBoundParameters.ContainsKey('account_name')) -or
+            ($PSBoundParameters.ContainsKey('username')) -or ($PSBoundParameters.ContainsKey('password'))) {
+
+            $secretData = [ordered]@{
+                'safe'         = if ($PSBoundParameters.ContainsKey('safe')) { $safe } else { '' }
+                'account_name' = if ($PSBoundParameters.ContainsKey('account_name')) { $account_name } else { '' }
+                'username'     = if ($PSBoundParameters.ContainsKey('username')) { $username } else { '' }
+                'password'     = if ($PSBoundParameters.ContainsKey('password')) { $(ConvertTo-InsecureString -SecureString $password) } else { '' }
+            }
+
+            $StrongAccount.Insert(1, 'secret', [ordered]@{ 'tenant_encrypted' = $false; 'secret_data' = $secretData })
+
         }
 
         $URI = "$($ISPSSSession.tenant_url)/api/secrets/$secret_id"
-
-        switch ($PSCmdlet.ParameterSetName) {
-
-            'VaultedInPrivilegeCloud' {
-
-                $StrongAccount.secret_type = 'PCloudAccount'
-                $StrongAccount.secret.secret_data.safe = $safe
-                $StrongAccount.secret.secret_data.account_name = $account_name
-                break
-
-            }
-
-            'StoredInSIA' {
-
-                $StrongAccount.secret_type = 'ProvisionerUser'
-                $StrongAccount.secret.secret_data.username = $username
-                $StrongAccount.secret.secret_data.password = $(ConvertTo-InsecureString -SecureString $password)
-                break
-
-            }
-
-        }
 
         #Create Request Body
         $body = $StrongAccount | ConvertTo-Json -Depth 5

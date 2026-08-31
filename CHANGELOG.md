@@ -33,7 +33,7 @@ All notable changes to this project will be documented in this file.
 - `Get-SIAStrongAccount`, `New-SIAStrongAccount`, `Remove-SIAStrongAccount` **(breaking)**
   - The `-database` / `-databases` switches have been removed - database strong accounts are now managed with the dedicated `*-SIADatabaseStrongAccount` commands. These commands now only manage virtual machine strong accounts (`/api/secrets`).
   - `New-SIAStrongAccount` parameter sets renamed `StoredInDPA-VM` -> `StoredInSIA` and `VaultedInPrivilegeCloud-VM` -> `VaultedInPrivilegeCloud`.
-  - `New-SIAStrongAccount` / `Set-SIAStrongAccount` gained an optional `-enable_bulk_elevation` parameter.
+  - `New-SIAStrongAccount` / `Set-SIAStrongAccount` gained optional `-enable_bulk_elevation` and `-ephemeral_domain_user_data` parameters.
   - `Get-SIAStrongAccount` gained `-count` and `-offset` list parameters.
 - `Add-SIATargetSet` / `Get-SIATargetSet` / `Remove-SIATargetSet`
   - Target set endpoints moved from `/api/discovery/targetsets` to `/api/targetsets`.

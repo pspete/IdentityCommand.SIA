@@ -12,17 +12,10 @@ Update a strong account in SIA
 
 ## SYNTAX
 
-### VaultedInPrivilegeCloud
 ```
-Set-SIAStrongAccount -secret_id <String> -safe <String> -account_name <String> -secret_name <String>
- -account_domain <String> [-certFileName <String>] [-enable_bulk_elevation <Boolean>]
- [-WhatIf] [-Confirm] [<CommonParameters>]
-```
-
-### StoredInSIA
-```
-Set-SIAStrongAccount -secret_id <String> -username <String> -password <SecureString> -secret_name <String>
- -account_domain <String> [-certFileName <String>] [-enable_bulk_elevation <Boolean>]
+Set-SIAStrongAccount -secret_id <String> -secret_name <String> -secret_type <String> -account_domain <String>
+ [-safe <String>] [-account_name <String>] [-username <String>] [-password <SecureString>]
+ [-certFileName <String>] [-enable_bulk_elevation <Boolean>] [-ephemeral_domain_user_data <Hashtable>]
  [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
@@ -60,10 +53,10 @@ The name of the vaulted CyberArk Privilege Cloud account.
 
 ```yaml
 Type: String
-Parameter Sets: VaultedInPrivilegeCloud
+Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
@@ -100,15 +93,30 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
+### -ephemeral_domain_user_data
+A hashtable for ephemeral domain user configuration, with keys: ephemeral_domain_user_location, domain_controller (@{ domain_controller_name; domain_controller_netbios; domain_controller_use_ldaps; domain_controller_enable_certificate_validation; domain_controller_ldaps_certificate }) and winrm_info (@{ use_winrm_for_https; winrm_enable_certificate_validation; winrm_certificate }).
+
+```yaml
+Type: Hashtable
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
 ### -password
 The password of the strong account credential stored in SIA, as a SecureString.
 
 ```yaml
 Type: SecureString
-Parameter Sets: StoredInSIA
+Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
@@ -120,10 +128,10 @@ The name of the CyberArk Privilege Cloud safe where the account is vaulted.
 
 ```yaml
 Type: String
-Parameter Sets: VaultedInPrivilegeCloud
+Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
@@ -160,15 +168,30 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
+### -secret_type
+The strong account secret type - PCloudAccount (vaulted in Privilege Cloud) or ProvisionerUser (stored in SIA).
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
 ### -username
 The username of the strong account credential stored in SIA.
 
 ```yaml
 Type: String
-Parameter Sets: StoredInSIA
+Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)

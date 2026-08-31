@@ -53,7 +53,13 @@ function New-SIAStrongAccount {
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true
         )]
-        [bool]$enable_bulk_elevation
+        [bool]$enable_bulk_elevation,
+
+        [parameter(
+            Mandatory = $false,
+            ValueFromPipelinebyPropertyName = $true
+        )]
+        [hashtable]$ephemeral_domain_user_data
 
     )
 
@@ -73,7 +79,7 @@ function New-SIAStrongAccount {
                 'certFileName'               = "$certFileName"
                 'account_domain'             = $account_domain
                 'enable_bulk_elevation'      = [bool]$enable_bulk_elevation
-                'ephemeral_domain_user_data' = @{}
+                'ephemeral_domain_user_data' = if ($PSBoundParameters.ContainsKey('ephemeral_domain_user_data')) { $ephemeral_domain_user_data } else { @{} }
             }
         }
 

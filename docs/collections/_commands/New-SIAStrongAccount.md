@@ -15,15 +15,15 @@ Create a new strong account configuration in SIA
 ### VaultedInPrivilegeCloud
 ```
 New-SIAStrongAccount -safe <String> -account_name <String> -secret_name <String> -account_domain <String>
- [-certFileName <String>] [-enable_bulk_elevation <Boolean>] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ [-certFileName <String>] [-enable_bulk_elevation <Boolean>] [-ephemeral_domain_user_data <Hashtable>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### StoredInSIA
 ```
 New-SIAStrongAccount -username <String> -password <SecureString> -secret_name <String> -account_domain <String>
- [-certFileName <String>] [-enable_bulk_elevation <Boolean>] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ [-certFileName <String>] [-enable_bulk_elevation <Boolean>] [-ephemeral_domain_user_data <Hashtable>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -112,6 +112,21 @@ Whether bulk elevation is enabled for the strong account.
 
 ```yaml
 Type: Boolean
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ephemeral_domain_user_data
+A hashtable for ephemeral domain user configuration, with keys: ephemeral_domain_user_location, domain_controller (@{ domain_controller_name; domain_controller_netbios; domain_controller_use_ldaps; domain_controller_enable_certificate_validation; domain_controller_ldaps_certificate }) and winrm_info (@{ use_winrm_for_https; winrm_enable_certificate_validation; winrm_certificate }).
+
+```yaml
+Type: Hashtable
 Parameter Sets: (All)
 Aliases:
 

@@ -37,57 +37,64 @@ Describe 'Set-SIAStrongAccount' {
         }
 
         $Script:pw = ConvertTo-SecureString 'SomePassword' -AsPlainText -Force
-        $Script:response = Set-SIAStrongAccount -secret_id '1234-abcd' -secret_name 'MyAccount' -username 'svc' -password $Script:pw -account_domain 'ad.example.com'
     }
 
     Context 'Request' {
 
-        It 'sends request to the by-id endpoint' {
+        It 'PUTs to /api/secrets/{secret_id}' {
+            Set-SIAStrongAccount -secret_id '1234-abcd' -secret_name 'n' -secret_type ProvisionerUser -account_domain local
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/secrets/1234-abcd'
+                ($URI -eq 'https://somedomain.dpa.cyberark.cloud/api/secrets/1234-abcd') -and ($Method -eq 'PUT')
             } -Times 1 -Exactly -Scope It
         }
+    }
 
-        It 'uses expected method' {
-            Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter { $Method -eq 'PUT' } -Times 1 -Exactly -Scope It
-        }
+    Context 'Vaulted account update with no credential change' {
 
-        It 'sends the full strong account body including secret_type and all secret_data / secret_details keys' {
+        It 'sends no secret object' {
+            Set-SIAStrongAccount -secret_id '1234-abcd' -secret_name 'MyVaulted' -secret_type PCloudAccount -account_domain 'some.domain.co.uk'
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
                 $request = $Body | ConvertFrom-Json
                 ($request.is_active -eq $true) -and
-                ($request.secret_name -eq 'MyAccount') -and
-                ($request.secret_type -eq 'ProvisionerUser') -and
-                ($request.secret.tenant_encrypted -eq $false) -and
-                ($request.secret.secret_data.username -eq 'svc') -and
-                ($request.secret.secret_data.PSObject.Properties.Name -contains 'safe') -and
-                ($request.secret.secret_data.PSObject.Properties.Name -contains 'account_name') -and
-                ($request.secret_details.account_domain -eq 'ad.example.com') -and
-                ($request.secret_details.PSObject.Properties.Name -contains 'certFileName') -and
+                ($request.secret_name -eq 'MyVaulted') -and
+                ($request.secret_type -eq 'PCloudAccount') -and
+                ($request.secret_details.account_domain -eq 'some.domain.co.uk') -and
                 ($request.secret_details.PSObject.Properties.Name -contains 'ephemeral_domain_user_data') -and
-                ($request.secret_details.enable_bulk_elevation -eq $false)
+                ($request.PSObject.Properties.Name -notcontains 'secret')
             } -Times 1 -Exactly -Scope It
         }
     }
 
-    Context 'Vaulted in Privilege Cloud' {
+    Context 'Ephemeral domain user data' {
 
-        It 'sends the PCloudAccount secret type' {
-            InModuleScope -ModuleName $Script:SIAModuleName {
-                $ISPSSSession = [ordered]@{ tenant_url = 'https://somedomain.dpa.cyberark.cloud' }
-                New-Variable -Name ISPSSSession -Value $ISPSSSession -Scope Script -Force
+        It 'sends the supplied nested ephemeral_domain_user_data structure' {
+            $edu = @{
+                ephemeral_domain_user_location = 'SomeOU'
+                domain_controller              = @{ domain_controller_name = 'SomeDC'; domain_controller_use_ldaps = $true }
+                winrm_info                     = @{ use_winrm_for_https = $true; winrm_certificate = '1761475228622917' }
             }
-            Set-SIAStrongAccount -secret_id '1234-abcd' -safe 'MySafe' -account_name 'admin' -secret_name 'MyAccount' -account_domain 'ad.example.com'
+            Set-SIAStrongAccount -secret_id '1234-abcd' -secret_name 'MyVaulted' -secret_type PCloudAccount -account_domain 'some.domain.co.uk' -ephemeral_domain_user_data $edu
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                ($Body | ConvertFrom-Json).secret_type -eq 'PCloudAccount'
+                $request = $Body | ConvertFrom-Json
+                ($request.secret_details.ephemeral_domain_user_data.ephemeral_domain_user_location -eq 'SomeOU') -and
+                ($request.secret_details.ephemeral_domain_user_data.domain_controller.domain_controller_name -eq 'SomeDC') -and
+                ($request.secret_details.ephemeral_domain_user_data.winrm_info.winrm_certificate -eq '1761475228622917')
             } -Times 1 -Exactly -Scope It
         }
     }
 
-    Context 'Response' {
+    Context 'Stored-in-SIA account update with a new password' {
 
-        It 'provides output' {
-            $Script:response | Should -Not -BeNullOrEmpty
+        It 'sends a secret object with all four secret_data keys' {
+            Set-SIAStrongAccount -secret_id '1234-abcd' -secret_name 'teststrong' -secret_type ProvisionerUser -account_domain local -username 'stronglocal' -password $Script:pw
+            Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
+                $request = $Body | ConvertFrom-Json
+                ($request.secret.tenant_encrypted -eq $false) -and
+                ($request.secret.secret_data.username -eq 'stronglocal') -and
+                ($request.secret.secret_data.password -eq 'SomePassword') -and
+                ($request.secret.secret_data.PSObject.Properties.Name -contains 'safe') -and
+                ($request.secret.secret_data.PSObject.Properties.Name -contains 'account_name')
+            } -Times 1 -Exactly -Scope It
         }
     }
 }

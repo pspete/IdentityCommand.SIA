@@ -2345,6 +2345,7 @@
             <command:parameterValue required="false" command:variableLength="false">mfaCaching</command:parameterValue>
             <command:parameterValue required="false" command:variableLength="false">sshMfaCaching</command:parameterValue>
             <command:parameterValue required="false" command:variableLength="false">rdpMfaCaching</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">rdpTokenMfaCaching</command:parameterValue>
             <command:parameterValue required="false" command:variableLength="false">adbMfaCaching</command:parameterValue>
             <command:parameterValue required="false" command:variableLength="false">k8sMfaCaching</command:parameterValue>
             <command:parameterValue required="false" command:variableLength="false">sshCommandAudit</command:parameterValue>
@@ -2353,6 +2354,20 @@
             <command:parameterValue required="false" command:variableLength="false">certificateValidation</command:parameterValue>
             <command:parameterValue required="false" command:variableLength="false">rdpKeyboardLayout</command:parameterValue>
             <command:parameterValue required="false" command:variableLength="false">rdpRecording</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">rdpTranscription</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">sshRecording</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">logonSequence</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">selfHostedPam</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">connectViaBrowser</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">rdpFileSigning</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">rdpKerberosAuthMode</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">rdpChannels</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">validateFingerprintForSshZeroStanding</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">httpsRelay</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">rdpFileParameters</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">granularEnabled</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">oracleOud</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">oracleConnectionProtocol</command:parameterValue>
           </command:parameterValueGroup>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>

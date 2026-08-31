@@ -44,7 +44,7 @@ The name of the SIA feature to return setting values for
 Type: String
 Parameter Sets: (All)
 Aliases:
-Accepted values: mfaCaching, sshMfaCaching, rdpMfaCaching, adbMfaCaching, k8sMfaCaching, sshCommandAudit, standingAccess, rdpFileTransfer, certificateValidation, rdpKeyboardLayout, rdpRecording
+Accepted values: mfaCaching, sshMfaCaching, rdpMfaCaching, rdpTokenMfaCaching, adbMfaCaching, k8sMfaCaching, sshCommandAudit, standingAccess, rdpFileTransfer, certificateValidation, rdpKeyboardLayout, rdpRecording, rdpTranscription, sshRecording, logonSequence, selfHostedPam, connectViaBrowser, rdpFileSigning, rdpKerberosAuthMode, rdpChannels, validateFingerprintForSshZeroStanding, httpsRelay, rdpFileParameters, granularEnabled, oracleOud, oracleConnectionProtocol
 
 Required: False
 Position: 0

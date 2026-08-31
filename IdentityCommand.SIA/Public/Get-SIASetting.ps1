@@ -6,8 +6,11 @@ function Get-SIASetting {
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true
         )]
-        [ValidateSet('mfaCaching', 'sshMfaCaching', 'rdpMfaCaching', 'adbMfaCaching', 'k8sMfaCaching', 'sshCommandAudit',
-            'standingAccess', 'rdpFileTransfer', 'certificateValidation', 'rdpKeyboardLayout', 'rdpRecording')]
+        [ValidateSet('mfaCaching', 'sshMfaCaching', 'rdpMfaCaching', 'rdpTokenMfaCaching', 'adbMfaCaching', 'k8sMfaCaching',
+            'sshCommandAudit', 'standingAccess', 'rdpFileTransfer', 'certificateValidation', 'rdpKeyboardLayout', 'rdpRecording',
+            'rdpTranscription', 'sshRecording', 'logonSequence', 'selfHostedPam', 'connectViaBrowser', 'rdpFileSigning',
+            'rdpKerberosAuthMode', 'rdpChannels', 'validateFingerprintForSshZeroStanding', 'httpsRelay', 'rdpFileParameters',
+            'granularEnabled', 'oracleOud', 'oracleConnectionProtocol')]
         [String]$FeatureName
     )
 

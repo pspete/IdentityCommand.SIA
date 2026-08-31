@@ -1101,33 +1101,15 @@
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Generates and retuns setup scripts for SIA connectors based on the provided parameters</maml:para>
+      <maml:para>Generates and returns a setup script used to install a SIA connector on a target server.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Get-SIAConnectorSetupScript</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="none">
-          <maml:name>connector_type</maml:name>
-          <maml:description>
-            <maml:para>{{ Fill connector_type Description }}</maml:para>
-          </maml:description>
-          <command:parameterValueGroup>
-            <command:parameterValue required="false" command:variableLength="false">AWS</command:parameterValue>
-            <command:parameterValue required="false" command:variableLength="false">AZURE</command:parameterValue>
-            <command:parameterValue required="false" command:variableLength="false">ON-PREMISE</command:parameterValue>
-            <command:parameterValue required="false" command:variableLength="false">GCP</command:parameterValue>
-          </command:parameterValueGroup>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
           <maml:name>connector_os</maml:name>
           <maml:description>
-            <maml:para>{{ Fill connector_os Description }}</maml:para>
+            <maml:para>The operating system of the server the connector will be installed on</maml:para>
           </maml:description>
           <command:parameterValueGroup>
             <command:parameterValue required="false" command:variableLength="false">windows</command:parameterValue>
@@ -1144,7 +1126,55 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
           <maml:name>connector_pool_id</maml:name>
           <maml:description>
-            <maml:para>{{ Fill connector_pool_id Description }}</maml:para>
+            <maml:para>The identifier of the connector pool the connector should join</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>expiration_minutes</maml:name>
+          <maml:description>
+            <maml:para>The number of minutes the generated setup script remains valid for. Accepts 15 - 240.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>proxy_host</maml:name>
+          <maml:description>
+            <maml:para>The proxy host the connector should use for outbound connectivity</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>proxy_port</maml:name>
+          <maml:description>
+            <maml:para>The proxy port the connector should use for outbound connectivity</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>windows_installation_path</maml:name>
+          <maml:description>
+            <maml:para>The installation path to use when installing the connector on Windows</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -1159,7 +1189,7 @@
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
         <maml:name>connector_os</maml:name>
         <maml:description>
-          <maml:para>{{ Fill connector_os Description }}</maml:para>
+          <maml:para>The operating system of the server the connector will be installed on</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1171,7 +1201,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
         <maml:name>connector_pool_id</maml:name>
         <maml:description>
-          <maml:para>{{ Fill connector_pool_id Description }}</maml:para>
+          <maml:para>The identifier of the connector pool the connector should join</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1180,10 +1210,46 @@
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="none">
-        <maml:name>connector_type</maml:name>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>expiration_minutes</maml:name>
         <maml:description>
-          <maml:para>{{ Fill connector_type Description }}</maml:para>
+          <maml:para>The number of minutes the generated setup script remains valid for. Accepts 15 - 240.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>proxy_host</maml:name>
+        <maml:description>
+          <maml:para>The proxy host the connector should use for outbound connectivity</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>proxy_port</maml:name>
+        <maml:description>
+          <maml:para>The proxy port the connector should use for outbound connectivity</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>windows_installation_path</maml:name>
+        <maml:description>
+          <maml:para>The installation path to use when installing the connector on Windows</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1221,16 +1287,16 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>Get-SIAConnectorSetupScript -connector_type windows -connector_os ON-PREMISE</dev:code>
+        <dev:code>Get-SIAConnectorSetupScript -connector_os windows -connector_pool_id 86fde987-c84f-4e85-8110-90b6df3f7c4c</dev:code>
         <dev:remarks>
-          <maml:para>Generates a setup script for an on-premise windows SIA connector server</maml:para>
+          <maml:para>Generates a setup script for a Windows SIA connector joining the specified connector pool</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
         <maml:title>-------------------------- Example 2 --------------------------</maml:title>
-        <dev:code>Get-SIAConnectorSetupScript -connector_type linux -connector_os AZURE</dev:code>
+        <dev:code>Get-SIAConnectorSetupScript -connector_os linux -connector_pool_id 86fde987-c84f-4e85-8110-90b6df3f7c4c -expiration_minutes 60</dev:code>
         <dev:remarks>
-          <maml:para>Generates a setup script for an Azure linux SIA connector server</maml:para>
+          <maml:para>Generates a setup script for a Linux SIA connector, valid for 60 minutes</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -10151,7 +10217,7 @@ $UserData = New-SIAPolicyUserDataDefinition -User -name SomeOtherUser -UserDataD
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>shellPromptForAudit</maml:name>
           <maml:description>
-            <maml:para>Specify SSH prompt for audit capability</maml:para>
+            <maml:para>Specify the shell prompt pattern used for SSH command audit parsing. Accepts up to 1024 characters.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -10292,7 +10358,7 @@ $UserData = New-SIAPolicyUserDataDefinition -User -name SomeOtherUser -UserDataD
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>logonSequenceValue</maml:name>
           <maml:description>
-            <maml:para>Specify the logon sequence string (sent to the API as the logonSequence value)</maml:para>
+            <maml:para>Specify the logon sequence string (sent to the API as the logonSequence value). Accepts up to 30000 characters; pass an empty string to clear it.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -10943,7 +11009,7 @@ $UserData = New-SIAPolicyUserDataDefinition -User -name SomeOtherUser -UserDataD
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>shellPromptForAudit</maml:name>
         <maml:description>
-          <maml:para>Specify SSH prompt for audit capability</maml:para>
+          <maml:para>Specify the shell prompt pattern used for SSH command audit parsing. Accepts up to 1024 characters.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -11195,7 +11261,7 @@ $UserData = New-SIAPolicyUserDataDefinition -User -name SomeOtherUser -UserDataD
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>logonSequenceValue</maml:name>
         <maml:description>
-          <maml:para>Specify the logon sequence string (sent to the API as the logonSequence value)</maml:para>
+          <maml:para>Specify the logon sequence string (sent to the API as the logonSequence value). Accepts up to 30000 characters; pass an empty string to clear it.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>

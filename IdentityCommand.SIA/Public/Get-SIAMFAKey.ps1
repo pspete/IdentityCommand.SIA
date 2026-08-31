@@ -25,7 +25,14 @@ function Get-SIAMFAKey {
 
         if ($null -ne $result) {
 
-            $result
+            #The key is returned as application/x-pem-file. Get-IDResponse passes non-JSON content
+            #straight through as the raw byte[] Content, which the pipeline unrolls to a sequence of
+            #bytes - reassemble it to the PEM text.
+            if (($result -is [byte[]]) -or (($result -is [array]) -and ($result[0] -is [byte]))) {
+                [System.Text.Encoding]::UTF8.GetString([byte[]]$result)
+            } else {
+                $result
+            }
 
         }
 

@@ -80,5 +80,18 @@ Describe 'Get-SIAMFAKey' {
         It 'provides output' {
             $Script:response | Should -Not -BeNullOrEmpty
         }
+
+        It 'decodes a byte-array PEM response to text' {
+            Mock -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -MockWith {
+                [System.Text.Encoding]::UTF8.GetBytes("-----BEGIN OPENSSH PRIVATE KEY-----`nabc`n-----END OPENSSH PRIVATE KEY-----")
+            }
+            InModuleScope -ModuleName $Script:SIAModuleName {
+                $ISPSSSession = [ordered]@{ tenant_url = 'https://somedomain.dpa.cyberark.cloud' }
+                New-Variable -Name ISPSSSession -Value $ISPSSSession -Scope Script -Force
+            }
+            $key = Get-SIAMFAKey
+            $key | Should -BeOfType [string]
+            $key | Should -Match '^-----BEGIN OPENSSH PRIVATE KEY-----'
+        }
     }
 }

@@ -5,7 +5,6 @@ online version:
 schema: 2.0.0
 ---
 
-
 # Get-SIADatabaseTarget
 
 ## SYNOPSIS
@@ -19,12 +18,13 @@ Get-SIADatabaseTarget [[-limit] <Int32>] [[-cursor] <String>]
 ```
 
 ## DESCRIPTION
-Lists the database targets configured in SIA. Each target references the strong account that provisions access to it via its secretId.
+Lists the database targets configured in SIA.
+Each target references the strong account that provisions access to it via its secretId.
 
 ## EXAMPLES
 
 ### Example 1
-```powershell
+```
 Get-SIADatabaseTarget
 ```
 
@@ -68,9 +68,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### System.Int32
-
 ### System.String
-
 ## OUTPUTS
 
 ### System.Object

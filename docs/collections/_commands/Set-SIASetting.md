@@ -507,7 +507,7 @@ Accept wildcard characters: False
 ```
 
 ### -shellPromptForAudit
-Specify SSH prompt for audit capability
+Specify the shell prompt pattern used for SSH command audit parsing. Accepts up to 1024 characters.
 
 ```yaml
 Type: String
@@ -823,7 +823,7 @@ Accept wildcard characters: False
 ```
 
 ### -logonSequenceValue
-Specify the logon sequence string (sent to the API as the logonSequence value)
+Specify the logon sequence string (sent to the API as the logonSequence value). Accepts up to 30000 characters; pass an empty string to clear it.
 
 ```yaml
 Type: String

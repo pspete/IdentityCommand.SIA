@@ -117,6 +117,7 @@ function Set-SIASetting {
         [bool]$isCommandParsingForAuditEnabled,
 
         [parameter(Mandatory = $false, ParameterSetName = 'sshCommandAudit')]
+        [ValidateLength(0, 1024)]
         [string]$shellPromptForAudit,
 
         # --- standingAccess ---
@@ -161,6 +162,7 @@ function Set-SIASetting {
 
         # --- logonSequence ---
         [parameter(Mandatory = $false, ParameterSetName = 'logonSequence')]
+        [ValidateLength(0, 30000)]
         [string]$logonSequenceValue,
 
         [parameter(Mandatory = $false, ParameterSetName = 'logonSequence')]

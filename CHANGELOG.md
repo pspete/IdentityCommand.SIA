@@ -37,6 +37,10 @@ All notable changes to this project will be documented in this file.
   - `Get-SIAStrongAccount` gained `-count` and `-offset` list parameters.
 - `Add-SIATargetSet` / `Get-SIATargetSet` / `Remove-SIATargetSet`
   - Target set endpoints moved from `/api/discovery/targetsets` to `/api/targetsets`.
+- `Get-SIASetting` / `Set-SIASetting`
+  - `-FeatureName` (Get) and the feature switches (Set) now cover all settings features exposed by SIA, including `rdpTokenMfaCaching`, `rdpTranscription`, `sshRecording`, `logonSequence`, `selfHostedPam`, `connectViaBrowser`, `rdpFileSigning`, `rdpKerberosAuthMode`, `rdpChannels`, `validateFingerprintForSshZeroStanding`, `httpsRelay`, `rdpFileParameters`, `granularEnabled`, `oracleOud` and `oracleConnectionProtocol`.
+  - `Set-SIASetting` now performs a true partial update - only the supplied sub-settings are sent (`PATCH /api/settings/`), instead of reading and re-sending the full configuration.
+  - `Set-SIASetting` validates `-keyExpirationTimeSec` (300 - 43200 seconds), `-sessionMaxDuration` (60 - 1440 minutes) and `-sessionIdleTime` (1 - 120 minutes).
 
 ### Fixed
 

@@ -14,26 +14,35 @@ Updates SIA settings
 
 ### mfaCaching
 ```
-Set-SIASetting [-mfaCaching] [-isMfaCachingEnabled <Boolean>] [-keyExpirationTimeSec <Int32>] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+Set-SIASetting [-mfaCaching] [-isMfaCachingEnabled <Boolean>] [-keyExpirationTimeSec <Int32>]
+ [-clientIpEnforced <Boolean>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### sshMfaCaching
 ```
-Set-SIASetting [-sshMfaCaching] [-isMfaCachingEnabled <Boolean>] [-keyExpirationTimeSec <Int32>] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+Set-SIASetting [-sshMfaCaching] [-isMfaCachingEnabled <Boolean>] [-keyExpirationTimeSec <Int32>]
+ [-clientIpEnforced <Boolean>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### rdpMfaCaching
 ```
 Set-SIASetting [-rdpMfaCaching] [-isMfaCachingEnabled <Boolean>] [-keyExpirationTimeSec <Int32>]
- [-clientIpEnforced <Boolean>] [-tokenUsageCount <Int32>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-clientIpEnforced <Boolean>] [-tokenUsageCount <Int32>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
+```
+
+### rdpTokenMfaCaching
+```
+Set-SIASetting [-rdpTokenMfaCaching] [-isMfaCachingEnabled <Boolean>] [-keyExpirationTimeSec <Int32>]
+ [-clientIpEnforced <Boolean>] [-tokenUsageCount <Int32>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ### adbMfaCaching
 ```
 Set-SIASetting [-adbMfaCaching] [-isMfaCachingEnabled <Boolean>] [-keyExpirationTimeSec <Int32>]
- [-clientIpEnforced <Boolean>] [-tokenUsageCount <Int32>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-clientIpEnforced <Boolean>] [-tokenUsageCount <Int32>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ### k8sMfaCaching
@@ -52,32 +61,123 @@ Set-SIASetting [-sshCommandAudit] [-isCommandParsingForAuditEnabled <Boolean>] [
 ```
 Set-SIASetting [-standingAccess] [-standingAccessAvailable <Boolean>] [-sessionMaxDuration <Int32>]
  [-sessionIdleTime <Int32>] [-fingerprintValidation <Boolean>] [-sshStandingAccessAvailable <Boolean>]
- [-rdpStandingAccessAvailable <Boolean>] [-adbStandingAccessAvailable <Boolean>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ [-rdpStandingAccessAvailable <Boolean>] [-adbStandingAccessAvailable <Boolean>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### rdpFileTransfer
 ```
-Set-SIASetting [-rdpFileTransfer] [-enabled <Boolean>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-SIASetting [-rdpFileTransfer] [-enabled <Boolean>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ### certificateValidation
 ```
-Set-SIASetting [-certificateValidation] [-enabled <Boolean>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-SIASetting [-certificateValidation] [-enabled <Boolean>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ### rdpKeyboardLayout
 ```
-Set-SIASetting [-rdpKeyboardLayout] [-layout <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-SIASetting [-rdpKeyboardLayout] [-layout <String>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ### rdpRecording
 ```
-Set-SIASetting [-rdpRecording] [-enabled <Boolean>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-SIASetting [-rdpRecording] [-enabled <Boolean>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
+```
+
+### rdpTranscription
+```
+Set-SIASetting [-rdpTranscription] [-enabled <Boolean>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
+```
+
+### sshRecording
+```
+Set-SIASetting [-sshRecording] [-enabled <Boolean>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
+```
+
+### logonSequence
+```
+Set-SIASetting [-logonSequence] [-logonSequenceValue <String>] [-alwaysUseSia <Boolean>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### selfHostedPam
+```
+Set-SIASetting [-selfHostedPam] [-tenantType <String>] [-connectorPoolId <String>] [-pvwaBaseUrl <String>]
+ [-serviceUserSecretId <String>] [-isIpBasedLbEnabled <Boolean>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
+```
+
+### connectViaBrowser
+```
+Set-SIASetting [-connectViaBrowser] [-enabled <Boolean>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
+```
+
+### rdpFileSigning
+```
+Set-SIASetting [-rdpFileSigning] [-enabled <Boolean>] [-pfxSecretId <String>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### rdpKerberosAuthMode
+```
+Set-SIASetting [-rdpKerberosAuthMode] [-authMode <String>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
+```
+
+### rdpChannels
+```
+Set-SIASetting [-rdpChannels] [-gfxChannelEnabled <Boolean>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
+```
+
+### validateFingerprintForSshZeroStanding
+```
+Set-SIASetting [-validateFingerprintForSshZeroStanding] [-enabled <Boolean>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### httpsRelay
+```
+Set-SIASetting [-httpsRelay] [-isHttpsRelayEnabled <Boolean>] [-relayHost <String>] [-sshRelayPort <Int32>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### rdpFileParameters
+```
+Set-SIASetting [-rdpFileParameters] [-disableCredentialsDelegation <Boolean>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### granularEnabled
+```
+Set-SIASetting [-granularEnabled] [-isGranularEnabled <Boolean>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
+```
+
+### oracleOud
+```
+Set-SIASetting [-oracleOud] [-enabled <Boolean>] [-oudPort <Int32>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### oracleConnectionProtocol
+```
+Set-SIASetting [-oracleConnectionProtocol] [-targetProtocolType <String>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 Enable, disable, or set values for SIA settings.
+
+Each invocation targets a single settings feature (selected by the switch parameter) and performs a partial update - only the sub-settings you supply are sent to the API (`PATCH /api/settings/`); any sub-settings you omit are left unchanged.
 
 ## EXAMPLES
 
@@ -102,6 +202,20 @@ Set-SIASetting -rdpFileTransfer -enabled $true
 
 Enables RDP file transfer
 
+### Example 4
+```
+Set-SIASetting -validateFingerprintForSshZeroStanding -enabled $true
+```
+
+Enables SSH host key fingerprint validation for zero standing access
+
+### Example 5
+```
+Set-SIASetting -standingAccess -sessionIdleTime 20
+```
+
+Sets the standing access session idle time to 20 minutes, leaving all other standing access sub-settings unchanged
+
 ## PARAMETERS
 
 ### -adbMfaCaching
@@ -115,7 +229,7 @@ Aliases:
 Required: True
 Position: Named
 Default value: False
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -130,7 +244,7 @@ Aliases:
 Required: False
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -145,7 +259,7 @@ Aliases:
 Required: True
 Position: Named
 Default value: False
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -154,13 +268,13 @@ Specify if client IP is enforced
 
 ```yaml
 Type: Boolean
-Parameter Sets: rdpMfaCaching, adbMfaCaching, k8sMfaCaching
+Parameter Sets: mfaCaching, sshMfaCaching, rdpMfaCaching, rdpTokenMfaCaching, adbMfaCaching, k8sMfaCaching
 Aliases:
 
 Required: False
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -169,13 +283,13 @@ Specify if setting is enabled or disabled
 
 ```yaml
 Type: Boolean
-Parameter Sets: rdpFileTransfer, certificateValidation, rdpRecording
+Parameter Sets: rdpFileTransfer, certificateValidation, rdpRecording, rdpTranscription, sshRecording, connectViaBrowser, rdpFileSigning, validateFingerprintForSshZeroStanding, oracleOud
 Aliases:
 
 Required: False
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -190,7 +304,7 @@ Aliases:
 Required: False
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -205,7 +319,7 @@ Aliases:
 Required: False
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -214,13 +328,13 @@ Specify if MFA caching is enabled
 
 ```yaml
 Type: Boolean
-Parameter Sets: mfaCaching, sshMfaCaching, rdpMfaCaching, adbMfaCaching
+Parameter Sets: mfaCaching, sshMfaCaching, rdpMfaCaching, rdpTokenMfaCaching, adbMfaCaching
 Aliases:
 
 Required: False
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -235,22 +349,23 @@ Aliases:
 Required: True
 Position: Named
 Default value: False
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -keyExpirationTimeSec
-Specify MFA caching key expiration
+Specify the MFA caching key expiration, in seconds.
+Accepts 300 - 43200 (the UI equivalent is 5 - 720 minutes).
 
 ```yaml
 Type: Int32
-Parameter Sets: mfaCaching, sshMfaCaching, rdpMfaCaching, adbMfaCaching, k8sMfaCaching
+Parameter Sets: mfaCaching, sshMfaCaching, rdpMfaCaching, rdpTokenMfaCaching, adbMfaCaching, k8sMfaCaching
 Aliases:
 
 Required: False
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -265,7 +380,7 @@ Aliases:
 Required: False
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -280,7 +395,7 @@ Aliases:
 Required: True
 Position: Named
 Default value: False
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -295,7 +410,7 @@ Aliases:
 Required: True
 Position: Named
 Default value: False
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -310,7 +425,7 @@ Aliases:
 Required: True
 Position: Named
 Default value: False
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -325,7 +440,7 @@ Aliases:
 Required: True
 Position: Named
 Default value: False
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -340,7 +455,7 @@ Aliases:
 Required: True
 Position: Named
 Default value: False
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -355,12 +470,13 @@ Aliases:
 Required: False
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -sessionIdleTime
-Specify session idle time
+Specify the idle session timeout, in minutes.
+Accepts 1 - 120.
 
 ```yaml
 Type: Int32
@@ -370,12 +486,13 @@ Aliases:
 Required: False
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -sessionMaxDuration
-Specify maximum session duration
+Specify the maximum session duration, in minutes.
+Accepts 60 - 1440 (the UI equivalent is 1 - 24 hours). Only relevant for vaulted credentials access.
 
 ```yaml
 Type: Int32
@@ -385,7 +502,7 @@ Aliases:
 Required: False
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -400,7 +517,7 @@ Aliases:
 Required: False
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -415,7 +532,7 @@ Aliases:
 Required: True
 Position: Named
 Default value: False
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -430,7 +547,7 @@ Aliases:
 Required: True
 Position: Named
 Default value: False
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -445,7 +562,7 @@ Aliases:
 Required: False
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -460,7 +577,7 @@ Aliases:
 Required: True
 Position: Named
 Default value: False
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -475,7 +592,7 @@ Aliases:
 Required: False
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -484,13 +601,13 @@ Specify the number of times an MFA caching token can be used
 
 ```yaml
 Type: Int32
-Parameter Sets: rdpMfaCaching, adbMfaCaching, k8sMfaCaching
+Parameter Sets: rdpMfaCaching, rdpTokenMfaCaching, adbMfaCaching, k8sMfaCaching
 Aliases:
 
 Required: False
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -521,6 +638,486 @@ Aliases: wi
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -alwaysUseSia
+Specify if SIA is always used when applying the logon sequence
+
+```yaml
+Type: Boolean
+Parameter Sets: logonSequence
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -authMode
+Specify the RDP Kerberos authentication mode
+
+```yaml
+Type: String
+Parameter Sets: rdpKerberosAuthMode
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -connectorPoolId
+Specify the connector pool id used for self-hosted PAM
+
+```yaml
+Type: String
+Parameter Sets: selfHostedPam
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -connectViaBrowser
+Switch parameter to interface with settings related to connecting via browser
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: connectViaBrowser
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -disableCredentialsDelegation
+Specify if credentials delegation is disabled in the generated RDP file
+
+```yaml
+Type: Boolean
+Parameter Sets: rdpFileParameters
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -gfxChannelEnabled
+Specify if the RDP graphics channel is enabled
+
+```yaml
+Type: Boolean
+Parameter Sets: rdpChannels
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -granularEnabled
+Switch parameter to interface with settings related to granular access
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: granularEnabled
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -httpsRelay
+Switch parameter to interface with settings related to the HTTPS relay
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: httpsRelay
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -isGranularEnabled
+Specify if granular access is enabled
+
+```yaml
+Type: Boolean
+Parameter Sets: granularEnabled
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -isHttpsRelayEnabled
+Specify if the HTTPS relay is enabled
+
+```yaml
+Type: Boolean
+Parameter Sets: httpsRelay
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -isIpBasedLbEnabled
+Specify if IP based load balancing is enabled for self-hosted PAM
+
+```yaml
+Type: Boolean
+Parameter Sets: selfHostedPam
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -logonSequence
+Switch parameter to interface with settings related to the logon sequence
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: logonSequence
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -logonSequenceValue
+Specify the logon sequence string (sent to the API as the logonSequence value)
+
+```yaml
+Type: String
+Parameter Sets: logonSequence
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -oracleConnectionProtocol
+Switch parameter to interface with settings related to the Oracle connection protocol
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: oracleConnectionProtocol
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -oracleOud
+Switch parameter to interface with settings related to Oracle Unified Directory (OUD)
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: oracleOud
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -oudPort
+Specify the Oracle Unified Directory port
+
+```yaml
+Type: Int32
+Parameter Sets: oracleOud
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -pfxSecretId
+Specify the secret id of the PFX certificate used to sign generated RDP files
+
+```yaml
+Type: String
+Parameter Sets: rdpFileSigning
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -pvwaBaseUrl
+Specify the PVWA base URL used for self-hosted PAM
+
+```yaml
+Type: String
+Parameter Sets: selfHostedPam
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -rdpChannels
+Switch parameter to interface with settings related to RDP channels
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: rdpChannels
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -rdpFileParameters
+Switch parameter to interface with settings related to generated RDP file parameters
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: rdpFileParameters
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -rdpFileSigning
+Switch parameter to interface with settings related to RDP file signing
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: rdpFileSigning
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -rdpKerberosAuthMode
+Switch parameter to interface with settings related to the RDP Kerberos authentication mode
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: rdpKerberosAuthMode
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -rdpTokenMfaCaching
+Switch parameter to interface with settings related to RDP token MFA caching
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: rdpTokenMfaCaching
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -rdpTranscription
+Switch parameter to interface with settings related to RDP session transcription
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: rdpTranscription
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -relayHost
+Specify the HTTPS relay host
+
+```yaml
+Type: String
+Parameter Sets: httpsRelay
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -selfHostedPam
+Switch parameter to interface with settings related to self-hosted PAM
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: selfHostedPam
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -serviceUserSecretId
+Specify the service user secret id used for self-hosted PAM
+
+```yaml
+Type: String
+Parameter Sets: selfHostedPam
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -sshRecording
+Switch parameter to interface with settings related to SSH session recording
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: sshRecording
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -sshRelayPort
+Specify the SSH relay port
+
+```yaml
+Type: Int32
+Parameter Sets: httpsRelay
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -targetProtocolType
+Specify the Oracle target connection protocol type
+
+```yaml
+Type: String
+Parameter Sets: oracleConnectionProtocol
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -tenantType
+Specify the tenant type used for self-hosted PAM
+
+```yaml
+Type: String
+Parameter Sets: selfHostedPam
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -validateFingerprintForSshZeroStanding
+Switch parameter to interface with settings related to SSH host key fingerprint validation for zero standing access
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: validateFingerprintForSshZeroStanding
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

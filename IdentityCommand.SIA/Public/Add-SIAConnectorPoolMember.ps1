@@ -21,12 +21,10 @@ function Add-SIAConnectorPoolMember {
 
         $URI = "$($ISPSSSession.tenant_url)/api/connectors/connector-pools/$connector_pool_id"
 
-        #Create Request Body
-        $requestBody = @{
-            'connectors' = @($connectorId | ForEach-Object { @{'connectorId' = $PSItem } })
-        }
-
-        $body = $requestBody | ConvertTo-Json -Depth 4
+        #Create Request Body - build the connectors array explicitly so a single connector id still
+        #serialises as a JSON array (Windows PowerShell ConvertTo-Json unwraps single-element arrays).
+        $connectorItems = @($connectorId | ForEach-Object { @{'connectorId' = $PSItem } | ConvertTo-Json -Compress })
+        $body = '{{ "connectors": [{0}] }}' -f ($connectorItems -join ', ')
 
         if ($PSCmdlet.ShouldProcess($connector_pool_id, 'Assign connectors to SIA Connector Pool')) {
 

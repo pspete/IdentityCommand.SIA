@@ -13,7 +13,7 @@ All notable changes to this project will be documented in this file.
 - `Invoke-SIASSHPublicKeyRotation`
   - Generate a new SSH CA public key version, or deactivate / reactivate the previous version.
 - `Get-SIAMFAKey`
-  - Retrieve the SIA MFA key (openssh or ppk format) used for SSH authentication.
+  - Retrieve the SIA MFA key (openssh or ppk format) used for SSH authentication, returned as text.
 - `Remove-SIAConnector`, `Test-SIAConnector`, `Update-SIAConnector`, `Set-SIAConnectorMaintenanceMode`, `Add-SIAConnectorPoolMember`, `Invoke-SIAConnectorCertificateRotation`
   - Delete, test reachability of, upgrade, set maintenance mode on, assign to pools, and rotate the certificate of connectors.
 - `Get-SIAHttpsRelay`, `Remove-SIAHttpsRelay`, `Update-SIAHttpsRelay`, `Get-SIAHttpsRelaySetupScript`, `Invoke-SIAHttpsRelayCertificateRotation`

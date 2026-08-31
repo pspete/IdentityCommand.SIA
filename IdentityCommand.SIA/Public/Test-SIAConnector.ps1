@@ -28,14 +28,18 @@ function Test-SIAConnector {
 
         $URI = "$($ISPSSSession.tenant_url)/api/connectors/$connector_id/reachability"
 
-        #Create Request Body
-        #Each target is an object: @{ hostname = '<host>'; port = <int> } (port defaults to 22)
-        $requestBody = @{
-            'targets'               = @($targets)
-            'checkBackendEndpoints' = [bool]$checkBackendEndpoints
+        #Create Request Body - build explicitly so an empty/single target list serialises as a JSON array.
+        #Each target is an object: @{ hostname = '<host>'; port = <int> } (port defaults to 22).
+        $bodyParts = @('"checkBackendEndpoints": {0}' -f ([bool]$checkBackendEndpoints).ToString().ToLower())
+
+        if (($PSBoundParameters.ContainsKey('targets')) -and (@($targets).Count -gt 0)) {
+
+            $targetItems = @($targets | ForEach-Object { $PSItem | ConvertTo-Json -Compress -Depth 3 })
+            $bodyParts += '"targets": [{0}]' -f ($targetItems -join ', ')
+
         }
 
-        $body = $requestBody | ConvertTo-Json -Depth 4
+        $body = '{{ {0} }}' -f ($bodyParts -join ', ')
 
         #Send Request
         $result = Invoke-IDRestMethod -Uri $URI -Method POST -Body $body

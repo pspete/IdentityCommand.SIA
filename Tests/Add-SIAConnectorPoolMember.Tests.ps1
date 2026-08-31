@@ -57,9 +57,24 @@ Describe 'Add-SIAConnectorPoolMember' {
             } -Times 1 -Exactly -Scope It
         }
 
-        It 'sends request with expected body' {
+        It 'sends connectors as a JSON array' {
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                ($null -ne $Body) -and ($Body -match 'connectorId')
+                $request = $Body | ConvertFrom-Json
+                ($request.connectors.Count -eq 2) -and
+                ($request.connectors[0].connectorId -eq 'c1') -and
+                ($request.connectors[1].connectorId -eq 'c2')
+            } -Times 1 -Exactly -Scope It
+        }
+
+        It 'sends a single connector id as a one-element JSON array' {
+            InModuleScope -ModuleName $Script:SIAModuleName {
+                $ISPSSSession = [ordered]@{ tenant_url = 'https://somedomain.dpa.cyberark.cloud' }
+                New-Variable -Name ISPSSSession -Value $ISPSSSession -Scope Script -Force
+            }
+            Add-SIAConnectorPoolMember -connector_pool_id 'POOL1' -connectorId 'solo'
+            Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
+                $request = $Body | ConvertFrom-Json
+                (@($request.connectors).Count -eq 1) -and ($request.connectors[0].connectorId -eq 'solo')
             } -Times 1 -Exactly -Scope It
         }
     }

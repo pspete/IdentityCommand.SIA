@@ -110,6 +110,9 @@ function Set-SIAStrongAccount {
         #Create Request Body
         $body = $StrongAccount | ConvertTo-Json -Depth 5
 
+        #Windows PowerShell ConvertTo-Json serialises an empty array (secret_details.domains) as "" - restore it to []
+        $body = $body -replace '("domains"\s*:\s*)""', '$1[]'
+
         if ($PSCmdlet.ShouldProcess($secret_id, 'Update SIA Strong Account')) {
             #Send Request
             $result = Invoke-IDRestMethod -Uri $URI -Method PUT -Body $body

@@ -57,20 +57,25 @@ Describe 'Test-SIAConnector' {
             } -Times 1 -Exactly -Scope It
         }
 
-        It 'sends request with expected body' {
+        It 'omits targets and never sends null when none are supplied' {
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                ($null -ne $Body) -and ($Body -match 'checkBackendEndpoints') -and ($Body -match 'targets')
+                $request = $Body | ConvertFrom-Json
+                ($request.checkBackendEndpoints -eq $false) -and
+                ($request.PSObject.Properties.Name -notcontains 'targets')
             } -Times 1 -Exactly -Scope It
         }
 
-        It 'serialises target objects into the request body' {
+        It 'serialises target objects as a JSON array' {
             InModuleScope -ModuleName $Script:SIAModuleName {
                 $ISPSSSession = [ordered]@{ tenant_url = 'https://somedomain.dpa.cyberark.cloud' }
                 New-Variable -Name ISPSSSession -Value $ISPSSSession -Scope Script -Force
             }
             Test-SIAConnector -connector_id '1234-abcd' -targets @{ hostname = 'host.example.com'; port = 22 }
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                ($Body -match 'host\.example\.com') -and ($Body -match 'hostname')
+                $request = $Body | ConvertFrom-Json
+                ($request.targets.Count -ge 1) -and
+                ($request.targets[0].hostname -eq 'host.example.com') -and
+                ($request.targets[0].port -eq 22)
             } -Times 1 -Exactly -Scope It
         }
     }

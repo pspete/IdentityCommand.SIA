@@ -22,7 +22,7 @@ Describe 'Get-SIAPolicy' {
     BeforeEach {
 
         Mock -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -MockWith {
-            [pscustomobject]@{ 'items' = 'value'; 'totalCount' = 1 }
+            [pscustomobject]@{ 'items' = 'value' }
         }
 
         InModuleScope -ModuleName $Script:SIAModuleName {
@@ -41,9 +41,9 @@ Describe 'Get-SIAPolicy' {
 
     Context 'List' {
 
-        It 'sends request to the list endpoint without a trailing slash' {
+        It 'sends request to the access-policies endpoint' {
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/access-policies'
+                $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/access-policies/'
             } -Times 1 -Exactly -Scope It
         }
 
@@ -55,17 +55,6 @@ Describe 'Get-SIAPolicy' {
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter { $null -eq $Body } -Times 1 -Exactly -Scope It
         }
 
-        It 'passes filter, limit, offset and sort as query parameters' {
-            InModuleScope -ModuleName $Script:SIAModuleName {
-                $ISPSSSession = [ordered]@{ tenant_url = 'https://somedomain.dpa.cyberark.cloud' }
-                New-Variable -Name ISPSSSession -Value $ISPSSSession -Scope Script -Force
-            }
-            Get-SIAPolicy -filter "((status ne 'Disabled'))" -limit 10 -offset 1 -sort 'updatedOn DESC'
-            Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                ($URI -match 'limit=10') -and ($URI -match 'offset=1') -and ($URI -match 'filter=') -and ($URI -match 'sort=')
-            } -Times 1 -Exactly -Scope It
-        }
-
         It 'returns the items collection' {
             $Script:response | Should -Be 'value'
         }
@@ -73,15 +62,17 @@ Describe 'Get-SIAPolicy' {
 
     Context 'By id' {
 
-        It 'sends request to the by-id endpoint' {
+        It 'sends request to the by-id endpoint and returns the full result' {
             InModuleScope -ModuleName $Script:SIAModuleName {
                 $ISPSSSession = [ordered]@{ tenant_url = 'https://somedomain.dpa.cyberark.cloud' }
                 New-Variable -Name ISPSSSession -Value $ISPSSSession -Scope Script -Force
             }
-            Get-SIAPolicy -policyid SomePolicy
+            Mock -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -MockWith { [pscustomobject]@{ policyId = 'SomePolicy' } }
+            $r = Get-SIAPolicy -policyid SomePolicy
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
                 $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/access-policies/SomePolicy'
             } -Times 1 -Exactly -Scope It
+            $r.policyId | Should -Be 'SomePolicy'
         }
     }
 }

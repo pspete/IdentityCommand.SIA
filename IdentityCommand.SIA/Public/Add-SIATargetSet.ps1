@@ -1,6 +1,5 @@
 # .ExternalHelp IdentityCommand.SIA-help.xml
 function Add-SIATargetSet {
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '', Justification = 'False Positive')]
     [CmdletBinding()]
     param(
         [parameter(
@@ -31,7 +30,7 @@ function Add-SIATargetSet {
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true
         )]
-        [ValidateSet('IdentityUser', 'IdentityMgmtUser', 'ProvisionerUser', 'TargetCertificate', 'PCloudAccount', 'EphemeralUser', 'General')]
+        [ValidateSet('ProvisionerUser', 'PCloudAccount', 'IdentityUser', 'IdentityMgmtUser', 'TargetCertificate', 'General')]
         [string]$secret_type,
 
         [parameter(
@@ -58,15 +57,12 @@ function Add-SIATargetSet {
         #Create Request Body
         $boundParameters = $PSBoundParameters | Get-Parameter
 
-        if ( -not ($PSBoundParameters.ContainsKey('provision_format'))) {
+        if ($null -ne $provision_format) {
             #Use default provision format if none specified
             $boundParameters['provision_format'] = '<user>-<session-guid>'
         }
 
-        if ( -not ($PSBoundParameters.ContainsKey('description'))) {
-            $boundParameters['description'] = ''
-        }
-
+        #Create Request Body
         $body = $boundParameters | ConvertTo-Json
 
         #Send Request

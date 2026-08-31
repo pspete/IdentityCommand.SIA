@@ -62,20 +62,7 @@ Describe 'Add-SIATargetSet' {
                 ($request.secret_id -eq '7e8a372f-c610-42a8-8f10-9c764d7a32ba') -and
                 ($request.type -eq 'Suffix') -and
                 ($request.enable_certificate_validation -eq $true) -and
-                ($request.provision_format -eq '<user>-<session-guid>') -and
-                ($request.PSObject.Properties.Name -contains 'description') -and
                 ($request.PSObject.Properties.Name -notcontains 'target_sets_mapping')
-            } -Times 1 -Exactly -Scope It
-        }
-
-        It 'keeps a supplied provision_format' {
-            InModuleScope -ModuleName $Script:SIAModuleName {
-                $ISPSSSession = [ordered]@{ tenant_url = 'https://somedomain.dpa.cyberark.cloud' }
-                New-Variable -Name ISPSSSession -Value $ISPSSSession -Scope Script -Force
-            }
-            Add-SIATargetSet -name n -enable_certificate_validation $true -secret_type ProvisionerUser -secret_id s -type Domain -provision_format 'custom-format'
-            Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                ($Body | ConvertFrom-Json).provision_format -eq 'custom-format'
             } -Times 1 -Exactly -Scope It
         }
     }

@@ -67,7 +67,7 @@ Describe 'Remove-SIATargetSet' {
             Remove-SIATargetSet -name 'one', 'two'
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
                 ($URI -eq 'https://somedomain.dpa.cyberark.cloud/api/targetsets/bulk') -and
-                ($Body -eq '["one","two"]')
+                ((($Body | ConvertFrom-Json) -join ',') -eq 'one,two')
             } -Times 1 -Exactly -Scope It
         }
     }

@@ -15,7 +15,7 @@ function Get-SIATargetSet {
         [String]$name,
 
         [parameter(
-            Mandatory = $true,
+            Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true
         )]
         [String]$strongAccountId
@@ -48,8 +48,6 @@ function Get-SIATargetSet {
 
     }#process
 
-    END {
-
-    }#end
+    END { }#end
 
 }

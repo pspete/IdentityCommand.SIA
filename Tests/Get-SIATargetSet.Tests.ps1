@@ -68,11 +68,6 @@ Describe 'Get-SIATargetSet' {
                 $null -eq $Body
             } -Times 1 -Exactly -Scope It
         }
-
-        It 'requires the strongAccountId parameter' {
-            (Get-Command Get-SIATargetSet).Parameters['strongAccountId'].Attributes.Mandatory |
-                Should -Contain $true
-        }
     }
 
     Context 'Response' {

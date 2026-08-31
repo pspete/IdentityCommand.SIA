@@ -1,6 +1,5 @@
 # .ExternalHelp IdentityCommand.SIA-help.xml
 function Remove-SIATargetSet {
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '', Justification = 'False Positive')]
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [parameter(
@@ -20,32 +19,24 @@ function Remove-SIATargetSet {
 
         $URI = "$($ISPSSSession.tenant_url)/api/targetsets"
 
-        if ($name.Count -eq 1) {
-
-            #Single target set - delete by name
+        if ($name.count -eq 1) {
             $URI = "$URI/$name"
-
-        } elseif ($name.Count -gt 1) {
-
-            #Multiple target sets - bulk delete with a JSON array of names in the body
+        } elseif ($name.count -gt 1) {
             $URI = "$URI/bulk"
-            $Request['Body'] = '[{0}]' -f (($name | ForEach-Object { $PSItem | ConvertTo-Json }) -join ',')
-
+            $boundParameters = $PSBoundParameters | Get-Parameter
+            $body = $boundParameters['name'] | ConvertTo-Json
+            $Request.Add('Body', $body)
         }
 
-        $Request['Uri'] = $URI
+        $Request.Add('Uri', $URI)
 
         if ($PSCmdlet.ShouldProcess($name, 'Delete SIA Target Set')) {
-
             #Send Request
             $result = Invoke-IDRestMethod @Request
 
             if ($null -ne $result) {
-
                 $result.results
-
             }
-
         }
 
     }#process

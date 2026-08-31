@@ -29,7 +29,6 @@ Describe 'Set-SIAPolicy' {
             [pscustomobject]@{
                 'policyId'        = 'SomeID'
                 'policyName'      = 'SomePolicy'
-                'policyType'      = 'VM'
                 'status'          = 'SomeStatus'
                 'description'     = 'Some Description'
                 'providersData'   = @{ 'provider' = 'data' }
@@ -99,7 +98,6 @@ Describe 'Set-SIAPolicy' {
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
                 $request = $Body | ConvertFrom-Json
                 ($request.policyName -eq 'SomePolicy') -and
-                ($request.policyType -eq 'VM') -and
                 ($request.status -eq 'Enabled') -and
                 ($request.description -eq 'Some Description') -and
                 ($request.startDate -eq '1925-10-08') -and

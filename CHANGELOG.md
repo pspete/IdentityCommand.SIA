@@ -34,19 +34,9 @@ All notable changes to this project will be documented in this file.
   - The `-database` / `-databases` switches have been removed - database strong accounts are now managed with the dedicated `*-SIADatabaseStrongAccount` commands. These commands now only manage virtual machine strong accounts (`/api/secrets`).
   - `New-SIAStrongAccount` parameter sets renamed `StoredInDPA-VM` -> `StoredInSIA` and `VaultedInPrivilegeCloud-VM` -> `VaultedInPrivilegeCloud`.
   - `New-SIAStrongAccount` / `Set-SIAStrongAccount` gained an optional `-enable_bulk_elevation` parameter.
-  - `Get-SIAStrongAccount` gained `-secret_name`, `-count` and `-offset` list parameters.
+  - `Get-SIAStrongAccount` gained `-count` and `-offset` list parameters.
 - `Add-SIATargetSet` / `Get-SIATargetSet` / `Remove-SIATargetSet`
   - Target set endpoints moved from `/api/discovery/targetsets` to `/api/targetsets`.
-- `Add-SIATargetSet`
-  - `-secret_type` now accepts `EphemeralUser`.
-  - Fixed `-provision_format` handling - the default is now applied only when the parameter is omitted (previously it overwrote a supplied value).
-- `Get-SIATargetSet` **(breaking)**
-  - `-strongAccountId` is now mandatory, as required by the target sets API.
-- `Get-SIAPolicy`
-  - The policy list now uses `GET /api/access-policies` (no trailing slash) and accepts `-filter`, `-limit`, `-offset` and `-sort` parameters. Retrieving a single policy still uses `-policyid`.
-- `New-SIAPolicy` / `Set-SIAPolicy`
-  - Send `policyType: "VM"` in the request body, as required by the current access policies API.
-  - `-status` now also accepts `Irrelevant`; `-description` now accepts an empty string.
 
 ### Fixed
 

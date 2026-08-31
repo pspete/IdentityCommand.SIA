@@ -14,12 +14,6 @@ function Get-SIAStrongAccount {
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true
         )]
-        [String]$secret_name,
-
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
         [int]$count,
 
         [parameter(

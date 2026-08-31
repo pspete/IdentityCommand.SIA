@@ -13,7 +13,7 @@ Get string account details from SIA
 ## SYNTAX
 
 ```
-Get-SIAStrongAccount [-secret_type <String[]>] [-secret_name <String>] [-count <Int32>] [-offset <Int32>]
+Get-SIAStrongAccount [-secret_type <String[]>] [-count <Int32>] [-offset <Int32>]
  [<CommonParameters>]
 ```
 
@@ -65,21 +65,6 @@ The offset to start returning strong accounts from.
 
 ```yaml
 Type: Int32
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -secret_name
-A name filter for the strong accounts list.
-
-```yaml
-Type: String
 Parameter Sets: (All)
 Aliases:
 

@@ -2,13 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
-## [unreleased]
+## 0.3.32
 
 ### Security
 
 - Secret-bearing request bodies (`New-SIAStrongAccount`, `Set-SIAStrongAccount`, `New-SIADatabaseStrongAccount`, `Set-SIADatabaseStrongAccount`) are now sent to `Invoke-IDRestMethod` as UTF8 bytes instead of a JSON string, so the plaintext password / secret cannot be captured by Windows PowerShell ParameterBinding / Module Logging. Mirrors [pspete/psPAS#602](https://github.com/pspete/psPAS/issues/602) / [pspete/psPAS#627](https://github.com/pspete/psPAS/pull/627). A static regression guard test was added to `IdentityCommand.SIA.Tests.ps1`.
-
-## 0.3.X
 
 ### Added
 

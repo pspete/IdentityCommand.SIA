@@ -241,9 +241,8 @@ function Set-SIADatabaseStrongAccount {
 
         }
 
-        #Create Request Body
-        #Send as UTF8 bytes (not a String) so the plaintext secret can't be captured by Windows PowerShell ParameterBinding/Module Logging - https://github.com/pspete/psPAS/issues/602
-        $body = [System.Text.Encoding]::UTF8.GetBytes($($requestBody | ConvertTo-Json -Depth 5))
+        #Create Request Body (serialised to UTF8 bytes so the plaintext secret can't be captured - see helper)
+        $body = $requestBody | ConvertTo-SIASecretBody
 
         if ($PSCmdlet.ShouldProcess($strong_account_id, 'Update SIA Database Strong Account')) {
             #Send Request

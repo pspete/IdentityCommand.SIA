@@ -107,9 +107,8 @@ function New-SIAStrongAccount {
 
         }
 
-        #Create Request Body
-        #Send as UTF8 bytes (not a String) so the plaintext secret can't be captured by Windows PowerShell ParameterBinding/Module Logging - https://github.com/pspete/psPAS/issues/602
-        $body = [System.Text.Encoding]::UTF8.GetBytes($($StrongAccount | ConvertTo-Json -Depth 5))
+        #Create Request Body (serialised to UTF8 bytes so the plaintext secret can't be captured - see helper)
+        $body = $StrongAccount | ConvertTo-SIASecretBody
 
         if ($PSCmdlet.ShouldProcess($secret_name, 'Create New SIA Strong Account')) {
             #Send Request

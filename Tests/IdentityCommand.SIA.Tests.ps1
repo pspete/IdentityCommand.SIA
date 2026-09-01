@@ -245,7 +245,7 @@ Describe 'Module' -Tag 'Consistency' {
 			$Content = Get-Content -Path $Script.FullName -Raw
 
 			$HandlesSecret = ($Content -match $SecretFieldPattern) -or ($Content -match $SecretDecodePattern)
-			$BuildsJsonBody = $Content -match 'ConvertTo-Json'
+			$BuildsJsonBody = ($Content -match 'ConvertTo-Json') -or ($Content -match 'ConvertTo-SIASecretBody')
 			$SendsRequest = $Content -match 'Invoke-IDRestMethod'
 
 			if ($HandlesSecret -and $BuildsJsonBody -and $SendsRequest) {
@@ -255,7 +255,7 @@ Describe 'Module' -Tag 'Consistency' {
 				} {
 					param($Content)
 
-					$Content | Should -Match '\[System\.Text\.Encoding\]::UTF8\.GetBytes\('
+					$Content | Should -Match '(\[System\.Text\.Encoding\]::UTF8\.GetBytes\(|ConvertTo-SIASecretBody)'
 
 				}
 

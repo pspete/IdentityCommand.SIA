@@ -107,14 +107,9 @@ function Set-SIAStrongAccount {
 
         $URI = "$($ISPSSSession.tenant_url)/api/secrets/$secret_id"
 
-        #Create Request Body
-        $body = $StrongAccount | ConvertTo-Json -Depth 5
-
-        #Windows PowerShell ConvertTo-Json serialises an empty array (secret_details.domains) as "" - restore it to []
-        $body = $body -replace '("domains"\s*:\s*)""', '$1[]'
-
-        #Send as UTF8 bytes (not a String) so the plaintext secret can't be captured by Windows PowerShell ParameterBinding/Module Logging - https://github.com/pspete/psPAS/issues/602
-        $body = [System.Text.Encoding]::UTF8.GetBytes($body)
+        #Create Request Body (serialised to UTF8 bytes so the plaintext secret can't be captured - see helper).
+        #-EmptyArrayProperty restores secret_details.domains to [] for Windows PowerShell.
+        $body = $StrongAccount | ConvertTo-SIASecretBody -EmptyArrayProperty domains
 
         if ($PSCmdlet.ShouldProcess($secret_id, 'Update SIA Strong Account')) {
             #Send Request

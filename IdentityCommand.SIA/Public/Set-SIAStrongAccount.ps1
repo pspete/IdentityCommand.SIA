@@ -113,6 +113,9 @@ function Set-SIAStrongAccount {
         #Windows PowerShell ConvertTo-Json serialises an empty array (secret_details.domains) as "" - restore it to []
         $body = $body -replace '("domains"\s*:\s*)""', '$1[]'
 
+        #Send as UTF8 bytes (not a String) so the plaintext secret can't be captured by Windows PowerShell ParameterBinding/Module Logging - https://github.com/pspete/psPAS/issues/602
+        $body = [System.Text.Encoding]::UTF8.GetBytes($body)
+
         if ($PSCmdlet.ShouldProcess($secret_id, 'Update SIA Strong Account')) {
             #Send Request
             $result = Invoke-IDRestMethod -Uri $URI -Method PUT -Body $body

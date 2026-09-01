@@ -53,7 +53,7 @@ Describe 'Set-SIADatabaseStrongAccount' {
 
         It 'sends the updated pam account properties' {
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                $request = $Body | ConvertFrom-Json
+                $request = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
                 ($request.store_type -eq 'pam') -and
                 ($request.account_properties.safe -eq 'UpdatedSafe') -and
                 ($request.account_properties.account_name -eq 'admin@newdomain.com')
@@ -70,7 +70,7 @@ Describe 'Set-SIADatabaseStrongAccount' {
         It 'omits password_secret_object when no new password is supplied' {
             Set-SIADatabaseStrongAccount -strong_account_id '550e8400' -Managed -name 'TestScrt' -platform MySQL -username 'TestString' -address 'testaddress'
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                $request = $Body | ConvertFrom-Json
+                $request = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
                 ($request.account_properties.address -eq 'testaddress') -and
                 ($null -eq $request.password_secret_object)
             } -Times 1 -Exactly -Scope It
@@ -79,7 +79,7 @@ Describe 'Set-SIADatabaseStrongAccount' {
         It 'includes password_secret_object when a new password is supplied' {
             Set-SIADatabaseStrongAccount -strong_account_id '550e8400' -Managed -name 'TestScrt' -platform MySQL -username 'TestString' -address 'testaddress' -password $Script:pw
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                ($Body | ConvertFrom-Json).password_secret_object.password -eq 'NewPassword'
+                ([System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json).password_secret_object.password -eq 'NewPassword'
             } -Times 1 -Exactly -Scope It
         }
 
@@ -94,7 +94,7 @@ Describe 'Set-SIADatabaseStrongAccount' {
         It 'sends aws account properties and only includes secret_access_key when supplied' {
             Set-SIADatabaseStrongAccount -strong_account_id '550e8400' -AWS -name 'AWSScrt' -username 'AWSAcct' -aws_account_id '123456789012' -aws_access_key_id 'AKIA123'
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                $request = $Body | ConvertFrom-Json
+                $request = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
                 ($request.account_properties.aws_account_id -eq '123456789012') -and
                 ($null -eq $request.password_secret_object)
             } -Times 1 -Exactly -Scope It

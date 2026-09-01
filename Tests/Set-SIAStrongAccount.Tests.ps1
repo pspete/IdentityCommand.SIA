@@ -54,7 +54,7 @@ Describe 'Set-SIAStrongAccount' {
         It 'sends no secret object' {
             Set-SIAStrongAccount -secret_id '1234-abcd' -secret_name 'MyVaulted' -secret_type PCloudAccount -account_domain 'some.domain.co.uk'
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                $request = $Body | ConvertFrom-Json
+                $request = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
                 ($request.is_active -eq $true) -and
                 ($request.secret_name -eq 'MyVaulted') -and
                 ($request.secret_type -eq 'PCloudAccount') -and
@@ -75,7 +75,7 @@ Describe 'Set-SIAStrongAccount' {
             }
             Set-SIAStrongAccount -secret_id '1234-abcd' -secret_name 'MyVaulted' -secret_type PCloudAccount -account_domain 'some.domain.co.uk' -ephemeral_domain_user_data $edu
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                $request = $Body | ConvertFrom-Json
+                $request = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
                 ($request.secret_details.ephemeral_domain_user_data.ephemeral_domain_user_location -eq 'SomeOU') -and
                 ($request.secret_details.ephemeral_domain_user_data.domain_controller.domain_controller_name -eq 'SomeDC') -and
                 ($request.secret_details.ephemeral_domain_user_data.winrm_info.winrm_certificate -eq '1761475228622917')
@@ -88,7 +88,7 @@ Describe 'Set-SIAStrongAccount' {
         It 'sends a secret object with all four secret_data keys' {
             Set-SIAStrongAccount -secret_id '1234-abcd' -secret_name 'teststrong' -secret_type ProvisionerUser -account_domain local -username 'stronglocal' -password $Script:pw
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                $request = $Body | ConvertFrom-Json
+                $request = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
                 ($request.secret.tenant_encrypted -eq $false) -and
                 ($request.secret.secret_data.username -eq 'stronglocal') -and
                 ($request.secret.secret_data.password -eq 'SomePassword') -and

@@ -53,7 +53,7 @@ Describe 'New-SIADatabaseStrongAccount' {
 
         It 'sends a snake_case pam store type body' {
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                $request = $Body | ConvertFrom-Json
+                $request = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
                 ($request.store_type -eq 'pam') -and
                 ($request.account_properties.safe -eq 'MySafe') -and
                 ($request.account_properties.account_name -eq 'admin@example.com')
@@ -70,7 +70,7 @@ Describe 'New-SIADatabaseStrongAccount' {
         It 'sends a managed body with platform, username, optional properties and password' {
             New-SIADatabaseStrongAccount -Managed -name 'PG' -platform PostgreSQL -username 'dbuser' -password $Script:pw -address 'db.example.com' -port 5432 -database 'mydb' -dsn 'SomeDSN'
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                $request = $Body | ConvertFrom-Json
+                $request = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
                 ($request.store_type -eq 'managed') -and
                 ($request.account_properties.platform -eq 'PostgreSQL') -and
                 ($request.account_properties.username -eq 'dbuser') -and
@@ -83,7 +83,7 @@ Describe 'New-SIADatabaseStrongAccount' {
         It 'merges extra account_properties' {
             New-SIADatabaseStrongAccount -Managed -name 'Mongo' -platform MongoDB -username 'u' -password $Script:pw -address 'a' -database 'd' -account_properties @{ replica_set = 'rs0'; use_ssl = 'true' }
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                ($Body | ConvertFrom-Json).account_properties.replica_set -eq 'rs0'
+                ([System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json).account_properties.replica_set -eq 'rs0'
             } -Times 1 -Exactly -Scope It
         }
 
@@ -108,7 +108,7 @@ Describe 'New-SIADatabaseStrongAccount' {
         It 'sends an AWSAccessKeys body with first-class aws fields and secret_access_key' {
             New-SIADatabaseStrongAccount -AWS -name 'AWSScrt' -username 'AWSAcct' -aws_account_id '123456789012' -aws_access_key_id 'AKIA123' -secret_access_key $Script:pw -aws_account_alias_name 'alias' -region 'eu-west-1'
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                $request = $Body | ConvertFrom-Json
+                $request = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
                 ($request.store_type -eq 'managed') -and
                 ($request.account_properties.platform -eq 'AWSAccessKeys') -and
                 ($request.account_properties.aws_account_id -eq '123456789012') -and

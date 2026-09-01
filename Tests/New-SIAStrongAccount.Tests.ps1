@@ -57,7 +57,7 @@ Describe 'New-SIAStrongAccount' {
 
         It 'sends the create body with only the relevant secret_data keys and a four-key secret_details' {
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                $request = $Body | ConvertFrom-Json
+                $request = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
                 ($request.is_active -eq $true) -and
                 ($request.secret_name -eq 'SomeName') -and
                 ($request.secret_type -eq 'ProvisionerUser') -and
@@ -86,7 +86,7 @@ Describe 'New-SIAStrongAccount' {
 
         It 'sends request with expected body' {
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                $request = $Body | ConvertFrom-Json
+                $request = [System.Text.Encoding]::UTF8.GetString($Body) | ConvertFrom-Json
                 ($request.secret_type -eq 'PCloudAccount') -and
                 ($request.secret_details.account_domain -eq 'pspete.dev') -and
                 ($request.secret.secret_data.safe -eq 'StrongAccounts') -and

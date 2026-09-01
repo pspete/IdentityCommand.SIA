@@ -229,4 +229,40 @@ Describe 'Module' -Tag 'Consistency' {
 
 	}
 
+	Context 'Secure Value Handling' -Tag 'SecureValueHandling' {
+
+		#Any function that decodes a SecureString (or otherwise obtains a plaintext secret) and sends a
+		#JSON request body via Invoke-IDRestMethod must convert that body to UTF8 bytes (not a String)
+		#before the call, so Windows PowerShell ParameterBinding/Module Logging cannot capture the
+		#plaintext value. See https://github.com/pspete/psPAS/issues/602
+
+		$SecretFieldNames = 'password', 'secret_access_key', 'secret_data', 'BindPassword', 'clientSecret'
+		$SecretFieldPattern = "(?i)'($($SecretFieldNames -join '|'))'"
+		$SecretDecodePattern = 'ConvertTo-InsecureString'
+
+		Foreach ($Script in $Scripts) {
+
+			$Content = Get-Content -Path $Script.FullName -Raw
+
+			$HandlesSecret = ($Content -match $SecretFieldPattern) -or ($Content -match $SecretDecodePattern)
+			$BuildsJsonBody = $Content -match 'ConvertTo-Json'
+			$SendsRequest = $Content -match 'Invoke-IDRestMethod'
+
+			if ($HandlesSecret -and $BuildsJsonBody -and $SendsRequest) {
+
+				It "$($Script.Name) converts its request body to UTF8 bytes before calling Invoke-IDRestMethod" -Tag "$($Script.BaseName)" -TestCases @{
+					'Content' = $Content
+				} {
+					param($Content)
+
+					$Content | Should -Match '\[System\.Text\.Encoding\]::UTF8\.GetBytes\('
+
+				}
+
+			}
+
+		}
+
+	}
+
 }

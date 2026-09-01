@@ -38,6 +38,10 @@ An overview of some of the features of the module are found in the below section
 After authentication to an Identity tenant using the `IdentityCommand` module, the `Connect-SIATenant` command is used to initialise a bearer token to be used for module operations against the SIA service:
 
 ```powershell
+# Resolve the SIA API url automatically from the shared services subdomain
+Connect-SIATenant -tenant_subdomain sometenant
+
+# Or provide the SIA tenant url directly
 Connect-SIATenant -tenant_url https://sometenant.dpa.cyberark.cloud
 ```
 

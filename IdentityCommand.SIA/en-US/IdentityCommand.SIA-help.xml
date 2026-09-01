@@ -918,12 +918,28 @@
     </command:details>
     <maml:description>
       <maml:para>Connects to a SIA tenant to be able to run IdentityCommand.SIA module commands against it.</maml:para>
+      <maml:para>Provide either the ISPSS shared services subdomain (the SIA API url is resolved automatically via platform discovery) or the SIA tenant url directly.</maml:para>
       <maml:para>Requires prior authentication to the related ISPSS Identity Shared Services tenant using the `IdentityCommand` module.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Connect-SIATenant</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="none">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="subdomain">
+          <maml:name>tenant_subdomain</maml:name>
+          <maml:description>
+            <maml:para>The ISPSS shared services subdomain of the SIA tenant. The SIA API url is resolved from platform discovery and used for subsequent operations.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Connect-SIATenant</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="sia_url">
           <maml:name>tenant_url</maml:name>
           <maml:description>
             <maml:para>The url of the SIA tenant</maml:para>
@@ -938,7 +954,19 @@
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="none">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="subdomain">
+        <maml:name>tenant_subdomain</maml:name>
+        <maml:description>
+          <maml:para>The ISPSS shared services subdomain of the SIA tenant. The SIA API url is resolved from platform discovery and used for subsequent operations.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="sia_url">
         <maml:name>tenant_url</maml:name>
         <maml:description>
           <maml:para>The url of the SIA tenant</maml:para>
@@ -979,6 +1007,13 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>Connect-SIATenant -tenant_subdomain sometenant</dev:code>
+        <dev:remarks>
+          <maml:para>Resolves the SIA API url for the `sometenant` shared services subdomain and connects to it for subsequent module operations</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
         <dev:code>Connect-SIATenant -tenant_url https://sometenant.dpa.cyberark.cloud</dev:code>
         <dev:remarks>
           <maml:para>Connects to the https://sometenant.dpa.cyberark.cloud SIA tenant for subsequent module operations</maml:para>

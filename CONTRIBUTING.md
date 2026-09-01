@@ -2,9 +2,9 @@
 
 All contributions, whether comments, code or otherwise are welcomed and appreciated.
 
-## IdentityCommand.DPA Issues
+## IdentityCommand.SIA Issues
 
-If you find an error in `IdentityCommand.DPA`, or have a question relating to the module, [log an issue][new-issue].
+If you find an error in `IdentityCommand.SIA`, or have a question relating to the module, [log an issue][new-issue].
 
 ## Contributing Code
 
@@ -38,11 +38,11 @@ Changes to these markdown files must be reflected in the `Get-Help` content.
 ```powershell
 #From the module root directory, run:
 import-module platyPS
-New-ExternalHelp -Path .\docs\collections\_commands\ -OutputPath .\IdentityCommand.DPA\en-US\IdentityCommand.DPA-help.xml -Force
+New-ExternalHelp -Path .\docs\collections\_commands\ -OutputPath .\IdentityCommand.SIA\en-US\IdentityCommand.SIA-help.xml -Force
 ```
 
 [commit]: http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html
 [OTBS]: https://github.com/PoshCode/PowerShellPracticeAndStyle/issues/81
-[new-issue]: https://github.com/pspete/IdentityCommand.DPA/issues/new
-[dev-branch]: https://github.com/pspete/IdentityCommand.DPA/tree/dev
-[command-help]: https://github.com/pspete/IdentityCommand.DPA/tree/master/docs/collections/_commands
+[new-issue]: https://github.com/pspete/IdentityCommand.SIA/issues/new
+[dev-branch]: https://github.com/pspete/IdentityCommand.SIA/tree/dev
+[command-help]: https://github.com/pspete/IdentityCommand.SIA/tree/master/docs/collections/_commands

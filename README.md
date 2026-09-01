@@ -1,10 +1,10 @@
 ![Logo][Logo]
 
-[Logo]:/docs/media/images/IdentityCommand.DPA.png
+[Logo]:/docs/media/images/IdentityCommand.SIA.png
 
-# IdentityCommand.DPA
+# IdentityCommand.SIA
 
-**IdentityCommand.DPA** is a PowerShell module that provides a set of easy-to-use commands, allowing you to interact with the API for a **CyberArk Dynamic Privileged Access** from within the PowerShell environment.
+**IdentityCommand.SIA** is a PowerShell module that provides a set of easy-to-use commands, allowing you to interact with the API for a **CyberArk Secure Infrastructure Access** from within the PowerShell environment.
 
 | Main Branch              | Latest Build            | CodeFactor                | Coverage                    |  PowerShell Gallery       |  License                   |
 |--------------------------|-------------------------|---------------------------|-----------------------------|---------------------------|----------------------------|
@@ -12,108 +12,112 @@
 
 
 [appveyor]:https://ci.appveyor.com/api/projects/status/q2av77njofnsul92/branch/main?svg=true
-[av-site]:https://ci.appveyor.com/project/pspete/IdentityCommand-DPA/branch/main
-[psgallery]:https://img.shields.io/powershellgallery/v/IdentityCommand.DPA.svg
-[ps-site]:https://www.powershellgallery.com/packages/IdentityCommand.DPA
-[tests]:https://img.shields.io/appveyor/tests/pspete/IdentityCommand-DPA.svg
-[tests-site]:https://ci.appveyor.com/project/pspete/IdentityCommand-DPA
-[downloads]:https://img.shields.io/powershellgallery/dt/IdentityCommand.DPA.svg?color=blue
-[cf-site]:https://www.codefactor.io/repository/github/pspete/IdentityCommand.DPA
-[codefactor]:https://www.codefactor.io/repository/github/pspete/IdentityCommand.DPA/badge
-[codecov]:https://codecov.io/gh/pspete/IdentityCommand.DPA/branch/main/graph/badge.svg
-[codecov-link]:https://codecov.io/gh/pspete/IdentityCommand.DPA
-[license]:https://img.shields.io/github/license/pspete/IdentityCommand.DPA.svg
-[license-link]:https://github.com/pspete/IdentityCommand.DPA/blob/main/LICENSE
+[av-site]:https://ci.appveyor.com/project/pspete/IdentityCommand-SIA/branch/main
+[psgallery]:https://img.shields.io/powershellgallery/v/IdentityCommand.SIA.svg
+[ps-site]:https://www.powershellgallery.com/packages/IdentityCommand.SIA
+[tests]:https://img.shields.io/appveyor/tests/pspete/IdentityCommand-SIA.svg
+[tests-site]:https://ci.appveyor.com/project/pspete/IdentityCommand-SIA
+[downloads]:https://img.shields.io/powershellgallery/dt/IdentityCommand.SIA.svg?color=blue
+[cf-site]:https://www.codefactor.io/repository/github/pspete/IdentityCommand.SIA
+[codefactor]:https://www.codefactor.io/repository/github/pspete/IdentityCommand.SIA/badge
+[codecov]:https://codecov.io/gh/pspete/IdentityCommand.SIA/branch/main/graph/badge.svg
+[codecov-link]:https://codecov.io/gh/pspete/IdentityCommand.SIA
+[license]:https://img.shields.io/github/license/pspete/IdentityCommand.SIA.svg
+[license-link]:https://github.com/pspete/IdentityCommand.SIA/blob/main/LICENSE
 
 ## Using the Module
 
 The module requires authentication to the CyberArk Identity platform using the `IdentityCommand` module.
 
-The `IdentityCommand` module must be installed and available in order to use `IdentityCommand.DPA`.
+The `IdentityCommand` module must be installed and available in order to use `IdentityCommand.SIA`.
 
 An overview of some of the features of the module are found in the below sections.
 
-### DPA Authentication
+### SIA Authentication
 
-After authentication to an Identity tenant using the `IdentityCommand` module, the `Connect-DPATenant` command is used to initialise a bearer token to be used for module operations against the DPA service:
+After authentication to an Identity tenant using the `IdentityCommand` module, the `Connect-SIATenant` command is used to initialise a bearer token to be used for module operations against the SIA service:
 
 ```powershell
-Connect-DPATenant -tenant_url https://sometenant.dpa.cyberark.cloud
+# Resolve the SIA API url automatically from the shared services subdomain
+Connect-SIATenant -tenant_subdomain sometenant
+
+# Or provide the SIA tenant url directly
+Connect-SIATenant -tenant_url https://sometenant.dpa.cyberark.cloud
 ```
 
-### DPA Connections
+### SIA Connections
 
-The `Connect-DPATarget` command can be use to initiate DPA connections to targets.
+The `Connect-SIATarget` command can be use to initiate SIA connections to targets.
 
 #### SSH
 
-SSH connections to targets using the DPA zero standing privilege method can be achieved with the following example:
+SSH connections to targets using the SIA zero standing privilege method can be achieved with the following example:
 ```powershell
-Connect-DPATarget -SSH -targetAddress someserver.somedomain.com
+Connect-SIATarget -SSH -targetAddress someserver.somedomain.com
 ```
 
 SSH connections to targets using vaulted credentials follow a similar pattern:
 ```powershell
-Connect-DPATarget -SSH -targetAddress sometarget.somedomain.com -targetUser someuser -targetDomain somedomain
+Connect-SIATarget -SSH -targetAddress sometarget.somedomain.com -targetUser someuser -targetDomain somedomain
 ```
 
 For SSH connections to succeed, an SSH client must be available from the terminal in which the command is being executed.
 
 #### RDP
 
-`Connect-DPATarget` can also request RDP files which can be used to connected through he DPA gateway, the following example facilitates a zero standing privilege RDP connection:
+`Connect-SIATarget` can also request RDP files which can be used to connected through he SIA gateway, the following example facilitates a zero standing privilege RDP connection:
 ```powershell
-Connect-DPATarget -RDP -targetAddress someserver.somedomain.com
+Connect-SIATarget -RDP -targetAddress someserver.somedomain.com
 ```
 
 Vaulted credentials can also be used for RDP connections, as shown in the below example:
 ```powershell
-Connect-DPATarget -RDP -targetAddress sometarget.somedomain.com -targetUser someuser -targetDomain somedomain
+Connect-SIATarget -RDP -targetAddress sometarget.somedomain.com -targetUser someuser -targetDomain somedomain
 ```
 
-### DPA Policies
-DPA recurring access policies can be created after defining PowerShell objects to help create the policy configuration.
+### SIA Policies
+SIA recurring access policies can be created after defining PowerShell objects to help create the policy configuration.
 
-A number of helper functions are included in the module which can be used to provide the required data to the `New-DPAPolicy` command.
+A number of helper functions are included in the module which can be used to provide the required data to the `New-SIAPolicy` command.
 
 A complete example to create a new policy follows:
 
 ```powershell
 #Create ConnectAs definitions for the policy userAccessRules
-$ConnectAs1 = New-DPAPolicyConnectAsDefinition -OnPrem -assignGroups Administrators
-$ConnectAs1 = New-DPAPolicyConnectAsDefinition -AWS -ssh "ec2-user" -assignGroups Administrators, "Remote Desktop Users" -connectAsDefinition $ConnectAs1
-$ConnectAs2 = New-DPAPolicyConnectAsDefinition -Azure -ssh "azureuser" -connectAsDefinition $ConnectAs1
-$ConnectAs2 = New-DPAPolicyConnectAsDefinition -GCP -ssh "root" -connectAsDefinition $ConnectAs2
+$ConnectAs1 = New-SIAPolicyConnectAsDefinition -OnPrem -assignGroups Administrators
+$ConnectAs1 = New-SIAPolicyConnectAsDefinition -AWS -ssh "ec2-user" -assignGroups Administrators, "Remote Desktop Users" -connectAsDefinition $ConnectAs1
+$ConnectAs2 = New-SIAPolicyConnectAsDefinition -Azure -ssh "azureuser" -connectAsDefinition $ConnectAs1
+$ConnectAs2 = New-SIAPolicyConnectAsDefinition -GCP -ssh "root" -connectAsDefinition $ConnectAs2
 
 #Create User Data definitions for the policy user AccessRules
-$UserData1 = New-DPAPolicyUserDataDefinition -Role -name "DEV_TEAM_ROLE"
-$UserData1 = New-DPAPolicyUserDataDefinition -Role -name "SOME_TEAM_ROLE" -UserDataDefinition $UserData1
-$UserData1 = New-DPAPolicyUserDataDefinition -Group -name "DEV_TEAM_GROUP" -UserDataDefinition $UserData1
-$UserData2 = New-DPAPolicyUserDataDefinition -Group -name "SOME_TEAM_GROUP" -UserDataDefinition $UserData1
-$UserData2 = New-DPAPolicyUserDataDefinition -User -name SomeUser -UserDataDefinition $UserData2
-$UserData2 = New-DPAPolicyUserDataDefinition -User -name SomeOtherUser -UserDataDefinition $UserData2
+$UserData1 = New-SIAPolicyUserDataDefinition -Role -name "DEV_TEAM_ROLE"
+$UserData1 = New-SIAPolicyUserDataDefinition -Role -name "SOME_TEAM_ROLE" -UserDataDefinition $UserData1
+$UserData1 = New-SIAPolicyUserDataDefinition -Group -name "DEV_TEAM_GROUP" -UserDataDefinition $UserData1
+$UserData2 = New-SIAPolicyUserDataDefinition -Group -name "SOME_TEAM_GROUP" -UserDataDefinition $UserData1
+$UserData2 = New-SIAPolicyUserDataDefinition -User -name SomeUser -UserDataDefinition $UserData2
+$UserData2 = New-SIAPolicyUserDataDefinition -User -name SomeOtherUser -UserDataDefinition $UserData2
 
 #Create AccessRules definitions for the policy using the ConnectAs & User Data definitions
 $AccessRules = @()
-$AccessRules += New-DPAPolicyUserAccessRuleDefinition -ruleName SomeAccessRule -userData $UserData1 -connectAs $ConnectAs1 -timeZone Europe/London
-$AccessRules += New-DPAPolicyUserAccessRuleDefinition -ruleName AnotherAccessRule -userData $UserData2 -connectAs $ConnectAs2 -timeZone America/Costa_Rica
+$AccessRules += New-SIAPolicyUserAccessRuleDefinition -ruleName SomeAccessRule -userData $UserData1 -connectAs $ConnectAs1 -timeZone Europe/London
+$AccessRules += New-SIAPolicyUserAccessRuleDefinition -ruleName AnotherAccessRule -userData $UserData2 -connectAs $ConnectAs2 -timeZone America/Costa_Rica
 
 #Define FQDN Rules for connections to On-Prem resources
 $FQDNrules = @()
-$FQDNrules += New-DPAPolicyFQDNRuleDefinition -operator EXACTLY -computernamePattern SomeHost -domain SomeDomain.com
-$FQDNrules += New-DPAPolicyFQDNRuleDefinition -operator WILDCARD -computernamePattern *-DEV-* -domain SomeDomain.com
-$FQDNrules += New-DPAPolicyFQDNRuleDefinition -operator SUFFIX -computernamePattern '-Prod' -domain SomeDomain.com
-$FQDNrules += New-DPAPolicyFQDNRuleDefinition -operator CONTAINS -computernamePattern SQL -domain SomeDomain.com
-$FQDNrules += New-DPAPolicyFQDNRuleDefinition -operator PREFIX -computernamePattern DC1 -domain SomeDomain.com
+$FQDNrules += New-SIAPolicyFQDNRuleDefinition -operator EXACTLY -computernamePattern SomeHost -domain SomeDomain.com
+$FQDNrules += New-SIAPolicyFQDNRuleDefinition -operator WILDCARD -computernamePattern *-DEV-* -domain SomeDomain.com
+$FQDNrules += New-SIAPolicyFQDNRuleDefinition -operator SUFFIX -computernamePattern '-Prod' -domain SomeDomain.com
+$FQDNrules += New-SIAPolicyFQDNRuleDefinition -operator CONTAINS -computernamePattern SQL -domain SomeDomain.com
+$FQDNrules += New-SIAPolicyFQDNRuleDefinition -operator PREFIX -computernamePattern DC1 -domain SomeDomain.com
 
 #Create Provider definitions for connections to on-prem and cloud resources
-$Providers = New-DPAPolicyProviderDefinition -OnPrem -fqdnRulesConjunction OR -fqdnRules $FQDNrules
-$Providers = New-DPAPolicyProviderDefinition -AWS -regions "us-east-1","us-east-2" -tags @{"Key"="env";"Value"=@("prod")} -ProviderDefinition $Providers
-$Providers = New-DPAPolicyProviderDefinition -Azure -regions "eastus2","eastus" -tags @{"Key"="env";"Value"=@("prod")} -ProviderDefinition $Providers
-$Providers = New-DPAPolicyProviderDefinition -GCP -regions "asia-east1","us-east1" -labels @{"Key"="env";"Value"=@("prod")} -ProviderDefinition $Providers
+$Providers = New-SIAPolicyProviderDefinition -OnPrem -fqdnRulesConjunction OR -fqdnRules $FQDNrules
+$Providers = New-SIAPolicyProviderDefinition -AWS -regions "us-east-1","us-east-2" -tags @{"Key"="env";"Value"=@("prod")} -ProviderDefinition $Providers
+$Providers = New-SIAPolicyProviderDefinition -Azure -regions "eastus2","eastus" -tags @{"Key"="env";"Value"=@("prod")} -ProviderDefinition $Providers
+$Providers = New-SIAPolicyProviderDefinition -GCP -regions "asia-east1","us-east1" -labels @{"Key"="env";"Value"=@("prod")} -ProviderDefinition $Providers
 
-#Create the new DPA Policy using the Provider and Access Rule definitions previously created
-New-DPAPolicy -policyName SomePolicy -status Enabled -description "Some Description" -providersData $Providers -userAccessRules $AccessRules
+#Create the new SIA Policy using the Provider and Access Rule definitions previously created
+New-SIAPolicy -policyName SomePolicy -status Enabled -description "Some Description" -providersData $Providers -userAccessRules $AccessRules
 ```
 
 Running the code above creates a complete policy with settings according to the parameter values.
@@ -121,10 +125,10 @@ Running the code above creates a complete policy with settings according to the 
 
 ### Module Scope Variables & Command  Invocation Data
 
-The `Get-DPAModuleData` command can be used to return data from the module scope:
+The `Get-SIAModuleData` command can be used to return data from the module scope:
 
 ```powershell
-PS C:\> Get-DPAModuleData
+PS C:\> Get-SIAModuleData
 
 Name                           Value
 ----                           -----
@@ -140,56 +144,79 @@ LastCommandTime                12/02/2024 23:23:07
 LastCommandResults             {"success":true,"Result":{"SomeResult"}}
 ```
 
-Executing this command exports variables like the URL, Username & WebSession object for the authenticated session from IdentityCommand.DPA into your local scope, either for use in other requests outside of the module scope, or for informational purposes.
+Executing this command exports variables like the URL, Username & WebSession object for the authenticated session from IdentityCommand.SIA into your local scope, either for use in other requests outside of the module scope, or for informational purposes.
 
 Return data also includes details such as session start time, elapsed time, last command time, as well as data for the last invoked command and the results of the previous command.
 
 ## List Of Commands
 
-The examples provided above are not exhaustive, further commands enabling configuration and administration of the DPA platform are available in the module.
+The examples provided above are not exhaustive, further commands enabling configuration and administration of the SIA platform are available in the module.
 
-The full list of commands currently available in the _`IdentityCommand.DPA`_ module are detailed here:
+The full list of commands currently available in the _`IdentityCommand.SIA`_ module are detailed here:
 
 | Function                               | Description                                                                      |
 |----------------------------------------|----------------------------------------------------------------------------------|
-| `Connect-DPATenant`                    | Obtains a Bearer token from an authenticated `IdentityCommand` session for DPA   |
-| `Connect-DPATarget`                    | Connect via RDP or SSH to DPA targets                                            |
-| `Add-DPATargetSet`                     | Adds a DPA Target Set                                                            |
-| `Get-DPACertificate`                   | Get details of DPA certificates                                                  |
-| `Get-DPAConnector`                     | Get details of DPA connectors                                                    |
-| `Get-DPAConnectorSetupScript`          | Gets setup scripts for DPA connectors                                            |
-| `Get-DPAPolicy`                        | Gets configured DPA policies                                                     |
-| `Get-DPAModuleData`                    | Outputs data relating to the `IdentityCommand.DPA` module session                |
-| `Get-DPASetting`                       | Get DPA settings                                                                 |
-| `Get-DPASession`                       | Get DPA session diagnostic event data                                            |
-| `Get-DPASSHPublicKey`                  | Get DPA SSH Public Keys                                                          |
-| `Get-DPAStrongAccount`                 | Get details of configured string accounts                                        |
-| `Get-DPATargetSet`                     | Get details of configured target sets                                            |
-| `Get-DPAResource`                      | Get details of configured resources                                              |
-| `New-DPAPolicy`                        | Configures a new DPA recurring access policy                                     |
-| `New-DPAPolicyConnectAsDefinition`     | Defines ConnectAs profile for DPA policy                                         |
-| `New-DPAPolicyFQDNRuleDefinition`      | Defines FQDN Rules for DPA Policy                                                |
-| `New-DPAPolicyProviderDefinition`      | Defines Providers for DPA Policy                                                 |
-| `New-DPAPolicyUserAccessRuleDefinition`| Defines user access rules for DPA Policy                                         |
-| `New-DPAPolicyUserDataDefinition`      | Defines user data for DPA Policy                                                 |
-| `New-DPAStrongAccount`                 | Creates a new string account in DPA                                              |
-| `Remove-DPAPolicy`                     | Deletes a DPA policy                                                             |
-| `Remove-DPAStrongAccount`              | Deletes a DPA string account                                                     |
-| `Remove-DPATargetSet`                  | Deletes a DPA target set                                                         |
-| `Set-DPAPolicy`                        | Updates a DPA policy                                                             |
-| `Set-DPASetting`                       | Update DPA settings                                                              |
+| `Connect-SIATenant`                    | Obtains a Bearer token from an authenticated `IdentityCommand` session for SIA   |
+| `Connect-SIATarget`                    | Connect via RDP or SSH to SIA targets                                            |
+| `Add-SIATargetSet`                     | Adds a SIA Target Set                                                            |
+| `Get-SIACertificate`                   | Get details of SIA certificates                                                  |
+| `Get-SIAConnector`                     | Get details of SIA connectors                                                    |
+| `Get-SIAConnectorSetupScript`          | Gets setup scripts for SIA connectors                                            |
+| `Get-SIAPolicy`                        | Gets configured SIA policies                                                     |
+| `Get-SIAModuleData`                    | Outputs data relating to the `IdentityCommand.SIA` module session                |
+| `Get-SIASetting`                       | Get SIA settings                                                                 |
+| `Get-SIASession`                       | Get SIA session diagnostic event data                                            |
+| `Get-SIASSHPublicKey`                  | Get SIA SSH Public Keys                                                          |
+| `Get-SIAStrongAccount`                 | Get virtual machine strong accounts                                              |
+| `Get-SIATargetSet`                     | Get details of configured target sets                                            |
+| `Get-SIAResource`                      | Get details of configured resources                                              |
+| `New-SIAPolicy`                        | Configures a new SIA recurring access policy                                     |
+| `New-SIAPolicyConnectAsDefinition`     | Defines ConnectAs profile for SIA policy                                         |
+| `New-SIAPolicyFQDNRuleDefinition`      | Defines FQDN Rules for SIA Policy                                                |
+| `New-SIAPolicyProviderDefinition`      | Defines Providers for SIA Policy                                                 |
+| `New-SIAPolicyUserAccessRuleDefinition`| Defines user access rules for SIA Policy                                         |
+| `New-SIAPolicyUserDataDefinition`      | Defines user data for SIA Policy                                                 |
+| `New-SIAStrongAccount`                 | Creates a virtual machine strong account in SIA                                  |
+| `Remove-SIAPolicy`                     | Deletes a SIA policy                                                             |
+| `Remove-SIAStrongAccount`              | Deletes a virtual machine strong account in SIA                                  |
+| `Remove-SIATargetSet`                  | Deletes a SIA target set                                                         |
+| `Set-SIAPolicy`                        | Updates a SIA policy                                                             |
+| `Set-SIASetting`                       | Update SIA settings                                                              |
+| `Set-SIAStrongAccount`                 | Updates a virtual machine strong account in SIA                                  |
+| `Get-SIADatabaseStrongAccount`         | Get SIA database strong accounts                                                 |
+| `New-SIADatabaseStrongAccount`         | Creates a SIA database strong account                                            |
+| `Set-SIADatabaseStrongAccount`         | Updates a SIA database strong account                                            |
+| `Remove-SIADatabaseStrongAccount`      | Deletes a SIA database strong account                                            |
+| `Get-SIADatabaseTarget`                | Get SIA database targets                                                         |
+| `Get-SIASSHHostKeyFingerprint`         | Get a stored SSH host key fingerprint                                            |
+| `Add-SIASSHHostKeyFingerprint`         | Add an SSH host key fingerprint                                                  |
+| `Set-SIASSHHostKeyFingerprint`         | Update an SSH host key fingerprint                                               |
+| `Remove-SIASSHHostKeyFingerprint`      | Delete an SSH host key fingerprint                                               |
+| `Invoke-SIASSHPublicKeyRotation`       | Rotate, deactivate or reactivate the SSH CA public key                           |
+| `Get-SIAMFAKey`                 | Get the SIA MFA key for SSH authentication                                                      |
+| `Remove-SIAConnector`                  | Deletes a SIA connector                                                          |
+| `Test-SIAConnector`                    | Test SIA connector reachability                                                  |
+| `Update-SIAConnector`                  | Upgrade a SIA connector                                                          |
+| `Set-SIAConnectorMaintenanceMode`      | Set the maintenance mode of a SIA connector                                      |
+| `Add-SIAConnectorPoolMember`           | Assign connectors to a SIA connector pool                                        |
+| `Invoke-SIAConnectorCertificateRotation`| Rotate a SIA connector certificate                                              |
+| `Get-SIAHttpsRelay`                    | Get SIA HTTPS relays                                                             |
+| `Remove-SIAHttpsRelay`                 | Deletes a SIA HTTPS relay                                                        |
+| `Update-SIAHttpsRelay`                 | Upgrade a SIA HTTPS relay                                                        |
+| `Get-SIAHttpsRelaySetupScript`         | Get a SIA HTTPS relay setup script                                               |
+| `Invoke-SIAHttpsRelayCertificateRotation`| Rotate a SIA HTTPS relay certificate                                            |
 
 ## Installation
 
 ### Prerequisites
 
 - Requires Powershell Core (recommended), or Windows PowerShell (version 5.1)
-- A CyberArk Identity tenant with the Dynamic Privileged Access service enabled
+- A CyberArk Identity tenant with the Secure Infrastructure Access service enabled
 - An Account to Access CyberArk Identity
 
 ### Install Options
 
-Users can install IdentityCommand.DPA from GitHub or the PowerShell Gallery.
+Users can install IdentityCommand.SIA from GitHub or the PowerShell Gallery.
 
 Choose any of the following ways to download the module and install it:
 
@@ -202,7 +229,7 @@ This is the easiest and most popular way to install the module:
 2. Run the following command:
 
 ```powershell
-Install-Module -Name IdentityCommand.DPA -Scope CurrentUser
+Install-Module -Name IdentityCommand.SIA -Scope CurrentUser
 ```
 
 #### Option 2: Manual Install
@@ -217,7 +244,7 @@ $env:PSModulePath.split(';')
 
 ```
 
-The module files must be placed in one of the listed directories, in a folder called `IdentityCommand.DPA`.
+The module files must be placed in one of the listed directories, in a folder called `IdentityCommand.SIA`.
 
 More: [about_PSModulePath](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_psmodulepath)
 
@@ -225,22 +252,22 @@ The module files are available to download using a variety of methods:
 
 ##### PowerShell Gallery
 
-- Download from the module from the [PowerShell Gallery](https://www.powershellgallery.com/packages/IdentityCommand.DPA/):
-  - Run the PowerShell command `Save-Module -Name IdentityCommand.DPA -Path C:\temp`
-  - Copy the `C:\temp\IdentityCommand.DPA` folder to your "Powershell Modules" directory of choice.
+- Download from the module from the [PowerShell Gallery](https://www.powershellgallery.com/packages/IdentityCommand.SIA/):
+  - Run the PowerShell command `Save-Module -Name IdentityCommand.SIA -Path C:\temp`
+  - Copy the `C:\temp\IdentityCommand.SIA` folder to your "Powershell Modules" directory of choice.
 
-##### IdentityCommand.DPA Release
+##### IdentityCommand.SIA Release
 
-- [Download the latest GitHub release](https://github.com/pspete/IdentityCommand.DPA/releases/latest)
+- [Download the latest GitHub release](https://github.com/pspete/IdentityCommand.SIA/releases/latest)
   - Unblock & Extract the archive
-  - Rename the extracted `IdentityCommand.DPA-v#.#.#` folder to `IdentityCommand.DPA`
-  - Copy the `IdentityCommand.DPA` folder to your "Powershell Modules" directory of choice.
+  - Rename the extracted `IdentityCommand.SIA-v#.#.#` folder to `IdentityCommand.SIA`
+  - Copy the `IdentityCommand.SIA` folder to your "Powershell Modules" directory of choice.
 
-##### IdentityCommand.DPA Branch
+##### IdentityCommand.SIA Branch
 
-- [Download the `main` branch](https://github.com/pspete/IdentityCommand.DPA/archive/refs/heads/main.zip)
+- [Download the `main` branch](https://github.com/pspete/IdentityCommand.SIA/archive/refs/heads/main.zip)
   - Unblock & Extract the archive
-  - Copy the `IdentityCommand.DPA` (`\<Archive Root>\IdentityCommand.DPA-master\IdentityCommand.DPA`) folder to your "Powershell Modules" directory of choice.
+  - Copy the `IdentityCommand.SIA` (`\<Archive Root>\IdentityCommand.SIA-master\IdentityCommand.SIA`) folder to your "Powershell Modules" directory of choice.
 
 #### Verification
 
@@ -248,7 +275,7 @@ Validate Install:
 
 ```powershell
 
-Get-Module -ListAvailable IdentityCommand.DPA
+Get-Module -ListAvailable IdentityCommand.SIA
 
 ```
 
@@ -256,7 +283,7 @@ Import the module:
 
 ```powershell
 
-Import-Module IdentityCommand.DPA
+Import-Module IdentityCommand.SIA
 
 ```
 
@@ -264,7 +291,7 @@ List Module Commands:
 
 ```powershell
 
-Get-Command -Module IdentityCommand.DPA
+Get-Command -Module IdentityCommand.SIA
 
 ```
 
@@ -300,11 +327,11 @@ See the [CONTRIBUTING.md](CONTRIBUTING.md) for a few more details.
 
 ## Support
 
-_IdentityCommand.DPA_ is neither developed nor supported by CyberArk; any official support channels offered by the vendor are not appropriate for seeking help with the _IdentityCommand.DPA_ module.
+_IdentityCommand.SIA_ is neither developed nor supported by CyberArk; any official support channels offered by the vendor are not appropriate for seeking help with the _IdentityCommand.SIA_ module.
 
 Help and support should be sought by [opening an issue][new-issue].
 
-[new-issue]: https://github.com/pspete/IdentityCommand.DPA/issues/new
+[new-issue]: https://github.com/pspete/IdentityCommand.SIA/issues/new
 
 Priority support could be considered for <a href="https://github.com/sponsors/pspete">sponsors of @pspete</a>, <a href="mailto:pspete@pspete.dev">contact us</a> to discuss options.
 

@@ -83,46 +83,19 @@ function Set-SIAPolicy {
         #Get request parameters
         $boundParameters = $PSBoundParameters | Get-Parameter
 
-        If ($PSBoundParameters.ContainsKey('startDate')) {
-
-            #Convert ExpiryDate to string in Required format
-            $Date = (Get-Date $startDate -Format yyyy-MM-dd).ToString()
-
-            #Include date string in request
-            $boundParameters['startDate'] = $Date
-
-        }
-
-        If ($PSBoundParameters.ContainsKey('endDate')) {
-
-            #Convert ExpiryDate to string in Required format
-            $Date = (Get-Date $endDate -Format yyyy-MM-dd).ToString()
-
-            #Include date string in request
-            $boundParameters['endDate'] = $Date
-
-        }
-
-        $OrderedProperties.keys | ForEach-Object {
-
-            $Properties = [ordered]@{ }
-
-        } {
-
-            #Parameter match
-            If ($boundParameters.ContainsKey($PSItem)) {
-
-                #Add to hash table in key/value pair
-                $Properties.Add($PSItem, $boundParameters[$PSItem])
-
-            } Else {
-                $Properties.Add($PSItem, $PolicySettings.$PSItem)
+        #The API expects date-only strings
+        foreach ($dateParam in 'startDate', 'endDate') {
+            if ($PSBoundParameters.ContainsKey($dateParam)) {
+                $boundParameters[$dateParam] = (Get-Date $PSBoundParameters[$dateParam] -Format 'yyyy-MM-dd').ToString()
             }
-
-        } {
-            #Create Request Body
-            $body = $Properties | ConvertTo-Json -Depth 8
         }
+
+        #Project supplied parameters onto the request template, falling back to the existing policy
+        $Properties = Merge-SIAParameter -Template $OrderedProperties -BoundParameter $boundParameters -Fallback $PolicySettings
+
+        #Create Request Body
+        $body = $Properties | ConvertTo-Json -Depth 8
+
         if ($PSCmdlet.ShouldProcess($policyId, 'Update SIA Policy')) {
             #Send Request
             $result = Invoke-IDRestMethod -Uri $URI -Method PUT -Body $body

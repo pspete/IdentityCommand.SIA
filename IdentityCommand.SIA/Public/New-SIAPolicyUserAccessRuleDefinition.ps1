@@ -90,26 +90,18 @@ Function New-SIAPolicyUserAccessRuleDefinition {
 
         $userAccessRuleDefinition.userData = $userData
 
-        $ConnectionParameters = $PSBoundParameters | Get-Parameter -ParametersToRemove userData, ruleName
-
-        $ConnectionParameters.Keys | ForEach-Object {
-
-            $ConnectionDefinition = [ordered]@{
-                connectAs   = $null
-                grantAccess = $null
-                idleTime    = $null
-                daysOfWeek  = @('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun')
-                fullDays    = $true
-                hoursFrom   = $null
-                hoursTo     = $null
-                timeZone    = $null
-            }
-
-        } {
-            $ConnectionDefinition["$PSItem"] = $ConnectionParameters["$PSItem"]
-        } {
-            $userAccessRuleDefinition.connectionInformation = $ConnectionDefinition
+        $ConnectionDefinition = [ordered]@{
+            connectAs   = $null
+            grantAccess = $null
+            idleTime    = $null
+            daysOfWeek  = @('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun')
+            fullDays    = $true
+            hoursFrom   = $null
+            hoursTo     = $null
+            timeZone    = $null
         }
+
+        $userAccessRuleDefinition.connectionInformation = Merge-SIAParameter -Template $ConnectionDefinition -BoundParameter ($PSBoundParameters | Get-Parameter -ParametersToRemove userData, ruleName)
 
         $userAccessRuleDefinition | Add-CustomType -Type IdCmd.SIA.Definition.Policy.UserAccessRule
 

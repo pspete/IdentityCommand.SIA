@@ -15,10 +15,13 @@ function Update-SIAConnector {
 
         $URI = "$($ISPSSSession.tenant_url)/api/connectors/$connector_id/upgrade"
 
+        #The API requires an (empty) JSON body
+        $body = '{}'
+
         if ($PSCmdlet.ShouldProcess($connector_id, 'Upgrade SIA Connector')) {
 
             #Send Request
-            $result = Invoke-IDRestMethod -Uri $URI -Method POST
+            $result = Invoke-IDRestMethod -Uri $URI -Method POST -Body $body
 
             if ($null -ne $result) {
 

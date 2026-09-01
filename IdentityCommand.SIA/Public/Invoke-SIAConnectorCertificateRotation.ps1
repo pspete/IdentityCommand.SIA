@@ -15,10 +15,13 @@ function Invoke-SIAConnectorCertificateRotation {
 
         $URI = "$($ISPSSSession.tenant_url)/api/connectors/$connector_id/rotate"
 
+        #The API requires an (empty) JSON body
+        $body = '{}'
+
         if ($PSCmdlet.ShouldProcess($connector_id, 'Rotate SIA Connector Certificate')) {
 
             #Send Request
-            $result = Invoke-IDRestMethod -Uri $URI -Method POST
+            $result = Invoke-IDRestMethod -Uri $URI -Method POST -Body $body
 
             if ($null -ne $result) {
 

@@ -57,9 +57,9 @@ Describe 'Invoke-SIAConnectorCertificateRotation' {
             } -Times 1 -Exactly -Scope It
         }
 
-        It 'sends request with no body' {
+        It 'sends an empty JSON body' {
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                $null -eq $Body
+                $Body -eq '{}'
             } -Times 1 -Exactly -Scope It
         }
     }

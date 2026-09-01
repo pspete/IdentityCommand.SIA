@@ -15,10 +15,13 @@ function Update-SIAHttpsRelay {
 
         $URI = "$($ISPSSSession.tenant_url)/api/https-relays/$https_relay_id/upgrade"
 
+        #The API requires an (empty) JSON body
+        $body = '{}'
+
         if ($PSCmdlet.ShouldProcess($https_relay_id, 'Upgrade SIA HTTPS Relay')) {
 
             #Send Request
-            $result = Invoke-IDRestMethod -Uri $URI -Method POST
+            $result = Invoke-IDRestMethod -Uri $URI -Method POST -Body $body
 
             if ($null -ne $result) {
 

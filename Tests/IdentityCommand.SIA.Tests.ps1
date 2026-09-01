@@ -36,8 +36,6 @@ Describe 'Module' -Tag 'Consistency' {
 
 	$Scripts = Get-ChildItem $ModulePath -Include *.ps1 -Recurse
 
-	$Rules = Get-ScriptAnalyzerRule -Severity Warning, Error
-
 	Context $ManifestPath -Tag Manifest {
 
 		It 'has a valid manifest' -TestCases @{ManifestPath = $ManifestPath } {
@@ -208,18 +206,16 @@ Describe 'Module' -Tag 'Consistency' {
 
 			Context $Script.Name -Tag "$($Script.BaseName)", "$($Script.Name)" {
 
-				Foreach ($rule in $rules) {
+				It 'passes all Warning and Error rules' -TestCases @{
+					'FilePath' = $script.FullName
+				} {
+					param($FilePath)
 
-					It 'passes rule: <RuleName>' -Tag $rule -TestCases @{
-						'RuleName' = $rule.RuleName
-						'FileName' = $script.Name
-						'FilePath' = $script.FullName
-					} {
-						param($RuleName, $FileName, $FilePath)
+					#One analyzer pass per file (all Warning/Error rules at once) rather than one pass per rule
+					$findings = Invoke-ScriptAnalyzer -Path $FilePath -Severity Warning, Error
 
-						Invoke-ScriptAnalyzer -Path $FilePath -IncludeRule $RuleName | Should -BeNullOrEmpty
-
-					}
+					($findings | ForEach-Object { "[$($_.RuleName)] line $($_.Line): $($_.Message)" }) -join [System.Environment]::NewLine |
+						Should -BeNullOrEmpty
 
 				}
 

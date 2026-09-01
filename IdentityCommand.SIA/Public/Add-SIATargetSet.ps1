@@ -57,12 +57,11 @@ function Add-SIATargetSet {
         #Create Request Body
         $boundParameters = $PSBoundParameters | Get-Parameter
 
-        if ($null -ne $provision_format) {
-            #Use default provision format if none specified
+        if (-not $boundParameters.ContainsKey('provision_format')) {
+            #Use a default provision format when the caller didn't supply one
             $boundParameters['provision_format'] = '<user>-<session-guid>'
         }
 
-        #Create Request Body
         $body = $boundParameters | ConvertTo-Json
 
         #Send Request

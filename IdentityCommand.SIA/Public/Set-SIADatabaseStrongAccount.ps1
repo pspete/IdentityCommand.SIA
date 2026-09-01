@@ -157,6 +157,12 @@ function Set-SIADatabaseStrongAccount {
 
         $URI = "$($ISPSSSession.tenant_url)/api/database-strong-accounts/$strong_account_id"
 
+        #Everything the API does not carry as an account_properties field: identifiers, the set switches,
+        #plaintext secrets, the PAM-nested fields and the account_properties passthrough hashtable itself.
+        #Parameter sets are mutually exclusive, so the remainder is exactly the flat account_properties
+        #bag for whichever set is in play (unused by PAM, which needs a nested shape).
+        $props = $PSBoundParameters | Get-Parameter -ParametersToRemove strong_account_id, name, PAM, Managed, AWS, safe, account_name, password, secret_access_key, account_properties
+
         switch ($PSCmdlet.ParameterSetName) {
 
             'PAM' {
@@ -182,17 +188,6 @@ function Set-SIADatabaseStrongAccount {
                     throw 'The MongoDB platform requires -database.'
                 }
 
-                $props = @{
-                    'platform' = $platform
-                    'username' = $username
-                }
-
-                foreach ($key in @('address', 'port', 'database', 'dsn')) {
-                    if ($PSBoundParameters.ContainsKey($key)) {
-                        $props[$key] = $PSBoundParameters[$key]
-                    }
-                }
-
                 if ($PSBoundParameters.ContainsKey('account_properties')) {
                     $account_properties.GetEnumerator() | ForEach-Object { $props[$PSItem.Key] = $PSItem.Value }
                 }
@@ -213,18 +208,7 @@ function Set-SIADatabaseStrongAccount {
 
             'AWS' {
 
-                $props = @{
-                    'platform'          = 'AWSAccessKeys'
-                    'username'          = $username
-                    'aws_account_id'    = $aws_account_id
-                    'aws_access_key_id' = $aws_access_key_id
-                }
-
-                foreach ($key in @('aws_account_alias_name', 'region')) {
-                    if ($PSBoundParameters.ContainsKey($key)) {
-                        $props[$key] = $PSBoundParameters[$key]
-                    }
-                }
+                $props['platform'] = 'AWSAccessKeys'
 
                 $requestBody = @{
                     'store_type'         = 'managed'

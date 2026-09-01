@@ -150,6 +150,12 @@ function New-SIADatabaseStrongAccount {
 
         $URI = "$($ISPSSSession.tenant_url)/api/database-strong-accounts"
 
+        #Everything the API does not carry as an account_properties field: identifiers, the set switches,
+        #plaintext secrets, the PAM-nested fields and the account_properties passthrough hashtable itself.
+        #Parameter sets are mutually exclusive, so the remainder is exactly the flat account_properties
+        #bag for whichever set is in play (unused by PAM, which needs a nested shape).
+        $props = $PSBoundParameters | Get-Parameter -ParametersToRemove name, PAM, Managed, AWS, safe, account_name, password, secret_access_key, account_properties
+
         switch ($PSCmdlet.ParameterSetName) {
 
             'PAM' {
@@ -176,26 +182,15 @@ function New-SIADatabaseStrongAccount {
                     throw 'The MongoDB platform requires -database.'
                 }
 
-                $props = @{
-                    'platform' = $platform
-                    'username' = $username
-                }
-
-                foreach ($key in @('address', 'port', 'database', 'dsn')) {
-                    if ($PSBoundParameters.ContainsKey($key)) {
-                        $props[$key] = $PSBoundParameters[$key]
-                    }
-                }
-
                 #Merge any additional platform-specific properties (snake_case keys, e.g. auth_database, replica_set, use_ssl, log_on_to, user_dn, reconcile_is_win_account)
                 if ($PSBoundParameters.ContainsKey('account_properties')) {
                     $account_properties.GetEnumerator() | ForEach-Object { $props[$PSItem.Key] = $PSItem.Value }
                 }
 
                 $requestBody = @{
-                    'store_type'            = 'managed'
-                    'name'                  = $name
-                    'account_properties'    = $props
+                    'store_type'             = 'managed'
+                    'name'                   = $name
+                    'account_properties'     = $props
                     'password_secret_object' = @{'password' = $(ConvertTo-InsecureString -SecureString $password) }
                 }
                 break
@@ -204,23 +199,12 @@ function New-SIADatabaseStrongAccount {
 
             'AWS' {
 
-                $props = @{
-                    'platform'          = 'AWSAccessKeys'
-                    'username'          = $username
-                    'aws_account_id'    = $aws_account_id
-                    'aws_access_key_id' = $aws_access_key_id
-                }
-
-                foreach ($key in @('aws_account_alias_name', 'region')) {
-                    if ($PSBoundParameters.ContainsKey($key)) {
-                        $props[$key] = $PSBoundParameters[$key]
-                    }
-                }
+                $props['platform'] = 'AWSAccessKeys'
 
                 $requestBody = @{
-                    'store_type'            = 'managed'
-                    'name'                  = $name
-                    'account_properties'    = $props
+                    'store_type'             = 'managed'
+                    'name'                   = $name
+                    'account_properties'     = $props
                     'password_secret_object' = @{'secret_access_key' = $(ConvertTo-InsecureString -SecureString $secret_access_key) }
                 }
                 break

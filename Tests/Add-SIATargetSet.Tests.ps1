@@ -65,6 +65,19 @@ Describe 'Add-SIATargetSet' {
                 ($request.PSObject.Properties.Name -notcontains 'target_sets_mapping')
             } -Times 1 -Exactly -Scope It
         }
+
+        It 'defaults provision_format when the caller omits it' {
+            Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
+                ($Body | ConvertFrom-Json).provision_format -eq '<user>-<session-guid>'
+            } -Times 1 -Exactly -Scope It
+        }
+
+        It 'keeps a caller-supplied provision_format' {
+            Add-SIATargetSet -name abc12 -enable_certificate_validation $true -secret_type ProvisionerUser -secret_id 1234 -type Suffix -provision_format '<user>@<address>'
+            Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
+                ($Body | ConvertFrom-Json).provision_format -eq '<user>@<address>'
+            } -Times 1 -Exactly -Scope It
+        }
     }
 
     Context 'Response' {

@@ -10,7 +10,7 @@ function Get-SIACompletionResult {
     property name(s) for the tooltip), it emits one [CompletionResult] per match.
 
     Matching is a prefix match, case-insensitive, against either the value or the label so a
-    connector can be found by its id or its name. Values containing whitespace are single
+    policy can be found by its id or its name. Values containing whitespace are single
     quoted so they bind as a single argument.
 
     .PARAMETER InputObject
@@ -26,7 +26,7 @@ function Get-SIACompletionResult {
     Optional property name(s) holding a friendly label for the tooltip, tried in order.
 
     .EXAMPLE
-    $items | Get-SIACompletionResult -WordToComplete $wordToComplete -ValueProperty connectorId, id -LabelProperty name
+    $items | Get-SIACompletionResult -WordToComplete $wordToComplete -ValueProperty policyId -LabelProperty policyName
     #>
     [OutputType([System.Management.Automation.CompletionResult])]
     [CmdletBinding()]
@@ -58,6 +58,11 @@ function Get-SIACompletionResult {
 
             $Label = $LabelProperty | ForEach-Object { $Item.$_ } | Where-Object { $_ } | Select-Object -First 1
 
+            #Force scalar strings - an empty $Label from an absent property would otherwise make the
+            #-notlike below evaluate to an empty array and break the -and.
+            $Value = "$Value"
+            $Label = "$Label"
+
             if (($Value -notlike "$Word*") -and ($Label -notlike "$Word*")) { continue }
 
             $CompletionText = if ($Value -match '\s') { "'$($Value -replace "'", "''")'" } else { "$Value" }
@@ -73,33 +78,73 @@ function Get-SIACompletionResult {
 
 }
 
-#region Registration
+function Get-SIAArgumentCompleter {
+    <#
+    .SYNOPSIS
+    Builds an argument-completer scriptblock backed by a Get-SIA* command.
 
-#Each completer runs in the caller's session state, so the Get-SIA* lookup is dispatched into the
-#module (& $Module { ... }) the way psPAS does it. Anything that goes wrong - no active session, an
-#API error - is swallowed so tab completion stays silent rather than noisy.
+    .DESCRIPTION
+    Returns a scriptblock suitable for Register-ArgumentCompleter. When invoked by the completion
+    engine it dispatches the lookup into the owning module (& $Module { ... }, the way psPAS does it),
+    skips the call when there is no active session, and swallows any error so tab completion stays
+    silent rather than noisy.
 
-$SIAConnectorIdCompleter = {
+    .PARAMETER RetrievalCommand
+    Name of the Get-SIA* command to call for candidate objects.
 
-    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    .PARAMETER ValueProperty
+    Property name(s) on the returned objects holding the value to complete, tried in order.
 
-    #Standard ArgumentCompleter parameters that are not otherwise referenced.
-    $null = $parameterName, $commandAst, $fakeBoundParameters
+    .PARAMETER LabelProperty
+    Optional property name(s) holding a friendly label for the tooltip, tried in order.
 
-    try {
-        $Module = (Get-Command $commandName -ErrorAction Stop).Module
+    .EXAMPLE
+    Register-ArgumentCompleter -ParameterName policyId -CommandName Set-SIAPolicy -ScriptBlock (
+        Get-SIAArgumentCompleter -RetrievalCommand Get-SIAPolicy -ValueProperty policyId -LabelProperty policyName
+    )
+    #>
+    [OutputType([scriptblock])]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '', Justification = 'Captured by GetNewClosure and used inside the returned scriptblock')]
+    [CmdletBinding()]
+    param(
+        [parameter(Mandatory = $true)]
+        [string]$RetrievalCommand,
 
-        & $Module {
-            param($Word)
-            #No point calling the API before Connect-SIATenant has run.
-            if ([string]::IsNullOrWhiteSpace($ISPSSSession.tenant_url)) { return }
-            Get-SIAConnector -ErrorAction Stop |
-                Get-SIACompletionResult -WordToComplete $Word -ValueProperty 'id' -LabelProperty 'name'
-        } $wordToComplete
+        [parameter(Mandatory = $true)]
+        [string[]]$ValueProperty,
 
-    } catch { return }
+        [parameter(Mandatory = $false)]
+        [string[]]$LabelProperty
+    )
+
+    {
+        param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+
+        #Standard ArgumentCompleter parameters that are not otherwise referenced.
+        $null = $parameterName, $commandAst, $fakeBoundParameters
+
+        try {
+            $Module = (Get-Command $commandName -ErrorAction Stop).Module
+
+            & $Module {
+                param($Retrieval, $ValueProperty, $LabelProperty, $Word)
+
+                #No point calling the API before Connect-SIATenant has run.
+                if ([string]::IsNullOrWhiteSpace($ISPSSSession.tenant_url)) { return }
+
+                & $Retrieval -ErrorAction Stop |
+                    Get-SIACompletionResult -WordToComplete $Word -ValueProperty $ValueProperty -LabelProperty $LabelProperty
+            } $RetrievalCommand $ValueProperty $LabelProperty $wordToComplete
+
+        } catch { return }
+
+    }.GetNewClosure()
 
 }
+
+#region Registration
+
+$SIAConnectorIdCompleter = Get-SIAArgumentCompleter -RetrievalCommand 'Get-SIAConnector' -ValueProperty 'id' -LabelProperty 'name'
 
 Register-ArgumentCompleter -ParameterName 'connector_id' -ScriptBlock $SIAConnectorIdCompleter -CommandName @(
     'Get-SIAConnector'
@@ -111,5 +156,20 @@ Register-ArgumentCompleter -ParameterName 'connector_id' -ScriptBlock $SIAConnec
 )
 
 Register-ArgumentCompleter -ParameterName 'connectorId' -ScriptBlock $SIAConnectorIdCompleter -CommandName 'Add-SIAConnectorPoolMember'
+
+$SIAPolicyIdCompleter = Get-SIAArgumentCompleter -RetrievalCommand 'Get-SIAPolicy' -ValueProperty 'policyId' -LabelProperty 'policyName'
+
+#Get-SIAPolicy / Remove-SIAPolicy spell the parameter 'policyid', Set-SIAPolicy spells it 'policyId'.
+foreach ($ParameterName in 'policyId', 'policyid') {
+    Register-ArgumentCompleter -ParameterName $ParameterName -ScriptBlock $SIAPolicyIdCompleter -CommandName @(
+        'Get-SIAPolicy'
+        'Set-SIAPolicy'
+        'Remove-SIAPolicy'
+    )
+}
+
+Register-ArgumentCompleter -ParameterName 'policyName' -ScriptBlock (
+    Get-SIAArgumentCompleter -RetrievalCommand 'Get-SIAPolicy' -ValueProperty 'policyName'
+) -CommandName 'Set-SIAPolicy'
 
 #endregion

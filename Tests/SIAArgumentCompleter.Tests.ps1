@@ -141,3 +141,45 @@ Describe 'connector_id argument completer' {
         $completions.CompletionText | Should -Not -Contain 'c-111'
     }
 }
+
+Describe 'policy argument completers' {
+
+    BeforeEach {
+
+        Mock -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -MockWith {
+            [pscustomobject]@{ items = @(
+                    [pscustomobject]@{ policyId = 'p-111'; policyName = 'Prod Servers' }
+                    [pscustomobject]@{ policyId = 'p-222'; policyName = 'Dev Servers' }
+                ) }
+        }
+
+        InModuleScope -ModuleName $Script:SIAModuleName {
+            New-Variable -Name ISPSSSession -Value ([ordered]@{ tenant_url = 'https://somedomain.dpa.cyberark.cloud' }) -Scope Script -Force
+        }
+    }
+
+    It 'completes <Command> -<Parameter> from Get-SIAPolicy policyId' -TestCases @(
+        @{ Command = 'Get-SIAPolicy'; Parameter = 'policyid' }
+        @{ Command = 'Remove-SIAPolicy'; Parameter = 'policyid' }
+        @{ Command = 'Set-SIAPolicy'; Parameter = 'policyId' }
+    ) {
+        param($Command, $Parameter)
+        $line = "$Command -$Parameter "
+        $completions = (TabExpansion2 -inputScript $line -cursorColumn $line.Length).CompletionMatches
+        $completions.CompletionText | Should -Contain 'p-111'
+        $completions.CompletionText | Should -Contain 'p-222'
+        ($completions | Where-Object CompletionText -EQ 'p-111').ToolTip | Should -Be 'Prod Servers (p-111)'
+    }
+
+    It 'matches policyId candidates on the friendly policy name too' {
+        $line = 'Set-SIAPolicy -policyId Dev'
+        $completions = (TabExpansion2 -inputScript $line -cursorColumn $line.Length).CompletionMatches
+        $completions.CompletionText | Should -Be 'p-222'
+    }
+
+    It 'completes Set-SIAPolicy -policyName with quoted friendly names' {
+        $line = 'Set-SIAPolicy -policyName Prod'
+        $completions = (TabExpansion2 -inputScript $line -cursorColumn $line.Length).CompletionMatches
+        $completions.CompletionText | Should -Be "'Prod Servers'"
+    }
+}

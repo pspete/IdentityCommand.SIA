@@ -30,7 +30,7 @@ $result = Invoke-Pester -Configuration $configuration
 $res = $result | ConvertTo-Pester4Result
 
 Write-Host 'Uploading Test Results'
-$null = (New-Object 'System.Net.WebClient').UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", $(Resolve-Path .\TestResults.xml))
+$null = (New-Object 'System.Net.WebClient').UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", $(Resolve-Path .\TestResults.xml))
 
 if (($env:APPVEYOR_REPO_COMMIT_AUTHOR -eq 'Pete Maan') -and -not [string]::IsNullOrWhiteSpace($env:CODECOV_TOKEN)) {
 

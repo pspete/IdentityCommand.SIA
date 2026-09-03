@@ -4,8 +4,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
         #Get Current Directory
         $Here = Split-Path -Parent $PSCommandPath
 
-        #Assume ModuleName from Repository Root folder
-        $ModuleName = Split-Path (Split-Path $Here -Parent) -Leaf
+        #Module Name
+        $ModuleName = 'IdentityCommand.SIA'
 
         #Resolve Path to Module Directory
         $ModulePath = Resolve-Path "$Here\..\$ModuleName"
@@ -21,9 +21,26 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
     }
 
-    InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
+    InModuleScope 'IdentityCommand.SIA' {
 
         BeforeEach {
+
+            $ISPSSSession = [ordered]@{
+                tenant_url         = 'https://somedomain.dpa.cyberark.cloud'
+                User               = $null
+                TenantId           = 'SomeTenant'
+                SessionId          = 'SomeSession'
+                WebSession         = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+                StartTime          = $null
+                ElapsedTime        = $null
+                LastCommand        = $null
+                LastCommandTime    = $null
+                LastCommandResults = $null
+                LastError          = $null
+                LastErrorTime      = $null
+            }
+            New-Variable -Name ISPSSSession -Value $ISPSSSession -Scope Script -Force
+
             $response = Get-SIAModuleData
 
         }
@@ -38,7 +55,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             It 'has output with expected number of properties' {
 
-                $response.Keys.Count | Should -Be 10
+                $response.Keys.Count | Should -Be 12
 
             }
 

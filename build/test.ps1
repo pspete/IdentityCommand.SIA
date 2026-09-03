@@ -3,7 +3,7 @@
 #---------------------------------#
 Write-Host "Testing: PSVersion $($PSVersionTable.PSVersion)" -ForegroundColor Yellow
 $ManifestPath = Join-Path "$pwd" $(Join-Path "$env:APPVEYOR_PROJECT_NAME" "$env:APPVEYOR_PROJECT_NAME.psd1")
-Import-Module Pester -Force
+Import-Module Pester -RequiredVersion 5.7.1 -Force
 Import-Module IdentityCommand -Force
 Import-Module $ManifestPath -Force
 #---------------------------------#
@@ -30,7 +30,7 @@ $result = Invoke-Pester -Configuration $configuration
 $res = $result | ConvertTo-Pester4Result
 
 Write-Host 'Uploading Test Results'
-$null = (New-Object 'System.Net.WebClient').UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", $(Resolve-Path .\TestsResults.xml))
+$null = (New-Object 'System.Net.WebClient').UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", $(Resolve-Path .\TestResults.xml))
 
 if (($env:APPVEYOR_REPO_COMMIT_AUTHOR -eq 'Pete Maan') -and -not [string]::IsNullOrWhiteSpace($env:CODECOV_TOKEN)) {
 

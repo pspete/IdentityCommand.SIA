@@ -4,8 +4,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
         #Get Current Directory
         $Here = Split-Path -Parent $PSCommandPath
 
-        #Assume ModuleName from Repository Root folder
-        $ModuleName = Split-Path (Split-Path $Here -Parent) -Leaf
+        #Module Name
+        $ModuleName = 'IdentityCommand.SIA'
 
         #Resolve Path to Module Directory
         $ModulePath = Resolve-Path "$Here\..\$ModuleName"
@@ -21,7 +21,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
     }
 
-    InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
+    InModuleScope 'IdentityCommand.SIA' {
 
         BeforeEach {
 
@@ -57,7 +57,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             It 'calls Get-IDSession' {
 
-                Assert-MockCalled Get-IDSession -Times 1 -Exactly -Scope It
+                Should -Invoke -CommandName Get-IDSession -Times 1 -Exactly -Scope It
 
             }
 

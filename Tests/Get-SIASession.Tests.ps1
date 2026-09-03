@@ -4,8 +4,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
         #Get Current Directory
         $Here = Split-Path -Parent $PSCommandPath
 
-        #Assume ModuleName from Repository Root folder
-        $ModuleName = Split-Path (Split-Path $Here -Parent) -Leaf
+        #Module Name
+        $ModuleName = 'IdentityCommand.SIA'
 
         #Resolve Path to Module Directory
         $ModulePath = Resolve-Path "$Here\..\$ModuleName"
@@ -21,7 +21,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
     }
 
-    InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
+    InModuleScope 'IdentityCommand.SIA' {
 
         BeforeEach {
 
@@ -57,13 +57,13 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             It 'sends request' {
 
-                Assert-MockCalled Invoke-IDRestMethod -Times 1 -Exactly -Scope It
+                Should -Invoke -CommandName Invoke-IDRestMethod -Times 1 -Exactly -Scope It
 
             }
 
             It 'sends request to expected endpoint' {
 
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter {
 
                     $URI -match 'https://somedomain.dpa.cyberark.cloud/api/monitoring/sessions?'
 
@@ -72,21 +72,21 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
 
 
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter {
 
                     $URI -match 'maxStartedTime='
 
 
                 } -Times 1 -Exactly -Scope It
 
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter {
 
                     $URI -match 'minStartedTime='
 
 
                 } -Times 1 -Exactly -Scope It
 
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter {
 
                     $URI -match '&'
 
@@ -96,7 +96,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             It 'sends request with expected url escaped minStartedTime format' {
 
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter {
 
                     $URI -match 'minStartedTime=\d{4}(:?-\d{2}){2}T\d{2}(?:%3A)\d{2}(?:%3A)\d{2}.\d{3}Z'
 
@@ -106,7 +106,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             It 'sends request with expected url escaped maxStartTime format' {
 
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter {
 
                     $URI -match 'maxStartedTime=\d{4}(:?-\d{2}){2}T\d{2}(?:%3A)\d{2}(?:%3A)\d{2}.\d{3}Z'
 
@@ -117,7 +117,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             It 'sends expected maxStartedTime value when date object provided' {
                 Get-SIASession -maxStartedTime $EndDate
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter {
 
                     $URI -match 'maxStartedTime=2024-03-03T00%3A00%3A00.000Z'
 
@@ -128,7 +128,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             It 'sends expected minStartedTime value when maxStartedTime date object provided' {
                 Get-SIASession -maxStartedTime $EndDate
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter {
 
                     $URI -match 'minStartedTime=2024-03-02T00%3A00%3A00.000Z'
 
@@ -139,14 +139,14 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             It 'sends expected minStartedTime & maxStartedTime values when date objects provided' {
                 Get-SIASession -maxStartedTime $EndDate -minStartedTime $StartDate
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter {
 
                     $URI -match 'minStartedTime=2024-03-01T00%3A00%3A00.000Z'
 
 
                 } -Times 1 -Exactly -Scope It
 
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter {
 
                     $URI -match 'maxStartedTime=2024-03-03T00%3A00%3A00.000Z'
 
@@ -157,13 +157,13 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             It 'uses expected method' {
 
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
 
             }
 
             It 'sends request with no body' {
 
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
 
             }
 

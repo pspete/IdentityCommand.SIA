@@ -4,8 +4,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
         #Get Current Directory
         $Here = Split-Path -Parent $PSCommandPath
 
-        #Assume ModuleName from Repository Root folder
-        $ModuleName = Split-Path (Split-Path $Here -Parent) -Leaf
+        #Module Name
+        $ModuleName = 'IdentityCommand.SIA'
 
         #Resolve Path to Module Directory
         $ModulePath = Resolve-Path "$Here\..\$ModuleName"
@@ -21,7 +21,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
     }
 
-    InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
+    InModuleScope 'IdentityCommand.SIA' {
 
         BeforeEach {
 
@@ -68,13 +68,13 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
             }
             It 'sends request' {
 
-                Assert-MockCalled Invoke-IDRestMethod -Times 1 -Exactly -Scope It
+                Should -Invoke -CommandName Invoke-IDRestMethod -Times 1 -Exactly -Scope It
 
             }
 
             It 'sends request to expected endpoint' {
 
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter {
 
                     $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/adb/sso/acquire'
 
@@ -84,55 +84,55 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             It 'uses expected method' {
 
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
 
             }
 
             It 'sends request with expected body' {
 
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter {
                     $Request = $Body | ConvertFrom-Json
                     $Request.service -eq 'DPA-RDP'
 
                 } -Times 1 -Exactly -Scope It
 
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter {
                     $Request = $Body | ConvertFrom-Json
                     $Request.tokenResponseFormat -eq 'extended'
 
                 } -Times 1 -Exactly -Scope It
 
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter {
                     $Request = $Body | ConvertFrom-Json
                     $Request.tokenType -eq 'rdp_file'
 
                 } -Times 1 -Exactly -Scope It
 
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter {
                     $Request = $Body | ConvertFrom-Json
                     $Request.tokenParameters.targetUser -eq 'SomeUser'
 
                 } -Times 1 -Exactly -Scope It
 
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter {
                     $Request = $Body | ConvertFrom-Json
                     $Request.tokenParameters.targetAddress -eq 'SomeCPU'
 
                 } -Times 1 -Exactly -Scope It
 
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter {
                     $Request = $Body | ConvertFrom-Json
                     $Request.tokenParameters.targetDomain -eq 'SomeDomain'
 
                 } -Times 1 -Exactly -Scope It
 
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter {
                     $Request = $Body | ConvertFrom-Json
                     $Request.tokenParameters.logicalName -eq 'SomeNet'
 
                 } -Times 1 -Exactly -Scope It
 
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter {
                     $Request = $Body | ConvertFrom-Json
                     $Request.tokenParameters.elevatedPrivileges -eq $true
 
@@ -152,13 +152,13 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
             }
             It 'sends request' {
 
-                Assert-MockCalled Invoke-IDRestMethod -Times 1 -Exactly -Scope It
+                Should -Invoke -CommandName Invoke-IDRestMethod -Times 1 -Exactly -Scope It
 
             }
 
             It 'sends request to expected endpoint' {
 
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter {
 
                     $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/adb/sso/acquire'
 
@@ -168,31 +168,31 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             It 'uses expected method' {
 
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter { $Method -match 'POST' } -Times 1 -Exactly -Scope It
 
             }
 
             It 'sends request with expected body' {
 
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter {
                     $Request = $Body | ConvertFrom-Json
                     $Request.service -eq 'DPA-RDP'
 
                 } -Times 1 -Exactly -Scope It
 
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter {
                     $Request = $Body | ConvertFrom-Json
                     $Request.tokenResponseFormat -eq 'extended'
 
                 } -Times 1 -Exactly -Scope It
 
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter {
                     $Request = $Body | ConvertFrom-Json
                     $Request.tokenType -eq 'rdp_file'
 
                 } -Times 1 -Exactly -Scope It
 
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter {
                     $Request = $Body | ConvertFrom-Json
                     $Request.tokenParameters.targetAddress -eq 'SomeCPU'
 
@@ -210,13 +210,13 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             It 'does not send a request' {
 
-                Assert-MockCalled Invoke-IDRestMethod -Times 0 -Exactly -Scope It
+                Should -Invoke -CommandName Invoke-IDRestMethod -Times 0 -Exactly -Scope It
 
             }
 
             It 'Invokes expected SSH command - all parameters' {
                 Connect-SIATarget -SSH -targetUser SomeUser -targetAddress SomeCPU -targetDomain SomeDomain -logicalName SomeNet
-                Assert-MockCalled ssh -ParameterFilter {
+                Should -Invoke -CommandName ssh -ParameterFilter {
 
                     $args[0] -eq 'someuser@somedomain.com#sometenant@SomeUser#SomeDomain@SomeCPU#SomeNet@sometenant.ssh.cyberark.cloud'
 
@@ -226,7 +226,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             It 'Invokes expected SSH command - mandatory parameters' {
                 Connect-SIATarget -SSH -targetUser SomeUser -targetAddress SomeCPU
-                Assert-MockCalled ssh -ParameterFilter {
+                Should -Invoke -CommandName ssh -ParameterFilter {
 
                     $args[0] -eq 'someuser@somedomain.com#sometenant@SomeUser@SomeCPU@sometenant.ssh.cyberark.cloud'
 
@@ -236,7 +236,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             It 'Invokes expected SSH command - optional domain' {
                 Connect-SIATarget -SSH -targetUser SomeUser -targetAddress SomeCPU -targetDomain SomeDomain
-                Assert-MockCalled ssh -ParameterFilter {
+                Should -Invoke -CommandName ssh -ParameterFilter {
 
                     $args[0] -eq 'someuser@somedomain.com#sometenant@SomeUser#SomeDomain@SomeCPU@sometenant.ssh.cyberark.cloud'
 
@@ -246,7 +246,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             It 'Invokes expected SSH command - optional logicalName' {
                 Connect-SIATarget -SSH -targetUser SomeUser -targetAddress SomeCPU -logicalName SomeNet
-                Assert-MockCalled ssh -ParameterFilter {
+                Should -Invoke -CommandName ssh -ParameterFilter {
 
                     $args[0] -eq 'someuser@somedomain.com#sometenant@SomeUser@SomeCPU#SomeNet@sometenant.ssh.cyberark.cloud'
 
@@ -262,13 +262,13 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
             }
             It 'does not send a request' {
 
-                Assert-MockCalled Invoke-IDRestMethod -Times 0 -Exactly -Scope It
+                Should -Invoke -CommandName Invoke-IDRestMethod -Times 0 -Exactly -Scope It
 
             }
 
             It 'Invokes expected SSH command' {
 
-                Assert-MockCalled ssh -ParameterFilter {
+                Should -Invoke -CommandName ssh -ParameterFilter {
 
                     $args[0] -eq 'someuser@somedomain.com#sometenant@SomeCPU@sometenant.ssh.cyberark.cloud'
 

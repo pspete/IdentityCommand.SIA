@@ -6,7 +6,6 @@ Write-Host 'Installing Required Modules:' -ForegroundColor Yellow
 $RequiredModules = @(
 	'Pester',
 	'PSScriptAnalyzer',
-	'coveralls',
 	'PSCodeCovIo',
 	'IdentityCommand'
 )
@@ -24,11 +23,11 @@ if (-not $IsCoreCLR) {
 #---------------------------------#
 foreach ($Module in $RequiredModules) {
 
-	Try {
+	try {
 		Write-Host "`tInstalling: $Module..." -NoNewline
 		Install-Module -Name $Module -Repository PSGallery -Confirm:$false -Force -SkipPublisherCheck -ErrorAction Stop | Out-Null
 		Write-Host ' OK' -ForegroundColor Green
-	} Catch {
+	} catch {
 		Write-Host 'Error' -ForegroundColor Red
 		throw $_
 	}

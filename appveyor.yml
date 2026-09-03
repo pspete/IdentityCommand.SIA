@@ -7,12 +7,10 @@ environment:
     secure: nXh9mZ0YD5M116yhStlR/Tzg+Kf+D6CUpNP+tIlWdNTVxNjVzT2vzl8wOD8kvtOiSORSWDsyvKZVx2+IsA0A1X05ohYwmkXQIF9TaPHiHtFmym8Y5btpRO/2AaWMfmIJ
   psgallery_key:
     secure: FuPgJskczZMptxRgdUlBAy7OYmXBQl4zq86kXXSmBt6wKudnM2PK7W6cM7bj0te1
-  coveralls_key:
-    secure: bdyanCqxWP0hylNYUvdIl8eUlDMhmIsmeFUNxGwnESlEksBZnxcLhaj1lYVuD7LM
   github_email:
     secure: x5ljenzXfYXkzpEu9eX7AQvb3AkFbiXG2NndMzw9Zc4=
   CODECOV_TOKEN:
-    secure: nv7Kt2ldlcFCfK7zX17RrienKXeUQ3AoTZog8m7emylxI3WxUFnJnMV7Ja5gz5/A
+    secure: nUMw4tUP8DnGUwUMbXy8WrcW6YTBwS1td2BR1bHV9tE8MWE4XEYWDjPmUA/skGJp
 
 skip_tags: true
 

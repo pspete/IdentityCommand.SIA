@@ -6,6 +6,7 @@ function Set-SIAConnectorMaintenanceMode {
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true
         )]
+        [Alias('id')]
         [String]$connector_id,
 
         [parameter(

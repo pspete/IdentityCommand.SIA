@@ -6,6 +6,7 @@ function Invoke-SIAConnectorCertificateRotation {
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true
         )]
+        [Alias('id')]
         [String]$connector_id
     )
 

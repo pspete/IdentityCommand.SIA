@@ -1073,7 +1073,7 @@
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Get-SIAConnector</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="id">
           <maml:name>connector_id</maml:name>
           <maml:description>
             <maml:para>The ID of a connector to query</maml:para>
@@ -1088,7 +1088,7 @@
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="id">
         <maml:name>connector_id</maml:name>
         <maml:description>
           <maml:para>The ID of a connector to query</maml:para>
@@ -3203,7 +3203,7 @@
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Invoke-SIAConnectorCertificateRotation</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="none">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="id">
           <maml:name>connector_id</maml:name>
           <maml:description>
             <maml:para>The unique identifier of the SIA connector.</maml:para>
@@ -3240,7 +3240,7 @@
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="none">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="id">
         <maml:name>connector_id</maml:name>
         <maml:description>
           <maml:para>The unique identifier of the SIA connector.</maml:para>
@@ -7025,7 +7025,7 @@ $UserData = New-SIAPolicyUserDataDefinition -User -name SomeOtherUser -UserDataD
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Remove-SIAConnector</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="none">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="id">
           <maml:name>connector_id</maml:name>
           <maml:description>
             <maml:para>The unique identifier of the SIA connector.</maml:para>
@@ -7073,7 +7073,7 @@ $UserData = New-SIAPolicyUserDataDefinition -User -name SomeOtherUser -UserDataD
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="none">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="id">
         <maml:name>connector_id</maml:name>
         <maml:description>
           <maml:para>The unique identifier of the SIA connector.</maml:para>
@@ -7968,7 +7968,7 @@ $UserData = New-SIAPolicyUserDataDefinition -User -name SomeOtherUser -UserDataD
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Set-SIAConnectorMaintenanceMode</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="none">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="id">
           <maml:name>connector_id</maml:name>
           <maml:description>
             <maml:para>The unique identifier of the SIA connector.</maml:para>
@@ -8017,7 +8017,7 @@ $UserData = New-SIAPolicyUserDataDefinition -User -name SomeOtherUser -UserDataD
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="none">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="id">
         <maml:name>connector_id</maml:name>
         <maml:description>
           <maml:para>The unique identifier of the SIA connector.</maml:para>
@@ -12167,7 +12167,7 @@ $UserData = New-SIAPolicyUserDataDefinition -User -name SomeOtherUser -UserDataD
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Test-SIAConnector</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="none">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="id">
           <maml:name>connector_id</maml:name>
           <maml:description>
             <maml:para>The unique identifier of the SIA connector.</maml:para>
@@ -12218,7 +12218,7 @@ $UserData = New-SIAPolicyUserDataDefinition -User -name SomeOtherUser -UserDataD
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="none">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="id">
         <maml:name>connector_id</maml:name>
         <maml:description>
           <maml:para>The unique identifier of the SIA connector.</maml:para>
@@ -12310,7 +12310,7 @@ $UserData = New-SIAPolicyUserDataDefinition -User -name SomeOtherUser -UserDataD
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Update-SIAConnector</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="none">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="id">
           <maml:name>connector_id</maml:name>
           <maml:description>
             <maml:para>The unique identifier of the SIA connector.</maml:para>
@@ -12347,7 +12347,7 @@ $UserData = New-SIAPolicyUserDataDefinition -User -name SomeOtherUser -UserDataD
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="none">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="id">
         <maml:name>connector_id</maml:name>
         <maml:description>
           <maml:para>The unique identifier of the SIA connector.</maml:para>

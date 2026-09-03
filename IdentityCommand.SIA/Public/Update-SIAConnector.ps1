@@ -6,6 +6,7 @@ function Update-SIAConnector {
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true
         )]
+        [Alias('id')]
         [String]$connector_id
     )
 

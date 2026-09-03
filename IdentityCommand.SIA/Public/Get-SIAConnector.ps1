@@ -6,6 +6,7 @@ function Get-SIAConnector {
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true
         )]
+        [Alias('id')]
         [String]$connector_id
     )
 

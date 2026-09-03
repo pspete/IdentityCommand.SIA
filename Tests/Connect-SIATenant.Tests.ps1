@@ -100,6 +100,22 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
                 $ISPSSSession.tenant_url | Should -Be 'SomeURL'
             }
 
+            It 'resolves tenant_url from shared services when tenant_subdomain is provided' {
+
+                Mock Find-SharedServicesURL -MockWith {
+                    [pscustomobject]@{ api = 'https://SomeSubdomain.dpa.cyberark.cloud/api' }
+                }
+
+                Connect-SIATenant -tenant_subdomain 'SomeSubdomain'
+
+                Should -Invoke -CommandName Find-SharedServicesURL -ParameterFilter {
+                    $subdomain -eq 'SomeSubdomain' -and $service -eq 'jit'
+                } -Times 1 -Exactly -Scope It
+
+                $ISPSSSession.tenant_url | Should -Be 'https://SomeSubdomain.dpa.cyberark.cloud'
+
+            }
+
         }
 
     }

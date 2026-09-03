@@ -65,6 +65,16 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             }
 
+            It 'calculates ElapsedTime when StartTime is set' {
+
+                $ISPSSSession.StartTime = (Get-Date).AddMinutes(-5)
+
+                $response = Get-SIAModuleData
+
+                $response.ElapsedTime | Should -Not -BeNullOrEmpty
+
+            }
+
         }
 
     }

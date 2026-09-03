@@ -206,6 +206,18 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
         }
 
+        Context 'Input - RDP - Failure launching rdp file' {
+
+            It 'rethrows the error encountered saving/launching the rdp file' {
+
+                Mock Get-Item -MockWith { throw 'SomeError' }
+
+                { Connect-SIATarget -RDP -targetAddress SomeCPU } | Should -Throw 'SomeError'
+
+            }
+
+        }
+
         Context 'Input - SSH - Vaulted Creds' {
 
             It 'does not send a request' {

@@ -13,12 +13,12 @@ Get string account details from SIA
 ## SYNTAX
 
 ```
-Get-SIAStrongAccount [-secret_type <String[]>] [-count <Int32>] [-offset <Int32>]
+Get-SIAStrongAccount [-secret_type <String[]>] [-count <Int32>]
  [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Get details of configured string accounts for either virtual machines or databases
+Get details of configured string accounts for either virtual machines or databases. Results are automatically paginated - all matching records are returned regardless of how many pages the API splits them across.
 
 ## EXAMPLES
 
@@ -46,22 +46,7 @@ Get all database strong accounts
 ## PARAMETERS
 
 ### -count
-The number of strong accounts to return.
-
-```yaml
-Type: Int32
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -offset
-The offset to start returning strong accounts from.
+The page size to request from the API. Does not limit the total number of items returned - all pages are fetched automatically.
 
 ```yaml
 Type: Int32

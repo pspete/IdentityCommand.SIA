@@ -8,13 +8,7 @@ function Get-SIADatabaseTarget {
             ValueFromPipelinebyPropertyName = $true
         )]
         [ValidateRange(1, 1000)]
-        [int]$limit,
-
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [String]$cursor
+        [int]$limit
     )
 
     BEGIN { }#begin
@@ -34,11 +28,7 @@ function Get-SIADatabaseTarget {
 
         if ($null -ne $result) {
 
-            if ($null -ne $result.nextCursor) {
-                ##TODO Result Pagination
-            }
-
-            $result.items
+            Get-SIAPagedResult -InitialResult $result -URI $URI -Style Cursor -ResultProperty 'items'
 
         }
 

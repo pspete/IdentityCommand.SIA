@@ -1347,27 +1347,15 @@
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Lists database strong accounts from SIA, or retrieves a single database strong account by ID.</maml:para>
+      <maml:para>Lists database strong accounts from SIA, or retrieves a single database strong account by ID. Results are automatically paginated - all matching records are returned regardless of how many pages the API splits them across.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Get-SIADatabaseStrongAccount</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>cursor</maml:name>
-          <maml:description>
-            <maml:para>The pagination cursor from a previous response's nextCursor.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>limit</maml:name>
           <maml:description>
-            <maml:para>The maximum number of items to return (1-1000, default 500).</maml:para>
+            <maml:para>The page size to request from the API (1-1000, default 500). Does not limit the total number of items returned - all pages are fetched automatically.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
           <dev:type>
@@ -1395,21 +1383,9 @@
     </command:syntax>
     <command:parameters>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-        <maml:name>cursor</maml:name>
-        <maml:description>
-          <maml:para>The pagination cursor from a previous response's nextCursor.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>limit</maml:name>
         <maml:description>
-          <maml:para>The maximum number of items to return (1-1000, default 500).</maml:para>
+          <maml:para>The page size to request from the API (1-1000, default 500). Does not limit the total number of items returned - all pages are fetched automatically.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
         <dev:type>
@@ -1485,7 +1461,7 @@
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Lists the database targets configured in SIA. Each target references the strong account that provisions access to it via its secretId.</maml:para>
+      <maml:para>Lists the database targets configured in SIA. Each target references the strong account that provisions access to it via its secretId. Results are automatically paginated - all matching records are returned regardless of how many pages the API splits them across.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -1493,7 +1469,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="none">
           <maml:name>limit</maml:name>
           <maml:description>
-            <maml:para>The maximum number of database targets to return (1-1000).</maml:para>
+            <maml:para>The page size to request from the API (1-1000). Does not limit the total number of items returned - all pages are fetched automatically.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
           <dev:type>
@@ -1502,37 +1478,13 @@
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
-          <maml:name>cursor</maml:name>
-          <maml:description>
-            <maml:para>The pagination cursor from a previous response's nextCursor.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
-        <maml:name>cursor</maml:name>
-        <maml:description>
-          <maml:para>The pagination cursor from a previous response's nextCursor.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="none">
         <maml:name>limit</maml:name>
         <maml:description>
-          <maml:para>The maximum number of database targets to return (1-1000).</maml:para>
+          <maml:para>The page size to request from the API (1-1000). Does not limit the total number of items returned - all pages are fetched automatically.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
         <dev:type>
@@ -2009,12 +1961,12 @@
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Returns details of all policies or a specific policy from SIA</maml:para>
+      <maml:para>Returns details of all policies or a specific policy from SIA. Results are automatically paginated - all matching records are returned regardless of how many pages the API splits them across.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Get-SIAPolicy</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>policyid</maml:name>
           <maml:description>
             <maml:para>The ID of a policy to get details of</maml:para>
@@ -2027,12 +1979,63 @@
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
       </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-SIAPolicy</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>limit</maml:name>
+          <maml:description>
+            <maml:para>The page size to request from the API. Does not limit the total number of items returned - all pages are fetched automatically.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+          <maml:name>sort</maml:name>
+          <maml:description>
+            <maml:para>The field and direction to sort results by, eg "updatedOn desc".</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>policyid</maml:name>
         <maml:description>
           <maml:para>The ID of a policy to get details of</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>limit</maml:name>
+        <maml:description>
+          <maml:para>The page size to request from the API. Does not limit the total number of items returned - all pages are fetched automatically.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
+        <maml:name>sort</maml:name>
+        <maml:description>
+          <maml:para>The field and direction to sort results by, eg "updatedOn desc".</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -2900,7 +2903,7 @@
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Get details of configured string accounts for either virtual machines or databases</maml:para>
+      <maml:para>Get details of configured string accounts for either virtual machines or databases. Results are automatically paginated - all matching records are returned regardless of how many pages the API splits them across.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -2908,19 +2911,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>count</maml:name>
           <maml:description>
-            <maml:para>The number of strong accounts to return.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-          <dev:type>
-            <maml:name>Int32</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-          <maml:name>offset</maml:name>
-          <maml:description>
-            <maml:para>The offset to start returning strong accounts from.</maml:para>
+            <maml:para>The page size to request from the API. Does not limit the total number of items returned - all pages are fetched automatically.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
           <dev:type>
@@ -2955,19 +2946,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>count</maml:name>
         <maml:description>
-          <maml:para>The number of strong accounts to return.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-        <dev:type>
-          <maml:name>Int32</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
-        <maml:name>offset</maml:name>
-        <maml:description>
-          <maml:para>The offset to start returning strong accounts from.</maml:para>
+          <maml:para>The page size to request from the API. Does not limit the total number of items returned - all pages are fetched automatically.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
         <dev:type>
@@ -3057,24 +3036,12 @@
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Get details of all target sets, target sets associated with a specific strong account, or a specific target set.</maml:para>
+      <maml:para>Get details of all target sets, target sets associated with a specific strong account, or a specific target set. Results are automatically paginated - all matching records are returned regardless of how many pages the API splits them across.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Get-SIATargetSet</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="none">
-          <maml:name>b64StartKey</maml:name>
-          <maml:description>
-            <maml:para>Used for result paging - specify to return target sets starting from a specific record</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
           <maml:name>name</maml:name>
           <maml:description>
             <maml:para>The name of a target set to get details of</maml:para>
@@ -3086,7 +3053,7 @@
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
           <maml:name>strongAccountId</maml:name>
           <maml:description>
             <maml:para>The ID of a string account to return target details for</maml:para>
@@ -3102,18 +3069,6 @@
     </command:syntax>
     <command:parameters>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="none">
-        <maml:name>b64StartKey</maml:name>
-        <maml:description>
-          <maml:para>Used for result paging - specify to return target sets starting from a specific record</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
         <maml:name>name</maml:name>
         <maml:description>
           <maml:para>The name of a target set to get details of</maml:para>
@@ -3125,7 +3080,7 @@
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
         <maml:name>strongAccountId</maml:name>
         <maml:description>
           <maml:para>The ID of a string account to return target details for</maml:para>

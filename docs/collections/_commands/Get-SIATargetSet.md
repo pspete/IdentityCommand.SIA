@@ -13,12 +13,12 @@ Get details of target sets from SIA
 ## SYNTAX
 
 ```
-Get-SIATargetSet [[-b64StartKey] <String>] [[-name] <String>] [[-strongAccountId] <String>]
+Get-SIATargetSet [[-name] <String>] [[-strongAccountId] <String>]
  [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Get details of all target sets, target sets associated with a specific strong account, or a specific target set.
+Get details of all target sets, target sets associated with a specific strong account, or a specific target set. Results are automatically paginated - all matching records are returned regardless of how many pages the API splits them across.
 
 ## EXAMPLES
 
@@ -45,21 +45,6 @@ Get all target sets for a specific strong account from SIA
 
 ## PARAMETERS
 
-### -b64StartKey
-Used for result paging - specify to return target sets starting from a specific record
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 0
-Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
 ### -name
 The name of a target set to get details of
 
@@ -69,7 +54,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 1
+Position: 0
 Default value: None
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
@@ -84,7 +69,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 2
+Position: 1
 Default value: None
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False

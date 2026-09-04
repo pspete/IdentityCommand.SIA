@@ -13,13 +13,14 @@ Get SIA database targets
 ## SYNTAX
 
 ```
-Get-SIADatabaseTarget [[-limit] <Int32>] [[-cursor] <String>]
+Get-SIADatabaseTarget [[-limit] <Int32>]
  [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 Lists the database targets configured in SIA.
 Each target references the strong account that provisions access to it via its secretId.
+Results are automatically paginated - all matching records are returned regardless of how many pages the API splits them across.
 
 ## EXAMPLES
 
@@ -32,23 +33,8 @@ Returns all configured database targets.
 
 ## PARAMETERS
 
-### -cursor
-The pagination cursor from a previous response's nextCursor.
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 1
-Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
 ### -limit
-The maximum number of database targets to return (1-1000).
+The page size to request from the API (1-1000). Does not limit the total number of items returned - all pages are fetched automatically.
 
 ```yaml
 Type: Int32

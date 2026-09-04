@@ -14,13 +14,7 @@ function Get-SIAStrongAccount {
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true
         )]
-        [int]$count,
-
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [int]$offset
+        [int]$count
     )
 
     BEGIN { }#begin
@@ -40,7 +34,21 @@ function Get-SIAStrongAccount {
 
         if ($null -ne $result) {
 
-            $result
+            #/api/secrets returns a bare array with no total count in-band, and its own
+            #'count' query parameter is not enforced server-side - so the total has to come
+            #from a dedicated endpoint, and pagination here is defensive: it only loops
+            #further if fewer records came back than that reported total.
+            $CountURI = "$($ISPSSSession.tenant_url)/api/secrets/count"
+
+            $CountQueryString = $($PSBoundParameters | Get-Parameter -ParametersToKeep secret_type | ConvertTo-QueryString)
+
+            If ($null -ne $CountQueryString) {
+                $CountURI = "$CountURI`?$CountQueryString"
+            }
+
+            $CountResult = Invoke-IDRestMethod -Uri $CountURI -Method GET
+
+            Get-SIAPagedResult -InitialResult $result -URI $URI -Style Offset -OffsetRequestKey 'offset' -TotalCount $CountResult.count
 
         }
 

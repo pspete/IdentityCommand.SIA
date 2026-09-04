@@ -17,14 +17,7 @@ function Get-SIADatabaseStrongAccount {
             ParameterSetName = 'List'
         )]
         [ValidateRange(1, 1000)]
-        [int]$limit,
-
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true,
-            ParameterSetName = 'List'
-        )]
-        [String]$cursor
+        [int]$limit
     )
 
     BEGIN { }#begin
@@ -57,10 +50,7 @@ function Get-SIADatabaseStrongAccount {
             switch ($PSCmdlet.ParameterSetName) {
 
                 'List' {
-                    if ($null -ne $result.nextCursor) {
-                        ##TODO Result Pagination
-                    }
-                    $result.items
+                    Get-SIAPagedResult -InitialResult $result -URI $URI -Style Cursor -ResultProperty 'items'
                 }
 
                 'ById' {

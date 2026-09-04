@@ -172,4 +172,12 @@ Register-ArgumentCompleter -ParameterName 'policyName' -ScriptBlock (
     Get-SIAArgumentCompleter -RetrievalCommand 'Get-SIAPolicy' -ValueProperty 'policyName'
 ) -CommandName 'Set-SIAPolicy'
 
+Register-ArgumentCompleter -ParameterName 'strong_account_id' -ScriptBlock (
+    Get-SIAArgumentCompleter -RetrievalCommand 'Get-SIADatabaseStrongAccount' -ValueProperty 'id' -LabelProperty 'name'
+) -CommandName @(
+    'Get-SIADatabaseStrongAccount'
+    'Set-SIADatabaseStrongAccount'
+    'Remove-SIADatabaseStrongAccount'
+)
+
 #endregion

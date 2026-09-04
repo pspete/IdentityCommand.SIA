@@ -183,3 +183,39 @@ Describe 'policy argument completers' {
         $completions.CompletionText | Should -Be "'Prod Servers'"
     }
 }
+
+Describe 'strong_account_id argument completer' {
+
+    BeforeEach {
+
+        Mock -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -MockWith {
+            [pscustomobject]@{ items = @(
+                    [pscustomobject]@{ id = 'sa-111'; name = 'prod-db-svc' }
+                    [pscustomobject]@{ id = 'sa-222'; name = 'dev-db-svc' }
+                ) }
+        }
+
+        InModuleScope -ModuleName $Script:SIAModuleName {
+            New-Variable -Name ISPSSSession -Value ([ordered]@{ tenant_url = 'https://somedomain.dpa.cyberark.cloud' }) -Scope Script -Force
+        }
+    }
+
+    It 'completes <Command> -strong_account_id from Get-SIADatabaseStrongAccount' -TestCases @(
+        @{ Command = 'Get-SIADatabaseStrongAccount' }
+        @{ Command = 'Set-SIADatabaseStrongAccount' }
+        @{ Command = 'Remove-SIADatabaseStrongAccount' }
+    ) {
+        param($Command)
+        $line = "$Command -strong_account_id "
+        $completions = (TabExpansion2 -inputScript $line -cursorColumn $line.Length).CompletionMatches
+        $completions.CompletionText | Should -Contain 'sa-111'
+        $completions.CompletionText | Should -Contain 'sa-222'
+        ($completions | Where-Object CompletionText -EQ 'sa-111').ToolTip | Should -Be 'prod-db-svc (sa-111)'
+    }
+
+    It 'also completes via the -id alias' {
+        $line = 'Remove-SIADatabaseStrongAccount -id sa-2'
+        $completions = (TabExpansion2 -inputScript $line -cursorColumn $line.Length).CompletionMatches
+        $completions.CompletionText | Should -Be 'sa-222'
+    }
+}

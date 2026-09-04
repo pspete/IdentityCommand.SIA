@@ -292,3 +292,38 @@ Describe 'target-set name argument completer' {
         $completions.CompletionText | Should -Not -Contain 'example.corp'
     }
 }
+
+Describe 'https_relay_id argument completer' {
+
+    BeforeEach {
+
+        Mock -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -MockWith {
+            [pscustomobject]@{ items = @(
+                    [pscustomobject]@{ id = 'relay-111' }
+                    [pscustomobject]@{ id = 'relay-222' }
+                ) }
+        }
+
+        InModuleScope -ModuleName $Script:SIAModuleName {
+            New-Variable -Name ISPSSSession -Value ([ordered]@{ tenant_url = 'https://somedomain.dpa.cyberark.cloud' }) -Scope Script -Force
+        }
+    }
+
+    It 'completes <Command> -https_relay_id from Get-SIAHttpsRelay' -TestCases @(
+        @{ Command = 'Remove-SIAHttpsRelay' }
+        @{ Command = 'Update-SIAHttpsRelay' }
+        @{ Command = 'Invoke-SIAHttpsRelayCertificateRotation' }
+    ) {
+        param($Command)
+        $line = "$Command -https_relay_id "
+        $completions = (TabExpansion2 -inputScript $line -cursorColumn $line.Length).CompletionMatches
+        $completions.CompletionText | Should -Contain 'relay-111'
+        $completions.CompletionText | Should -Contain 'relay-222'
+    }
+
+    It 'filters by the word being completed' {
+        $line = 'Remove-SIAHttpsRelay -https_relay_id relay-2'
+        $completions = (TabExpansion2 -inputScript $line -cursorColumn $line.Length).CompletionMatches
+        $completions.CompletionText | Should -Be 'relay-222'
+    }
+}

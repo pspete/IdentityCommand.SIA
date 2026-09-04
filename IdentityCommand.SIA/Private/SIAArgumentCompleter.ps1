@@ -198,4 +198,14 @@ Register-ArgumentCompleter -ParameterName 'name' -ScriptBlock (
     'Remove-SIATargetSet'
 )
 
+#Get-SIAHttpsRelay's item id field is unconfirmed against a live response - assumed 'id' by analogy
+#with every other SIA list endpoint. No label property, for the same reason.
+Register-ArgumentCompleter -ParameterName 'https_relay_id' -ScriptBlock (
+    Get-SIAArgumentCompleter -RetrievalCommand 'Get-SIAHttpsRelay' -ValueProperty 'id'
+) -CommandName @(
+    'Remove-SIAHttpsRelay'
+    'Update-SIAHttpsRelay'
+    'Invoke-SIAHttpsRelayCertificateRotation'
+)
+
 #endregion

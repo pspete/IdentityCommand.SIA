@@ -1,13 +1,13 @@
 # .ExternalHelp IdentityCommand.SIA-help.xml
 function Set-SIAPolicy {
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', "", Justification = 'False Positive')]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', '', Justification = 'False Positive')]
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [parameter(
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true
         )]
-        [String]$policyId,
+        [String]$policyid,
 
         [parameter(
             Mandatory = $false,
@@ -60,9 +60,9 @@ function Set-SIAPolicy {
         [psobject[]]$userAccessRules
     )
 
-    BEGIN {
+    begin {
         $OrderedProperties = [ordered]@{
-            'policyId'        = $null
+            'policyid'        = $null
             'policyName'      = $null
             'status'          = $null
             'description'     = ''
@@ -73,12 +73,12 @@ function Set-SIAPolicy {
         }
     }#begin
 
-    PROCESS {
+    process {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/access-policies/$policyId"
+        $URI = "$($ISPSSSession.tenant_url)/api/access-policies/$policyid"
 
         #Get existing policy settings
-        $PolicySettings = Get-SIAPolicy -policyId $policyId
+        $PolicySettings = Get-SIAPolicy -policyid $policyid
 
         #Get request parameters
         $boundParameters = $PSBoundParameters | Get-Parameter
@@ -96,7 +96,7 @@ function Set-SIAPolicy {
         #Create Request Body
         $body = $Properties | ConvertTo-Json -Depth 8
 
-        if ($PSCmdlet.ShouldProcess($policyId, 'Update SIA Policy')) {
+        if ($PSCmdlet.ShouldProcess($policyid, 'Update SIA Policy')) {
             #Send Request
             $result = Invoke-IDRestMethod -Uri $URI -Method PUT -Body $body
 
@@ -108,6 +108,6 @@ function Set-SIAPolicy {
         }
     }#process
 
-    END { }#end
+    end { }#end
 
 }

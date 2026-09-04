@@ -44,12 +44,12 @@ function Get-SIACompletionResult {
         [string[]]$LabelProperty
     )
 
-    BEGIN {
+    begin {
         #Drop any opening quote the user has already typed.
         $Word = "$WordToComplete".Trim("'`"")
     }#begin
 
-    PROCESS {
+    process {
 
         foreach ($Item in $InputObject) {
 
@@ -74,7 +74,7 @@ function Get-SIACompletionResult {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }
 
@@ -159,8 +159,8 @@ Register-ArgumentCompleter -ParameterName 'connectorId' -ScriptBlock $SIAConnect
 
 $SIAPolicyIdCompleter = Get-SIAArgumentCompleter -RetrievalCommand 'Get-SIAPolicy' -ValueProperty 'policyId' -LabelProperty 'policyName'
 
-#Get-SIAPolicy / Remove-SIAPolicy spell the parameter 'policyid', Set-SIAPolicy spells it 'policyId'.
-foreach ($ParameterName in 'policyId', 'policyid') {
+#Get-SIAPolicy / Remove-SIAPolicy / Set-SIAPolicy.
+foreach ($ParameterName in 'policyid') {
     Register-ArgumentCompleter -ParameterName $ParameterName -ScriptBlock $SIAPolicyIdCompleter -CommandName @(
         'Get-SIAPolicy'
         'Set-SIAPolicy'

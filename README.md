@@ -151,6 +151,14 @@ Executing this command exports variables like the URL, Username & WebSession obj
 
 Return data also includes details such as session start time, elapsed time, last command time, as well as data for the last invoked command and the results of the previous command.
 
+### Result Pagination
+
+List commands (`Get-SIAPolicy`, `Get-SIASession`, `Get-SIAStrongAccount`, `Get-SIATargetSet`, `Get-SIADatabaseStrongAccount` and `Get-SIADatabaseTarget`) fetch every page of results automatically - there's no need to request pages individually, the complete result set is always returned.
+
+### Tab Completion
+
+Id and name parameters for policies, strong accounts, target sets, connectors and HTTPS relays support tab completion, sourced live from the corresponding `Get-SIA*` command, once connected with `Connect-SIATenant`.
+
 ## List Of Commands
 
 The examples provided above are not exhaustive, further commands enabling configuration and administration of the SIA platform are available in the module.
@@ -302,7 +310,7 @@ Get detailed information on specific commands:
 
 ```powershell
 
-Get-Help New-IDSession -Full
+Get-Help Get-SIAPolicy -Full
 
 ```
 

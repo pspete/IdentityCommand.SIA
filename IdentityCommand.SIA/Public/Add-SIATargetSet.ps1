@@ -1,6 +1,6 @@
 # .ExternalHelp IdentityCommand.SIA-help.xml
 function Add-SIATargetSet {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param(
         [parameter(
             Mandatory = $true,
@@ -65,11 +65,15 @@ function Add-SIATargetSet {
         $body = $boundParameters | ConvertTo-Json
 
         #Send Request
-        $result = Invoke-IDRestMethod -Uri $URI -Method POST -Body $body
+        if ($PSCmdlet.ShouldProcess($name, 'Add SIA Target Set')) {
 
-        if ($null -ne $result) {
+            $result = Invoke-IDRestMethod -Uri $URI -Method POST -Body $body
 
-            $result.target_set
+            if ($null -ne $result) {
+
+                $result.target_set
+
+            }
 
         }
 

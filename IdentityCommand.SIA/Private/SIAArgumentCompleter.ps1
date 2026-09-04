@@ -180,4 +180,22 @@ Register-ArgumentCompleter -ParameterName 'strong_account_id' -ScriptBlock (
     'Remove-SIADatabaseStrongAccount'
 )
 
+$SIASecretIdCompleter = Get-SIAArgumentCompleter -RetrievalCommand 'Get-SIAStrongAccount' -ValueProperty 'secret_id' -LabelProperty 'secret_name'
+
+Register-ArgumentCompleter -ParameterName 'secret_id' -ScriptBlock $SIASecretIdCompleter -CommandName @(
+    'Remove-SIAStrongAccount'
+    'Set-SIAStrongAccount'
+    'Add-SIATargetSet'
+)
+
+#Get-SIATargetSet takes the strong account's secret_id under a differently-cased parameter name.
+Register-ArgumentCompleter -ParameterName 'strongAccountId' -ScriptBlock $SIASecretIdCompleter -CommandName 'Get-SIATargetSet'
+
+Register-ArgumentCompleter -ParameterName 'name' -ScriptBlock (
+    Get-SIAArgumentCompleter -RetrievalCommand 'Get-SIATargetSet' -ValueProperty 'name' -LabelProperty 'type'
+) -CommandName @(
+    'Get-SIATargetSet'
+    'Remove-SIATargetSet'
+)
+
 #endregion

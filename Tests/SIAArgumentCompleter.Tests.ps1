@@ -219,3 +219,76 @@ Describe 'strong_account_id argument completer' {
         $completions.CompletionText | Should -Be 'sa-222'
     }
 }
+
+Describe 'secret_id argument completer' {
+
+    BeforeEach {
+
+        #Get-SIAStrongAccount returns the API result directly (no .items unwrap).
+        Mock -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -MockWith {
+            @(
+                [pscustomobject]@{ secret_id = 'sec-111'; secret_name = 'svc-account-a' }
+                [pscustomobject]@{ secret_id = 'sec-222'; secret_name = 'svc-account-b' }
+            )
+        }
+
+        InModuleScope -ModuleName $Script:SIAModuleName {
+            New-Variable -Name ISPSSSession -Value ([ordered]@{ tenant_url = 'https://somedomain.dpa.cyberark.cloud' }) -Scope Script -Force
+        }
+    }
+
+    It 'completes <Command> -secret_id from Get-SIAStrongAccount' -TestCases @(
+        @{ Command = 'Remove-SIAStrongAccount' }
+        @{ Command = 'Set-SIAStrongAccount' }
+        @{ Command = 'Add-SIATargetSet' }
+    ) {
+        param($Command)
+        $line = "$Command -secret_id "
+        $completions = (TabExpansion2 -inputScript $line -cursorColumn $line.Length).CompletionMatches
+        $completions.CompletionText | Should -Contain 'sec-111'
+        $completions.CompletionText | Should -Contain 'sec-222'
+        ($completions | Where-Object CompletionText -EQ 'sec-111').ToolTip | Should -Be 'svc-account-a (sec-111)'
+    }
+
+    It 'completes Get-SIATargetSet -strongAccountId from the same Get-SIAStrongAccount lookup' {
+        $line = 'Get-SIATargetSet -strongAccountId sec-2'
+        $completions = (TabExpansion2 -inputScript $line -cursorColumn $line.Length).CompletionMatches
+        $completions.CompletionText | Should -Be 'sec-222'
+    }
+}
+
+Describe 'target-set name argument completer' {
+
+    BeforeEach {
+
+        #Get-SIATargetSet unwraps $result.target_sets, unlike the other list endpoints' .items.
+        Mock -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -MockWith {
+            [pscustomobject]@{ target_sets = @(
+                    [pscustomobject]@{ name = '10.150.5.80'; type = 'Target'; secret_id = 'sec-111' }
+                    [pscustomobject]@{ name = 'example.corp'; type = 'Domain'; secret_id = 'sec-222' }
+                ) }
+        }
+
+        InModuleScope -ModuleName $Script:SIAModuleName {
+            New-Variable -Name ISPSSSession -Value ([ordered]@{ tenant_url = 'https://somedomain.dpa.cyberark.cloud' }) -Scope Script -Force
+        }
+    }
+
+    It 'completes <Command> -name from Get-SIATargetSet' -TestCases @(
+        @{ Command = 'Get-SIATargetSet' }
+        @{ Command = 'Remove-SIATargetSet' }
+    ) {
+        param($Command)
+        $line = "$Command -name "
+        $completions = (TabExpansion2 -inputScript $line -cursorColumn $line.Length).CompletionMatches
+        $completions.CompletionText | Should -Contain '10.150.5.80'
+        $completions.CompletionText | Should -Contain 'example.corp'
+        ($completions | Where-Object CompletionText -EQ 'example.corp').ToolTip | Should -Be 'Domain (example.corp)'
+    }
+
+    It 'does not offer target-set names for an unrelated -name parameter' {
+        $line = 'New-SIAPolicyUserDataDefinition -name '
+        $completions = (TabExpansion2 -inputScript $line -cursorColumn $line.Length).CompletionMatches
+        $completions.CompletionText | Should -Not -Contain 'example.corp'
+    }
+}

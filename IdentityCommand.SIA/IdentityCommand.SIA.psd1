@@ -30,7 +30,7 @@
     Copyright         = '(c) Pete Maan. All rights reserved.'
 
     # Description of the functionality provided by this module
-    Description       = 'Enables user interaction with the API for the CyberArk SIA platform'
+    Description       = 'Enables user interaction with the API for the Idira (CyberArk) SIA platform'
 
     # Minimum version of the PowerShell engine required by this module
     PowerShellVersion = '5.1'
@@ -148,7 +148,7 @@
         PSData = @{
 
             # Tags applied to this module. These help with module discovery in online galleries.
-            Tags         = @('CyberArk', 'CyberArk-API', 'CyberArk-SIA', 'SIA', 'Secure-Infrastructure-Access', 'REST', 'API')
+            Tags         = @('CyberArk', 'CyberArk-API', 'CyberArk-SIA', 'SIA', 'Secure-Infrastructure-Access', 'REST', 'API', 'Idira', 'Idira-API', 'Idira-SIA', 'Idira-Secure-Infrastructure-Access', 'Idira-REST', 'Idira-API')
 
             # A URL to the license for this module.
             LicenseUri   = 'https://github.com/pspete/IdentityCommand.SIA/blob/main/LICENSE.md'

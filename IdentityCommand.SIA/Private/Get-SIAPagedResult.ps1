@@ -140,6 +140,12 @@ function Get-SIAPagedResult {
 
                 $Total = if ($PSBoundParameters.ContainsKey('TotalCount')) { $TotalCount } else { $InitialResult.$TotalResponseKey }
 
+                #Tracks the previous page's first item so a server that silently ignores the offset
+                #parameter (confirmed for eg SIA's /api/secrets 'count' and /api/monitoring/sessions'
+                #offset/limit/pageSize - all three no-op there) is detected and stopped, rather than
+                #having the same page appended over and over until Total is reached.
+                $PreviousPageFirstItem = if (@($InitialItems).Count -gt 0) { @($InitialItems)[0] | ConvertTo-Json -Compress -Depth 5 } else { $null }
+
                 while (($null -ne $Total) -and ($Items.Count -lt $Total)) {
 
                     $Separator = if ($URI -match '\?') { '&' } else { '?' }
@@ -155,7 +161,15 @@ function Get-SIAPagedResult {
                         break
                     }
 
+                    $CurrentPageFirstItem = @($PageItems)[0] | ConvertTo-Json -Compress -Depth 5
+
+                    if ($CurrentPageFirstItem -eq $PreviousPageFirstItem) {
+                        #Offset didn't move the server on - stop rather than duplicate this page's items
+                        break
+                    }
+
                     $null = $Items.AddRange(@($PageItems))
+                    $PreviousPageFirstItem = $CurrentPageFirstItem
 
                 }
 

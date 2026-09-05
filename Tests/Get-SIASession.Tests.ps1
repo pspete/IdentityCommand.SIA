@@ -181,6 +181,32 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
         }
 
+        Context 'Pagination stall guard' {
+
+            It 'stops instead of duplicating when the server ignores the offset parameter' {
+
+                #Confirmed live: /api/monitoring/sessions ignores limit/offset/pageSize entirely and
+                #always returns the same full page - this mock reproduces that by returning the same
+                #items regardless of the offset requested, with a totalCount higher than the page size.
+                Mock Invoke-IDRestMethod -MockWith {
+                    [pscustomobject]@{
+                        'items'      = @(
+                            [pscustomobject]@{ session_id = 'sess-1' }
+                            [pscustomobject]@{ session_id = 'sess-2' }
+                        )
+                        'totalCount' = 5
+                    }
+                }
+
+                $response = Get-SIASession
+
+                $response.Count | Should -Be 2
+                Should -Invoke -CommandName Invoke-IDRestMethod -Times 2 -Exactly -Scope It
+
+            }
+
+        }
+
     }
 
 }

@@ -1,4 +1,5 @@
-Function New-SIAPolicyProviderDefinition {
+# .ExternalHelp IdentityCommand.SIA-help.xml
+function New-SIAPolicyProviderDefinition {
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '', Justification = 'Function does not change state')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', '', Justification = 'False Positive')]
     [CmdletBinding()]
@@ -140,9 +141,9 @@ Function New-SIAPolicyProviderDefinition {
         [psobject]$ProviderDefinition
     )
 
-    Begin { }
+    begin { }#begin
 
-    Process {
+    process {
         $boundParameters = $PSBoundParameters | Get-Parameter -ParametersToRemove AWS, Azure, OnPrem, GCP, ProviderDefinition
 
         $boundParameters.keys | ForEach-Object {
@@ -199,8 +200,8 @@ Function New-SIAPolicyProviderDefinition {
                 [pscustomobject]@{$PSCmdlet.ParameterSetName = $ProviderValues } | Add-CustomType -Type IdCmd.SIA.Definition.Policy.Provider
             }
         }
-    }
+    }#process
 
-    End {}
+    end { }#end
 
 }

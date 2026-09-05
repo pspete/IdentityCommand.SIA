@@ -6,12 +6,13 @@ function Get-SIAConnector {
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true
         )]
+        [Alias('id')]
         [String]$connector_id
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($ISPSSSession.tenant_url)/api/connectors/$connector_id"
 
@@ -29,7 +30,7 @@ function Get-SIAConnector {
 
     }#process
 
-    END {
+    end {
 
     }#end
 

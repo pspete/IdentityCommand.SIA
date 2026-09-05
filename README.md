@@ -1,29 +1,28 @@
 ![Logo][Logo]
 
-[Logo]:/docs/media/images/IdentityCommand.SIA.png
+[Logo]: /docs/media/images/IdentityCommand.SIA.png
 
 # IdentityCommand.SIA
 
 **IdentityCommand.SIA** is a PowerShell module that provides a set of easy-to-use commands, allowing you to interact with the API for a **CyberArk Secure Infrastructure Access** from within the PowerShell environment.
 
-| Main Branch              | Latest Build            | CodeFactor                | Coverage                    |  PowerShell Gallery       |  License                   |
-|--------------------------|-------------------------|---------------------------|-----------------------------|---------------------------|----------------------------|
-|[![appveyor][]][av-site]  |[![tests][]][tests-site] | [![codefactor][]][cf-site]| [![codecov][]][codecov-link]| [![psgallery][]][ps-site] |[![license][]][license-link]|
+| Main Branch              | Latest Build             | CodeFactor                 | Coverage                     | PowerShell Gallery        | License                      |
+| ------------------------ | ------------------------ | -------------------------- | ---------------------------- | ------------------------- | ---------------------------- |
+| [![appveyor][]][av-site] | [![tests][]][tests-site] | [![codefactor][]][cf-site] | [![codecov][]][codecov-link] | [![psgallery][]][ps-site] | [![license][]][license-link] |
 
-
-[appveyor]:https://ci.appveyor.com/api/projects/status/q2av77njofnsul92/branch/main?svg=true
-[av-site]:https://ci.appveyor.com/project/pspete/IdentityCommand-SIA/branch/main
-[psgallery]:https://img.shields.io/powershellgallery/v/IdentityCommand.SIA.svg
-[ps-site]:https://www.powershellgallery.com/packages/IdentityCommand.SIA
-[tests]:https://img.shields.io/appveyor/tests/pspete/IdentityCommand-SIA.svg
-[tests-site]:https://ci.appveyor.com/project/pspete/IdentityCommand-SIA
-[downloads]:https://img.shields.io/powershellgallery/dt/IdentityCommand.SIA.svg?color=blue
-[cf-site]:https://www.codefactor.io/repository/github/pspete/IdentityCommand.SIA
-[codefactor]:https://www.codefactor.io/repository/github/pspete/IdentityCommand.SIA/badge
-[codecov]:https://codecov.io/gh/pspete/IdentityCommand.SIA/branch/main/graph/badge.svg
-[codecov-link]:https://codecov.io/gh/pspete/IdentityCommand.SIA
-[license]:https://img.shields.io/github/license/pspete/IdentityCommand.SIA.svg
-[license-link]:https://github.com/pspete/IdentityCommand.SIA/blob/main/LICENSE
+[appveyor]: https://ci.appveyor.com/api/projects/status/q2av77njofnsul92/branch/main?svg=true
+[av-site]: https://ci.appveyor.com/project/pspete/IdentityCommand-SIA/branch/main
+[psgallery]: https://img.shields.io/powershellgallery/v/IdentityCommand.SIA.svg
+[ps-site]: https://www.powershellgallery.com/packages/IdentityCommand.SIA
+[tests]: https://img.shields.io/appveyor/tests/pspete/IdentityCommand-SIA.svg
+[tests-site]: https://ci.appveyor.com/project/pspete/IdentityCommand-SIA
+[downloads]: https://img.shields.io/powershellgallery/dt/IdentityCommand.SIA.svg?color=blue
+[cf-site]: https://www.codefactor.io/repository/github/pspete/IdentityCommand.SIA
+[codefactor]: https://www.codefactor.io/repository/github/pspete/IdentityCommand.SIA/badge
+[codecov]: https://codecov.io/gh/pspete/IdentityCommand.SIA/branch/main/graph/badge.svg
+[codecov-link]: https://codecov.io/gh/pspete/IdentityCommand.SIA
+[license]: https://img.shields.io/github/license/pspete/IdentityCommand.SIA.svg
+[license-link]: https://github.com/pspete/IdentityCommand.SIA/blob/main/LICENSE
 
 ## Using the Module
 
@@ -35,7 +34,9 @@ An overview of some of the features of the module are found in the below section
 
 ### SIA Authentication
 
-After authentication to an Identity tenant using the `IdentityCommand` module, the `Connect-SIATenant` command is used to initialise a bearer token to be used for module operations against the SIA service:
+The `Connect-SIATenant` command initialises the bearer token used for module operations against the SIA service.
+
+If an Identity session already exists (established with the `IdentityCommand` module's `New-IDSession` or `New-IDPlatformToken`), it is used as-is:
 
 ```powershell
 # Resolve the SIA API url automatically from the shared services subdomain
@@ -45,6 +46,16 @@ Connect-SIATenant -tenant_subdomain sometenant
 Connect-SIATenant -tenant_url https://sometenant.dpa.cyberark.cloud
 ```
 
+Otherwise, provide a credential and `Connect-SIATenant` authenticates to CyberArk Identity for you - the Identity tenant url is discovered from the same subdomain / url:
+
+```powershell
+# Interactive user authentication (any MFA challenges are handled by IdentityCommand)
+Connect-SIATenant -tenant_subdomain sometenant -Credential $Credential
+
+# Non-interactive service user authentication via an OAuth platform token
+Connect-SIATenant -tenant_subdomain sometenant -Credential $ServiceUserCredential -PlatformToken
+```
+
 ### SIA Connections
 
 The `Connect-SIATarget` command can be use to initiate SIA connections to targets.
@@ -52,11 +63,13 @@ The `Connect-SIATarget` command can be use to initiate SIA connections to target
 #### SSH
 
 SSH connections to targets using the SIA zero standing privilege method can be achieved with the following example:
+
 ```powershell
 Connect-SIATarget -SSH -targetAddress someserver.somedomain.com
 ```
 
 SSH connections to targets using vaulted credentials follow a similar pattern:
+
 ```powershell
 Connect-SIATarget -SSH -targetAddress sometarget.somedomain.com -targetUser someuser -targetDomain somedomain
 ```
@@ -66,16 +79,19 @@ For SSH connections to succeed, an SSH client must be available from the termina
 #### RDP
 
 `Connect-SIATarget` can also request RDP files which can be used to connected through he SIA gateway, the following example facilitates a zero standing privilege RDP connection:
+
 ```powershell
 Connect-SIATarget -RDP -targetAddress someserver.somedomain.com
 ```
 
 Vaulted credentials can also be used for RDP connections, as shown in the below example:
+
 ```powershell
 Connect-SIATarget -RDP -targetAddress sometarget.somedomain.com -targetUser someuser -targetDomain somedomain
 ```
 
 ### SIA Policies
+
 SIA recurring access policies can be created after defining PowerShell objects to help create the policy configuration.
 
 A number of helper functions are included in the module which can be used to provide the required data to the `New-SIAPolicy` command.
@@ -122,8 +138,7 @@ New-SIAPolicy -policyName SomePolicy -status Enabled -description "Some Descript
 
 Running the code above creates a complete policy with settings according to the parameter values.
 
-
-### Module Scope Variables & Command  Invocation Data
+### Module Scope Variables & Command Invocation Data
 
 The `Get-SIAModuleData` command can be used to return data from the module scope:
 
@@ -148,63 +163,71 @@ Executing this command exports variables like the URL, Username & WebSession obj
 
 Return data also includes details such as session start time, elapsed time, last command time, as well as data for the last invoked command and the results of the previous command.
 
+### Result Pagination
+
+List commands (`Get-SIAPolicy`, `Get-SIASession`, `Get-SIAStrongAccount`, `Get-SIATargetSet`, `Get-SIADatabaseStrongAccount` and `Get-SIADatabaseTarget`) fetch every page of results automatically - there's no need to request pages individually, the complete result set is always returned.
+
+### Tab Completion
+
+Id and name parameters for policies, strong accounts, target sets, connectors and HTTPS relays support tab completion, sourced live from the corresponding `Get-SIA*` command, once connected with `Connect-SIATenant`.
+
 ## List Of Commands
 
 The examples provided above are not exhaustive, further commands enabling configuration and administration of the SIA platform are available in the module.
 
 The full list of commands currently available in the _`IdentityCommand.SIA`_ module are detailed here:
 
-| Function                               | Description                                                                      |
-|----------------------------------------|----------------------------------------------------------------------------------|
-| `Connect-SIATenant`                    | Obtains a Bearer token from an authenticated `IdentityCommand` session for SIA   |
-| `Connect-SIATarget`                    | Connect via RDP or SSH to SIA targets                                            |
-| `Add-SIATargetSet`                     | Adds a SIA Target Set                                                            |
-| `Get-SIACertificate`                   | Get details of SIA certificates                                                  |
-| `Get-SIAConnector`                     | Get details of SIA connectors                                                    |
-| `Get-SIAConnectorSetupScript`          | Gets setup scripts for SIA connectors                                            |
-| `Get-SIAPolicy`                        | Gets configured SIA policies                                                     |
-| `Get-SIAModuleData`                    | Outputs data relating to the `IdentityCommand.SIA` module session                |
-| `Get-SIASetting`                       | Get SIA settings                                                                 |
-| `Get-SIASession`                       | Get SIA session diagnostic event data                                            |
-| `Get-SIASSHPublicKey`                  | Get SIA SSH Public Keys                                                          |
-| `Get-SIAStrongAccount`                 | Get virtual machine strong accounts                                              |
-| `Get-SIATargetSet`                     | Get details of configured target sets                                            |
-| `Get-SIAResource`                      | Get details of configured resources                                              |
-| `New-SIAPolicy`                        | Configures a new SIA recurring access policy                                     |
-| `New-SIAPolicyConnectAsDefinition`     | Defines ConnectAs profile for SIA policy                                         |
-| `New-SIAPolicyFQDNRuleDefinition`      | Defines FQDN Rules for SIA Policy                                                |
-| `New-SIAPolicyProviderDefinition`      | Defines Providers for SIA Policy                                                 |
-| `New-SIAPolicyUserAccessRuleDefinition`| Defines user access rules for SIA Policy                                         |
-| `New-SIAPolicyUserDataDefinition`      | Defines user data for SIA Policy                                                 |
-| `New-SIAStrongAccount`                 | Creates a virtual machine strong account in SIA                                  |
-| `Remove-SIAPolicy`                     | Deletes a SIA policy                                                             |
-| `Remove-SIAStrongAccount`              | Deletes a virtual machine strong account in SIA                                  |
-| `Remove-SIATargetSet`                  | Deletes a SIA target set                                                         |
-| `Set-SIAPolicy`                        | Updates a SIA policy                                                             |
-| `Set-SIASetting`                       | Update SIA settings                                                              |
-| `Set-SIAStrongAccount`                 | Updates a virtual machine strong account in SIA                                  |
-| `Get-SIADatabaseStrongAccount`         | Get SIA database strong accounts                                                 |
-| `New-SIADatabaseStrongAccount`         | Creates a SIA database strong account                                            |
-| `Set-SIADatabaseStrongAccount`         | Updates a SIA database strong account                                            |
-| `Remove-SIADatabaseStrongAccount`      | Deletes a SIA database strong account                                            |
-| `Get-SIADatabaseTarget`                | Get SIA database targets                                                         |
-| `Get-SIASSHHostKeyFingerprint`         | Get a stored SSH host key fingerprint                                            |
-| `Add-SIASSHHostKeyFingerprint`         | Add an SSH host key fingerprint                                                  |
-| `Set-SIASSHHostKeyFingerprint`         | Update an SSH host key fingerprint                                               |
-| `Remove-SIASSHHostKeyFingerprint`      | Delete an SSH host key fingerprint                                               |
-| `Invoke-SIASSHPublicKeyRotation`       | Rotate, deactivate or reactivate the SSH CA public key                           |
-| `Get-SIAMFAKey`                 | Get the SIA MFA key for SSH authentication                                                      |
-| `Remove-SIAConnector`                  | Deletes a SIA connector                                                          |
-| `Test-SIAConnector`                    | Test SIA connector reachability                                                  |
-| `Update-SIAConnector`                  | Upgrade a SIA connector                                                          |
-| `Set-SIAConnectorMaintenanceMode`      | Set the maintenance mode of a SIA connector                                      |
-| `Add-SIAConnectorPoolMember`           | Assign connectors to a SIA connector pool                                        |
-| `Invoke-SIAConnectorCertificateRotation`| Rotate a SIA connector certificate                                              |
-| `Get-SIAHttpsRelay`                    | Get SIA HTTPS relays                                                             |
-| `Remove-SIAHttpsRelay`                 | Deletes a SIA HTTPS relay                                                        |
-| `Update-SIAHttpsRelay`                 | Upgrade a SIA HTTPS relay                                                        |
-| `Get-SIAHttpsRelaySetupScript`         | Get a SIA HTTPS relay setup script                                               |
-| `Invoke-SIAHttpsRelayCertificateRotation`| Rotate a SIA HTTPS relay certificate                                            |
+| Function                                  | Description                                                                    |
+| ----------------------------------------- | ------------------------------------------------------------------------------ |
+| `Connect-SIATenant`                       | Connects to a SIA tenant, using or establishing an `IdentityCommand` session   |
+| `Connect-SIATarget`                       | Connect via RDP or SSH to SIA targets                                          |
+| `Add-SIATargetSet`                        | Adds a SIA Target Set                                                          |
+| `Get-SIACertificate`                      | Get details of SIA certificates                                                |
+| `Get-SIAConnector`                        | Get details of SIA connectors                                                  |
+| `Get-SIAConnectorSetupScript`             | Gets setup scripts for SIA connectors                                          |
+| `Get-SIAPolicy`                           | Gets configured SIA policies                                                   |
+| `Get-SIAModuleData`                       | Outputs data relating to the `IdentityCommand.SIA` module session              |
+| `Get-SIASetting`                          | Get SIA settings                                                               |
+| `Get-SIASession`                          | Get SIA session diagnostic event data                                          |
+| `Get-SIASSHPublicKey`                     | Get SIA SSH Public Keys                                                        |
+| `Get-SIAStrongAccount`                    | Get virtual machine strong accounts                                            |
+| `Get-SIATargetSet`                        | Get details of configured target sets                                          |
+| `Get-SIAResource`                         | Get details of configured resources                                            |
+| `New-SIAPolicy`                           | Configures a new SIA recurring access policy                                   |
+| `New-SIAPolicyConnectAsDefinition`        | Defines ConnectAs profile for SIA policy                                       |
+| `New-SIAPolicyFQDNRuleDefinition`         | Defines FQDN Rules for SIA Policy                                              |
+| `New-SIAPolicyProviderDefinition`         | Defines Providers for SIA Policy                                               |
+| `New-SIAPolicyUserAccessRuleDefinition`   | Defines user access rules for SIA Policy                                       |
+| `New-SIAPolicyUserDataDefinition`         | Defines user data for SIA Policy                                               |
+| `New-SIAStrongAccount`                    | Creates a virtual machine strong account in SIA                                |
+| `Remove-SIAPolicy`                        | Deletes a SIA policy                                                           |
+| `Remove-SIAStrongAccount`                 | Deletes a virtual machine strong account in SIA                                |
+| `Remove-SIATargetSet`                     | Deletes a SIA target set                                                       |
+| `Set-SIAPolicy`                           | Updates a SIA policy                                                           |
+| `Set-SIASetting`                          | Update SIA settings                                                            |
+| `Set-SIAStrongAccount`                    | Updates a virtual machine strong account in SIA                                |
+| `Get-SIADatabaseStrongAccount`            | Get SIA database strong accounts                                               |
+| `New-SIADatabaseStrongAccount`            | Creates a SIA database strong account                                          |
+| `Set-SIADatabaseStrongAccount`            | Updates a SIA database strong account                                          |
+| `Remove-SIADatabaseStrongAccount`         | Deletes a SIA database strong account                                          |
+| `Get-SIADatabaseTarget`                   | Get SIA database targets                                                       |
+| `Get-SIASSHHostKeyFingerprint`            | Get a stored SSH host key fingerprint                                          |
+| `Add-SIASSHHostKeyFingerprint`            | Add an SSH host key fingerprint                                                |
+| `Set-SIASSHHostKeyFingerprint`            | Update an SSH host key fingerprint                                             |
+| `Remove-SIASSHHostKeyFingerprint`         | Delete an SSH host key fingerprint                                             |
+| `Invoke-SIASSHPublicKeyRotation`          | Rotate, deactivate or reactivate the SSH CA public key                         |
+| `Get-SIAMFAKey`                           | Get the SIA MFA key for SSH authentication                                     |
+| `Remove-SIAConnector`                     | Deletes a SIA connector                                                        |
+| `Test-SIAConnector`                       | Test SIA connector reachability                                                |
+| `Update-SIAConnector`                     | Upgrade a SIA connector                                                        |
+| `Set-SIAConnectorMaintenanceMode`         | Set the maintenance mode of a SIA connector                                    |
+| `Add-SIAConnectorPoolMember`              | Assign connectors to a SIA connector pool                                      |
+| `Invoke-SIAConnectorCertificateRotation`  | Rotate a SIA connector certificate                                             |
+| `Get-SIAHttpsRelay`                       | Get SIA HTTPS relays                                                           |
+| `Remove-SIAHttpsRelay`                    | Deletes a SIA HTTPS relay                                                      |
+| `Update-SIAHttpsRelay`                    | Upgrade a SIA HTTPS relay                                                      |
+| `Get-SIAHttpsRelaySetupScript`            | Get a SIA HTTPS relay setup script                                             |
+| `Invoke-SIAHttpsRelayCertificateRotation` | Rotate a SIA HTTPS relay certificate                                           |
 
 ## Installation
 
@@ -299,7 +322,7 @@ Get detailed information on specific commands:
 
 ```powershell
 
-Get-Help New-IDSession -Full
+Get-Help Get-SIAPolicy -Full
 
 ```
 

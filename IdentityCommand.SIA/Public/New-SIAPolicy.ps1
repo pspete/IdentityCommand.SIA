@@ -54,7 +54,7 @@ function New-SIAPolicy {
         [psobject[]]$userAccessRules
     )
 
-    BEGIN {
+    begin {
         $OrderedProperties = [ordered]@{
             'policyName'      = $null
             'status'          = 'Draft'
@@ -66,7 +66,7 @@ function New-SIAPolicy {
         }
     }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($ISPSSSession.tenant_url)/api/access-policies"
 
@@ -99,6 +99,6 @@ function New-SIAPolicy {
         }
     }#process
 
-    END { }#end
+    end { }#end
 
 }

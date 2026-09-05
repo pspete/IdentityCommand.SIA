@@ -4,8 +4,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
         #Get Current Directory
         $Here = Split-Path -Parent $PSCommandPath
 
-        #Assume ModuleName from Repository Root folder
-        $ModuleName = Split-Path (Split-Path $Here -Parent) -Leaf
+        #Module Name
+        $ModuleName = 'IdentityCommand.SIA'
 
         #Resolve Path to Module Directory
         $ModulePath = Resolve-Path "$Here\..\$ModuleName"
@@ -21,7 +21,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
     }
 
-    InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
+    InModuleScope 'IdentityCommand.SIA' {
 
         BeforeEach {
 
@@ -63,13 +63,13 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             It 'sends request' {
 
-                Assert-MockCalled Invoke-IDRestMethod -Times 1 -Exactly -Scope It
+                Should -Invoke -CommandName Invoke-IDRestMethod -Times 1 -Exactly -Scope It
 
             }
 
             It 'sends request to expected endpoint' {
 
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter {
 
                     $URI -contains 'https://somedomain.dpa.cyberark.cloud/api/public-keys?'
                     $URI -contains 'workspaceId=SomeID'
@@ -83,7 +83,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             It 'sends request to expected endpoint when deploymentScript is specified' {
                 $InputObject | Get-SIASSHPublicKey -deploymentScript
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter {
 
                     $($URI -eq 'https://somedomain.dpa.cyberark.cloud/api/public-keys/scripts?workspaceId=SomeID&workspaceType=AWS' -or
                         $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/public-keys/scripts?workspaceType=AWS&workspaceId=SomeID')
@@ -94,13 +94,13 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             It 'uses expected method' {
 
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
 
             }
 
             It 'sends request with no body' {
 
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
 
             }
 

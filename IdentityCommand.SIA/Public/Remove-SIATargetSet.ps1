@@ -9,13 +9,13 @@ function Remove-SIATargetSet {
         [String[]]$name
     )
 
-    BEGIN {
+    begin {
         $Request = @{
             'Method' = 'DELETE'
         }
     }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($ISPSSSession.tenant_url)/api/targetsets"
 
@@ -24,7 +24,7 @@ function Remove-SIATargetSet {
         } elseif ($name.count -gt 1) {
             $URI = "$URI/bulk"
             $boundParameters = $PSBoundParameters | Get-Parameter
-            $body = $boundParameters['name'] | ConvertTo-Json
+            $body = ConvertTo-SIAJsonBody -Body $boundParameters['name']
             $Request.Add('Body', $body)
         }
 
@@ -41,6 +41,6 @@ function Remove-SIATargetSet {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

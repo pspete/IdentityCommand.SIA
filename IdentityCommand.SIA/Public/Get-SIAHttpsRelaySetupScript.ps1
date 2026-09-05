@@ -42,9 +42,9 @@ function Get-SIAHttpsRelaySetupScript {
         [String]$windows_installation_path
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($ISPSSSession.tenant_url)/api/https-relays/setup-script"
 
@@ -62,6 +62,6 @@ function Get-SIAHttpsRelaySetupScript {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

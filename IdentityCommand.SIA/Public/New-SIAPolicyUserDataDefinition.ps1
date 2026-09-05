@@ -1,4 +1,5 @@
-Function New-SIAPolicyUserDataDefinition {
+# .ExternalHelp IdentityCommand.SIA-help.xml
+function New-SIAPolicyUserDataDefinition {
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '', Justification = 'Function does not change state')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', '', Justification = 'False Positive')]
     [CmdletBinding(DefaultParameterSetName = 'roles')]
@@ -45,9 +46,9 @@ Function New-SIAPolicyUserDataDefinition {
         [psobject]$UserDataDefinition
     )
 
-    Begin {}
+    begin { }#begin
 
-    Process {
+    process {
         $boundParameters = $PSBoundParameters | Get-Parameter -ParametersToRemove Role, Group, User, UserDataDefinition
 
         $boundParameters.keys | ForEach-Object {
@@ -83,8 +84,8 @@ Function New-SIAPolicyUserDataDefinition {
 
             }
         }
-    }
+    }#process
 
-    End { $UserData }
+    end { $UserData }#end
 
 }

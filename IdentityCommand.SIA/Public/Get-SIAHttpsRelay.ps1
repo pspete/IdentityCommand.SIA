@@ -5,9 +5,9 @@ function Get-SIAHttpsRelay {
 
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($ISPSSSession.tenant_url)/api/https-relays"
 
@@ -22,6 +22,6 @@ function Get-SIAHttpsRelay {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

@@ -15,9 +15,9 @@ function Get-SIASession {
         [datetime]$maxStartedTime
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($ISPSSSession.tenant_url)/api/monitoring/sessions"
 
@@ -56,15 +56,15 @@ function Get-SIASession {
 
         if ($null -ne $result) {
 
-            #TODO $result.total count might be ued for paging
-
-            $result.items
+            #TODO offset query parameter name assumed to match the other list endpoints -
+            #not yet confirmed against a tenant with more than one page of sessions.
+            Get-SIAPagedResult -InitialResult $result -URI $URI -Style Offset -ResultProperty 'items'
 
         }
 
     }#process
 
-    END {
+    end {
 
     }#end
 

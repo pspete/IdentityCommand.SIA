@@ -7,6 +7,7 @@ function Set-SIAStrongAccount {
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true
         )]
+        [Alias('id')]
         [string]$secret_id,
 
         [parameter(
@@ -72,9 +73,9 @@ function Set-SIAStrongAccount {
 
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         $StrongAccount = [ordered]@{
             'is_active'      = $true
@@ -123,6 +124,6 @@ function Set-SIAStrongAccount {
         }
     }#process
 
-    END { }#end
+    end { }#end
 
 }

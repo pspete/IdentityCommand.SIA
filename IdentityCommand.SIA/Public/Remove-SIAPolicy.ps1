@@ -9,9 +9,9 @@ function Remove-SIAPolicy {
         [String]$policyid
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($ISPSSSession.tenant_url)/api/access-policies/$policyid"
 
@@ -27,7 +27,7 @@ function Remove-SIAPolicy {
         }
     }#process
 
-    END {
+    end {
 
     }#end
 

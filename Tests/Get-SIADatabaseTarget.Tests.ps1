@@ -62,14 +62,49 @@ Describe 'Get-SIADatabaseTarget' {
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter { $null -eq $Body } -Times 1 -Exactly -Scope It
         }
 
-        It 'passes limit and cursor as query parameters' {
+        It 'passes limit as a query parameter' {
             InModuleScope -ModuleName $Script:SIAModuleName {
                 $ISPSSSession = [ordered]@{ tenant_url = 'https://somedomain.dpa.cyberark.cloud' }
                 New-Variable -Name ISPSSSession -Value $ISPSSSession -Scope Script -Force
             }
-            Get-SIADatabaseTarget -limit 1000 -cursor 'abc'
+            Get-SIADatabaseTarget -limit 1000
             Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
-                ($URI -match 'limit=1000') -and ($URI -match 'cursor=abc')
+                $URI -match 'limit=1000'
+            } -Times 1 -Exactly -Scope It
+        }
+
+        It 'follows nextCursor to collect subsequent pages' {
+            InModuleScope -ModuleName $Script:SIAModuleName {
+                $ISPSSSession = [ordered]@{ tenant_url = 'https://somedomain.dpa.cyberark.cloud' }
+                New-Variable -Name ISPSSSession -Value $ISPSSSession -Scope Script -Force
+            }
+
+            Mock -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
+                $URI -notmatch 'cursor='
+            } -MockWith {
+                [pscustomobject]@{
+                    'items'      = @([pscustomobject]@{ 'id' = 'd5fc1473'; 'name' = 'WideWorldImporters' })
+                    'totalCount' = 2
+                    'nextCursor' = 'page2token'
+                }
+            }
+
+            Mock -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
+                $URI -match 'cursor=page2token'
+            } -MockWith {
+                [pscustomobject]@{
+                    'items'      = @([pscustomobject]@{ 'id' = 'c2b799f4'; 'name' = 'northwind' })
+                    'totalCount' = 2
+                    'nextCursor' = $null
+                }
+            }
+
+            $result = Get-SIADatabaseTarget
+
+            $result.Count | Should -Be 2
+            $result.name | Should -Contain 'northwind'
+            Should -Invoke -CommandName Invoke-IDRestMethod -ModuleName $Script:SIAModuleName -ParameterFilter {
+                $URI -match 'cursor=page2token'
             } -Times 1 -Exactly -Scope It
         }
     }

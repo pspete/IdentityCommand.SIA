@@ -15,7 +15,7 @@ Get SIA database strong accounts
 
 ### List (Default)
 ```
-Get-SIADatabaseStrongAccount [-limit <Int32>] [-cursor <String>]
+Get-SIADatabaseStrongAccount [-limit <Int32>]
  [<CommonParameters>]
 ```
 
@@ -26,7 +26,7 @@ Get-SIADatabaseStrongAccount -strong_account_id <String>
 ```
 
 ## DESCRIPTION
-Lists database strong accounts from SIA, or retrieves a single database strong account by ID.
+Lists database strong accounts from SIA, or retrieves a single database strong account by ID. Results are automatically paginated - all matching records are returned regardless of how many pages the API splits them across.
 
 ## EXAMPLES
 
@@ -39,23 +39,8 @@ Retrieves the specified database strong account.
 
 ## PARAMETERS
 
-### -cursor
-The pagination cursor from a previous response's nextCursor.
-
-```yaml
-Type: String
-Parameter Sets: List
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
 ### -limit
-The maximum number of items to return (1-1000, default 500).
+The page size to request from the API (1-1000, default 500). Does not limit the total number of items returned - all pages are fetched automatically.
 
 ```yaml
 Type: Int32

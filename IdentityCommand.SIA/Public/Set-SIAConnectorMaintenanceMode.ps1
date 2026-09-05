@@ -6,6 +6,7 @@ function Set-SIAConnectorMaintenanceMode {
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true
         )]
+        [Alias('id')]
         [String]$connector_id,
 
         [parameter(
@@ -15,9 +16,9 @@ function Set-SIAConnectorMaintenanceMode {
         [bool]$maintenance
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($ISPSSSession.tenant_url)/api/connectors/$connector_id/maintenance"
 
@@ -39,6 +40,6 @@ function Set-SIAConnectorMaintenanceMode {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

@@ -4,8 +4,8 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
         #Get Current Directory
         $Here = Split-Path -Parent $PSCommandPath
 
-        #Assume ModuleName from Repository Root folder
-        $ModuleName = Split-Path (Split-Path $Here -Parent) -Leaf
+        #Module Name
+        $ModuleName = 'IdentityCommand.SIA'
 
         #Resolve Path to Module Directory
         $ModulePath = Resolve-Path "$Here\..\$ModuleName"
@@ -21,7 +21,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
     }
 
-    InModuleScope $(Split-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) -Leaf ) {
+    InModuleScope 'IdentityCommand.SIA' {
 
         BeforeEach {
 
@@ -56,13 +56,13 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             It 'sends request' {
 
-                Assert-MockCalled Invoke-IDRestMethod -Times 1 -Exactly -Scope It
+                Should -Invoke -CommandName Invoke-IDRestMethod -Times 1 -Exactly -Scope It
 
             }
 
             It 'sends request to expected endpoint: AWS' {
 
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter {
 
                     $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/discovery/organizations/'
 
@@ -72,7 +72,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             It 'sends request to expected endpoint: Azure' {
                 Get-SIAResource -Azure
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter {
 
                     $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/discovery/subscriptions/'
 
@@ -87,7 +87,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
                 }
                 Get-SIAResource -OnPrem
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter {
 
                     $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/discovery/onprem/'
 
@@ -97,7 +97,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             It 'sends request to expected endpoint: GCP' {
                 Get-SIAResource -GCP
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter {
 
                     $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/discovery/gcp/organizations/'
 
@@ -107,7 +107,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             It 'sends request to expected endpoint: Databases' {
                 Get-SIAResource -Database
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter {
 
                     $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/adb/resources/'
 
@@ -119,7 +119,7 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
                 Get-SIAResource -AWS -workspaceId SomeID
 
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter {
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter {
 
                     $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/discovery/organizations/SomeID'
 
@@ -129,13 +129,13 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
             It 'uses expected method' {
 
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
 
             }
 
             It 'sends request with no body' {
 
-                Assert-MockCalled Invoke-IDRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
 
             }
 

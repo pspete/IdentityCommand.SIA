@@ -8,18 +8,12 @@ function Get-SIADatabaseTarget {
             ValueFromPipelinebyPropertyName = $true
         )]
         [ValidateRange(1, 1000)]
-        [int]$limit,
-
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
-        [String]$cursor
+        [int]$limit
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($ISPSSSession.tenant_url)/api/database-targets"
 
@@ -34,16 +28,12 @@ function Get-SIADatabaseTarget {
 
         if ($null -ne $result) {
 
-            if ($null -ne $result.nextCursor) {
-                ##TODO Result Pagination
-            }
-
-            $result.items
+            Get-SIAPagedResult -InitialResult $result -URI $URI -Style Cursor -ResultProperty 'items'
 
         }
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

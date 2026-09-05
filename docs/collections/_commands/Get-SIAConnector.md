@@ -43,7 +43,7 @@ The ID of a connector to query
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: id
 
 Required: False
 Position: 1

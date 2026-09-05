@@ -55,9 +55,9 @@ function Get-SIASSHPublicKey {
         [switch]$deploymentScript
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($ISPSSSession.tenant_url)/api/public-keys"
 
@@ -92,7 +92,7 @@ function Get-SIASSHPublicKey {
 
     }#process
 
-    END {
+    end {
 
     }#end
 

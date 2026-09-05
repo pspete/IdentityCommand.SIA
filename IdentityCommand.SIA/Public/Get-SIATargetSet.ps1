@@ -6,12 +6,6 @@ function Get-SIATargetSet {
             Mandatory = $false,
             ValueFromPipelinebyPropertyName = $true
         )]
-        [String]$b64StartKey,
-
-        [parameter(
-            Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
-        )]
         [String]$name,
 
         [parameter(
@@ -21,9 +15,9 @@ function Get-SIATargetSet {
         [String]$strongAccountId
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($ISPSSSession.tenant_url)/api/targetsets"
 
@@ -38,16 +32,12 @@ function Get-SIATargetSet {
 
         if ($null -ne $result) {
 
-            if ($null -ne $result.b64_last_evaluated_key) {
-                ##TODO Result Pagination
-            }
-
-            $result.target_sets
+            Get-SIAPagedResult -InitialResult $result -URI $URI -Style Cursor -ResultProperty 'target_sets' -CursorRequestKey 'b64StartKey' -CursorResponseKey 'b64_last_evaluated_key'
 
         }
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

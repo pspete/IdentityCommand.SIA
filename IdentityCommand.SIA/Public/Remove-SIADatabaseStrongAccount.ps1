@@ -10,9 +10,9 @@ function Remove-SIADatabaseStrongAccount {
         [String]$strong_account_id
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($ISPSSSession.tenant_url)/api/database-strong-accounts/$strong_account_id"
 
@@ -29,6 +29,6 @@ function Remove-SIADatabaseStrongAccount {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

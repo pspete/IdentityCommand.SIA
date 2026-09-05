@@ -63,9 +63,9 @@ function New-SIAStrongAccount {
 
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         $StrongAccount = [ordered]@{
             'is_active'      = $true
@@ -122,6 +122,6 @@ function New-SIAStrongAccount {
         }
     }#process
 
-    END { }#end
+    end { }#end
 
 }

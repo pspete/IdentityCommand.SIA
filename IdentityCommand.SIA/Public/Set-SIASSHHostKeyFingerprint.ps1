@@ -18,9 +18,9 @@ function Set-SIASSHHostKeyFingerprint {
         [String]$fingerprint
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($ISPSSSession.tenant_url)/api/ssh-fingerprints"
 
@@ -42,6 +42,6 @@ function Set-SIASSHHostKeyFingerprint {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

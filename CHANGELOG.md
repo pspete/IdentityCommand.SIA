@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+## 0.4.48 - 5-9-2026
 
 ### Added
 
@@ -19,7 +19,7 @@ All notable changes to this project will be documented in this file.
 - `Get-SIADatabaseStrongAccount`, `Get-SIADatabaseTarget` **(breaking)**: `-cursor` removed - the commands now page results internally.
 - `Set-SIAPolicy`: `-policyId` parameter renamed `-policyid` for consistency with `Get-SIAPolicy` / `Remove-SIAPolicy`.
 
-## 0.3.32
+## 0.3.32 - 01-09-2026
 
 ### Security
 

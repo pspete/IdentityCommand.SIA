@@ -6,12 +6,13 @@ function Remove-SIAStrongAccount {
             Mandatory = $true,
             ValueFromPipelinebyPropertyName = $true
         )]
+        [Alias('id')]
         [String]$secret_id
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($ISPSSSession.tenant_url)/api/secrets/$secret_id"
 
@@ -28,6 +29,6 @@ function Remove-SIAStrongAccount {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

@@ -223,7 +223,7 @@ function Set-SIASetting {
         [string]$targetProtocolType
     )
 
-    BEGIN {
+    begin {
         #All feature switch names - removed from the projected body, the active one becomes the feature key
         $FeatureNames = @(
             'mfaCaching', 'sshMfaCaching', 'rdpMfaCaching', 'rdpTokenMfaCaching', 'adbMfaCaching', 'k8sMfaCaching',
@@ -234,7 +234,7 @@ function Set-SIASetting {
         )
     }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($ISPSSSession.tenant_url)/api/settings/"
 
@@ -267,7 +267,7 @@ function Set-SIASetting {
 
     }#process
 
-    END {
+    end {
 
     }#end
 

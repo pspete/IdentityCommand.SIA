@@ -20,9 +20,9 @@ function Get-SIADatabaseStrongAccount {
         [int]$limit
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         switch ($PSCmdlet.ParameterSetName) {
 
@@ -63,6 +63,6 @@ function Get-SIADatabaseStrongAccount {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

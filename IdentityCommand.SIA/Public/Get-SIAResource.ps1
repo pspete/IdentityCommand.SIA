@@ -56,9 +56,9 @@ function Get-SIAResource {
         [String]$workspaceId
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         #Paramterset name is the url path to send the query to.
         $URI = "$($ISPSSSession.tenant_url)/api/$($PSCmdlet.ParameterSetName)/$workspaceId"
@@ -105,7 +105,7 @@ function Get-SIAResource {
 
     }#process
 
-    END {
+    end {
 
     }#end
 

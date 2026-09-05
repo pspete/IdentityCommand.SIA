@@ -16,9 +16,9 @@ function Set-SIAConnectorMaintenanceMode {
         [bool]$maintenance
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($ISPSSSession.tenant_url)/api/connectors/$connector_id/maintenance"
 
@@ -40,6 +40,6 @@ function Set-SIAConnectorMaintenanceMode {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

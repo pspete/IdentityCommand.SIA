@@ -25,9 +25,9 @@ function Invoke-SIASSHPublicKeyRotation {
         [switch]$ReactivatePrevious
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         #Parameterset name is the url path to send the request to.
         $URI = "$($ISPSSSession.tenant_url)/api/public-keys/rotation/$($PSCmdlet.ParameterSetName)"
@@ -47,6 +47,6 @@ function Invoke-SIASSHPublicKeyRotation {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

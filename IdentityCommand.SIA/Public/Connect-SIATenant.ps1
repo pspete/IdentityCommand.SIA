@@ -1,3 +1,4 @@
+# .ExternalHelp IdentityCommand.SIA-help.xml
 function Connect-SIATenant {
 
     [CmdletBinding(DefaultParameterSetName = 'Subdomain')]
@@ -72,6 +73,5 @@ function Connect-SIATenant {
     }#process
 
     end { }#end
-
 
 }

@@ -17,9 +17,9 @@ function Get-SIAStrongAccount {
         [int]$count
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($ISPSSSession.tenant_url)/api/secrets"
 
@@ -54,6 +54,6 @@ function Get-SIAStrongAccount {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

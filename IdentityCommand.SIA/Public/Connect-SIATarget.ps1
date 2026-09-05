@@ -98,11 +98,11 @@ function Connect-SIATarget {
 
     )
 
-    BEGIN {
+    begin {
         $Properties = @{}
     }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($ISPSSSession.tenant_url)/api/adb/sso/acquire"
 
@@ -197,6 +197,6 @@ function Connect-SIATarget {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

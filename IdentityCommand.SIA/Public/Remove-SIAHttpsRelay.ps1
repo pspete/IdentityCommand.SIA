@@ -16,9 +16,9 @@ function Remove-SIAHttpsRelay {
         [switch]$force_delete
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($ISPSSSession.tenant_url)/api/https-relays/$https_relay_id"
 
@@ -41,6 +41,6 @@ function Remove-SIAHttpsRelay {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

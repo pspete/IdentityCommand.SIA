@@ -144,9 +144,9 @@ function New-SIADatabaseStrongAccount {
         [string]$region
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($ISPSSSession.tenant_url)/api/database-strong-accounts"
 
@@ -216,7 +216,7 @@ function New-SIADatabaseStrongAccount {
         #Create Request Body (serialised to UTF8 bytes so the plaintext secret can't be captured - see helper)
         $body = $requestBody | ConvertTo-SIASecretBody
 
-        if ($PSCmdlet.ShouldProcess($name, 'Create SIA Database Strong Account')) {
+        if ($PSCmdlet.ShouldProcess($name, 'Create New SIA Database Strong Account')) {
             #Send Request
             $result = Invoke-IDRestMethod -Uri $URI -Method POST -Body $body
 
@@ -229,6 +229,6 @@ function New-SIADatabaseStrongAccount {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

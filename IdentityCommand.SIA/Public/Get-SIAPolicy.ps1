@@ -24,9 +24,9 @@ function Get-SIAPolicy {
         [String]$sort
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($ISPSSSession.tenant_url)/api/access-policies/$policyid"
 
@@ -52,6 +52,6 @@ function Get-SIAPolicy {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

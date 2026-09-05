@@ -1,4 +1,5 @@
-Function New-SIAPolicyFQDNRuleDefinition {
+# .ExternalHelp IdentityCommand.SIA-help.xml
+function New-SIAPolicyFQDNRuleDefinition {
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '', Justification = 'Function does not change state')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', '', Justification = 'False Positive')]
     [CmdletBinding()]
@@ -23,9 +24,9 @@ Function New-SIAPolicyFQDNRuleDefinition {
         [string]$domain
     )
 
-    Begin { }
+    begin { }#begin
 
-    Process {
+    process {
         $boundParameters = $PSBoundParameters | Get-Parameter -ParametersToRemove FQDNRuleDefinition
 
         $boundParameters.keys | ForEach-Object {
@@ -43,8 +44,8 @@ Function New-SIAPolicyFQDNRuleDefinition {
             $FQDNRuleDefinition | Add-CustomType -Type IdCmd.SIA.Definition.Policy.Provider.FQDNRule
 
         }
-    }
+    }#process
 
-    End {}
+    end { }#end
 
 }

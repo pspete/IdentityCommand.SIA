@@ -1,12 +1,12 @@
 # .ExternalHelp IdentityCommand.SIA-help.xml
-Function Get-SIAModuleData {
+function Get-SIAModuleData {
 
     [CmdletBinding()]
-    Param ()
+    param()
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         #Calculate the time elapsed since the start of the session and include in return data
         if ($null -ne $ISPSSSession.StartTime) {
@@ -18,6 +18,6 @@ Function Get-SIAModuleData {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

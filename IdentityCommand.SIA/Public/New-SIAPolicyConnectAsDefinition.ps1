@@ -1,4 +1,5 @@
-Function New-SIAPolicyConnectAsDefinition {
+# .ExternalHelp IdentityCommand.SIA-help.xml
+function New-SIAPolicyConnectAsDefinition {
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '', Justification = 'Function does not change state')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', '', Justification = 'False Positive')]
     [CmdletBinding()]
@@ -52,9 +53,9 @@ Function New-SIAPolicyConnectAsDefinition {
         [psobject]$connectAsDefinition
     )
 
-    Begin {}
+    begin { }#begin
 
-    Process {
+    process {
         $boundParameters = $PSBoundParameters | Get-Parameter -ParametersToRemove AWS, Azure, OnPrem, GCP, connectAsDefinition
 
         $boundParameters.keys | ForEach-Object {
@@ -81,8 +82,8 @@ Function New-SIAPolicyConnectAsDefinition {
                 [pscustomobject]@{$PSCmdlet.ParameterSetName = $ConnectAsValues } | Add-CustomType -Type IdCmd.SIA.Definition.Policy.UserAccessRule.ConnectAs
             }
         }
-    }
+    }#process
 
-    End {}
+    end { }#end
 
 }

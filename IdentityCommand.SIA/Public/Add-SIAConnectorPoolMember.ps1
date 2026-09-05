@@ -15,9 +15,9 @@ function Add-SIAConnectorPoolMember {
         [String[]]$connectorId
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($ISPSSSession.tenant_url)/api/connectors/connector-pools/$connector_pool_id"
 
@@ -41,6 +41,6 @@ function Add-SIAConnectorPoolMember {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

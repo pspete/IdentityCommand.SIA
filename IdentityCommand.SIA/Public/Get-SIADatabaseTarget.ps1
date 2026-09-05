@@ -11,9 +11,9 @@ function Get-SIADatabaseTarget {
         [int]$limit
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($ISPSSSession.tenant_url)/api/database-targets"
 
@@ -34,6 +34,6 @@ function Get-SIADatabaseTarget {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

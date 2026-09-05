@@ -95,7 +95,7 @@ function Get-SIAPagedResult {
         [int]$TotalCount
     )
 
-    PROCESS {
+    process {
 
         #Local helper to pull the item array out of a page, whether it's wrapped in a property or a bare array
         $GetItems = {

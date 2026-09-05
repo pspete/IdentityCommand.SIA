@@ -10,9 +10,9 @@ function Invoke-SIAConnectorCertificateRotation {
         [String]$connector_id
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($ISPSSSession.tenant_url)/api/connectors/$connector_id/rotate"
 
@@ -34,6 +34,6 @@ function Invoke-SIAConnectorCertificateRotation {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

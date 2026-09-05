@@ -151,9 +151,9 @@ function Set-SIADatabaseStrongAccount {
         [string]$region
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($ISPSSSession.tenant_url)/api/database-strong-accounts/$strong_account_id"
 
@@ -241,6 +241,6 @@ function Set-SIADatabaseStrongAccount {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

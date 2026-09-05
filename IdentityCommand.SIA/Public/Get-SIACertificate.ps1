@@ -5,9 +5,9 @@ function Get-SIACertificate {
 
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($ISPSSSession.tenant_url)/api/certificates"
 
@@ -22,7 +22,7 @@ function Get-SIACertificate {
 
     }#process
 
-    END {
+    end {
 
     }#end
 

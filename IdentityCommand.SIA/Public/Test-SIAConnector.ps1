@@ -23,9 +23,9 @@ function Test-SIAConnector {
         [bool]$checkBackendEndpoints
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($ISPSSSession.tenant_url)/api/connectors/$connector_id/reachability"
 
@@ -52,6 +52,6 @@ function Test-SIAConnector {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

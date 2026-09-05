@@ -15,9 +15,9 @@ function Get-SIATargetSet {
         [String]$strongAccountId
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($ISPSSSession.tenant_url)/api/targetsets"
 
@@ -38,6 +38,6 @@ function Get-SIATargetSet {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

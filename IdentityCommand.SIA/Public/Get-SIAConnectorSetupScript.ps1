@@ -42,9 +42,9 @@ function Get-SIAConnectorSetupScript {
         [String]$windows_installation_path
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($ISPSSSession.tenant_url)/api/connectors/setup-script"
 
@@ -62,7 +62,7 @@ function Get-SIAConnectorSetupScript {
 
     }#process
 
-    END {
+    end {
 
     }#end
 

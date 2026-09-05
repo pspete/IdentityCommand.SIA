@@ -9,9 +9,9 @@ function Update-SIAHttpsRelay {
         [String]$https_relay_id
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($ISPSSSession.tenant_url)/api/https-relays/$https_relay_id/upgrade"
 
@@ -33,6 +33,6 @@ function Update-SIAHttpsRelay {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

@@ -10,9 +10,9 @@ function Update-SIAConnector {
         [String]$connector_id
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($ISPSSSession.tenant_url)/api/connectors/$connector_id/upgrade"
 
@@ -34,6 +34,6 @@ function Update-SIAConnector {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

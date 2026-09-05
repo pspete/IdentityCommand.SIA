@@ -14,9 +14,9 @@ function Get-SIASetting {
         [String]$FeatureName
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($ISPSSSession.tenant_url)/api/settings/$FeatureName"
 
@@ -37,7 +37,7 @@ function Get-SIASetting {
 
     }#process
 
-    END {
+    end {
 
     }#end
 

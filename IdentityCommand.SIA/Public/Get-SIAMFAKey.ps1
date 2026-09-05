@@ -10,9 +10,9 @@ function Get-SIAMFAKey {
         [String]$format
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($ISPSSSession.tenant_url)/api/ssh/sso/key"
 
@@ -38,6 +38,6 @@ function Get-SIAMFAKey {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

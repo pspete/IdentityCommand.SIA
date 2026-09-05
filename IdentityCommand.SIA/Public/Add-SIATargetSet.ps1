@@ -48,9 +48,9 @@ function Add-SIATargetSet {
 
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($ISPSSSession.tenant_url)/api/targetsets"
 
@@ -79,6 +79,6 @@ function Add-SIATargetSet {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

@@ -17,9 +17,9 @@ function Remove-SIAConnector {
         [switch]$force_delete
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($ISPSSSession.tenant_url)/api/connectors/$connector_id"
 
@@ -42,6 +42,6 @@ function Remove-SIAConnector {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

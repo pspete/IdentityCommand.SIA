@@ -1,4 +1,5 @@
-Function New-SIAPolicyUserAccessRuleDefinition {
+# .ExternalHelp IdentityCommand.SIA-help.xml
+function New-SIAPolicyUserAccessRuleDefinition {
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '', Justification = 'Function does not change state')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', '', Justification = 'False Positive')]
     [CmdletBinding()]
@@ -76,15 +77,15 @@ Function New-SIAPolicyUserAccessRuleDefinition {
         [String]$timeZone
     )
 
-    Begin {
+    begin {
         $userAccessRuleDefinition = [ordered]@{
             ruleName              = $null
             userData              = New-SIAPolicyUserDataDefinition
             connectionInformation = $null
         }
-    }
+    }#begin
 
-    Process {
+    process {
 
         $userAccessRuleDefinition.ruleName = $ruleName
 
@@ -105,8 +106,8 @@ Function New-SIAPolicyUserAccessRuleDefinition {
 
         $userAccessRuleDefinition | Add-CustomType -Type IdCmd.SIA.Definition.Policy.UserAccessRule
 
-    }
+    }#process
 
-    End { }
+    end { }#end
 
 }

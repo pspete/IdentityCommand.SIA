@@ -9,9 +9,9 @@ function Invoke-SIAHttpsRelayCertificateRotation {
         [String]$https_relay_id
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($ISPSSSession.tenant_url)/api/https-relays/$https_relay_id/rotate"
 
@@ -33,6 +33,6 @@ function Invoke-SIAHttpsRelayCertificateRotation {
 
     }#process
 
-    END { }#end
+    end { }#end
 
 }

@@ -15,9 +15,9 @@ function Get-SIASession {
         [datetime]$maxStartedTime
     )
 
-    BEGIN { }#begin
+    begin { }#begin
 
-    PROCESS {
+    process {
 
         $URI = "$($ISPSSSession.tenant_url)/api/monitoring/sessions"
 
@@ -64,7 +64,7 @@ function Get-SIASession {
 
     }#process
 
-    END {
+    end {
 
     }#end
 

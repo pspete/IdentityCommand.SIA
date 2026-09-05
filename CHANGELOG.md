@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 - Tab-completion for id/name parameters across connector, policy, strong-account, target-set and HTTPS-relay commands.
 - `Get-SIAPolicy` gained `-limit` and `-sort` list parameters.
 - `Add-SIATargetSet` now supports `-WhatIf` / `-Confirm`.
+- `Connect-SIATenant` can now authenticate to CyberArk Identity itself when no active `IdentityCommand` session is present: supply `-Credential` (interactive user via `New-IDSession`, MFA handled by `IdentityCommand`), `-Credential -PlatformToken` (service user via `New-IDPlatformToken`), or `-SAMLResponse`. The CyberArk Identity url is discovered from the supplied subdomain / SIA url. When a session already exists the previous behaviour is unchanged. `Connect-SIATenant` now also supports `-WhatIf` / `-Confirm`.
 
 ### Changed
 

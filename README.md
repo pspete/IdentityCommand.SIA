@@ -34,7 +34,9 @@ An overview of some of the features of the module are found in the below section
 
 ### SIA Authentication
 
-After authentication to an Identity tenant using the `IdentityCommand` module, the `Connect-SIATenant` command is used to initialise a bearer token to be used for module operations against the SIA service:
+The `Connect-SIATenant` command initialises the bearer token used for module operations against the SIA service.
+
+If an Identity session already exists (established with the `IdentityCommand` module's `New-IDSession` or `New-IDPlatformToken`), it is used as-is:
 
 ```powershell
 # Resolve the SIA API url automatically from the shared services subdomain
@@ -42,6 +44,16 @@ Connect-SIATenant -tenant_subdomain sometenant
 
 # Or provide the SIA tenant url directly
 Connect-SIATenant -tenant_url https://sometenant.dpa.cyberark.cloud
+```
+
+Otherwise, provide a credential and `Connect-SIATenant` authenticates to CyberArk Identity for you - the Identity tenant url is discovered from the same subdomain / url:
+
+```powershell
+# Interactive user authentication (any MFA challenges are handled by IdentityCommand)
+Connect-SIATenant -tenant_subdomain sometenant -Credential $Credential
+
+# Non-interactive service user authentication via an OAuth platform token
+Connect-SIATenant -tenant_subdomain sometenant -Credential $ServiceUserCredential -PlatformToken
 ```
 
 ### SIA Connections
@@ -167,7 +179,7 @@ The full list of commands currently available in the _`IdentityCommand.SIA`_ mod
 
 | Function                                  | Description                                                                    |
 | ----------------------------------------- | ------------------------------------------------------------------------------ |
-| `Connect-SIATenant`                       | Obtains a Bearer token from an authenticated `IdentityCommand` session for SIA |
+| `Connect-SIATenant`                       | Connects to a SIA tenant, using or establishing an `IdentityCommand` session   |
 | `Connect-SIATarget`                       | Connect via RDP or SSH to SIA targets                                          |
 | `Add-SIATargetSet`                        | Adds a SIA Target Set                                                          |
 | `Get-SIACertificate`                      | Get details of SIA certificates                                                |

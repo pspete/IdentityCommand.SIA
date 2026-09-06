@@ -16,8 +16,6 @@ param(
 
 )
 
-$Module = Get-Module -Name IdentityCommand
-
 #Get function files
 Get-ChildItem $PSScriptRoot\ -Recurse -Include '*.ps1' -Exclude '*.ps1xml' |
 

@@ -6,7 +6,6 @@ Write-Host 'Installing Required Modules:' -ForegroundColor Yellow
 $RequiredModules = @(
 	@{ Name = 'Pester'; RequiredVersion = '5.7.1' }
 	@{ Name = 'PSScriptAnalyzer' }
-	@{ Name = 'PSCodeCovIo' }
 	@{ Name = 'IdentityCommand' }
 )
 

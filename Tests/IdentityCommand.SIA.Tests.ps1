@@ -1,4 +1,4 @@
-#Requires -Modules Pester, PSScriptAnalyzer
+﻿#Requires -Modules Pester, PSScriptAnalyzer
 <#
 .SYNOPSIS
     Tests module for consistency, expected structures, settings, components & files.
@@ -241,7 +241,7 @@ Describe 'Module' -Tag 'Consistency' {
 			$Content = Get-Content -Path $Script.FullName -Raw
 
 			$HandlesSecret = ($Content -match $SecretFieldPattern) -or ($Content -match $SecretDecodePattern)
-			$BuildsJsonBody = ($Content -match 'ConvertTo-Json') -or ($Content -match 'ConvertTo-SIASecretBody')
+			$BuildsJsonBody = ($Content -match 'ConvertTo-Json') -or ($Content -match 'ConvertTo-SecretBody')
 			$SendsRequest = $Content -match 'Invoke-IDRestMethod'
 
 			if ($HandlesSecret -and $BuildsJsonBody -and $SendsRequest) {
@@ -251,10 +251,37 @@ Describe 'Module' -Tag 'Consistency' {
 				} {
 					param($Content)
 
-					$Content | Should -Match '(\[System\.Text\.Encoding\]::UTF8\.GetBytes\(|ConvertTo-SIASecretBody)'
+					$Content | Should -Match '(\[System\.Text\.Encoding\]::UTF8\.GetBytes\(|ConvertTo-SecretBody)'
 
 				}
 
+			}
+
+		}
+
+	}
+
+	Context 'Shared Helpers' {
+
+		#These live in IdentityCommand's Private folder and are loaded into this module's scope
+		#by the psm1. Asserting they resolve turns "the wrong IdentityCommand is loaded" into one
+		#clear failure rather than a cascade of unrelated ones.
+		It 'resolves <_> from the loaded IdentityCommand module' -ForEach @(
+			'Add-QueryString'
+			'ConvertTo-DateString'
+			'ConvertTo-JsonBody'
+			'ConvertTo-SecretBody'
+			'Get-ArgumentCompleter'
+			'Get-CompletionResult'
+			'Get-PagedResult'
+			'Merge-Parameter'
+			'Resolve-ServiceUrl'
+			'Select-RequestProperty'
+		) {
+
+			InModuleScope 'IdentityCommand.SIA' -Parameters @{ Name = $_ } {
+				param($Name)
+				Get-Command -Name $Name -ErrorAction SilentlyContinue | Should -Not -BeNullOrEmpty
 			}
 
 		}

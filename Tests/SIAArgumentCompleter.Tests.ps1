@@ -1,4 +1,4 @@
-BeforeAll {
+﻿BeforeAll {
     $Script:SIAModuleName = 'IdentityCommand.SIA'
 
     #Get Current Directory
@@ -17,53 +17,8 @@ BeforeAll {
     }
 }
 
-Describe 'Get-SIACompletionResult' {
-
-    It 'returns a CompletionResult for a prefix match on the value' {
-        InModuleScope -ModuleName $Script:SIAModuleName {
-            $items = @(
-                [pscustomobject]@{ connectorId = 'c-111'; name = 'EU-Connector' }
-                [pscustomobject]@{ connectorId = 'c-222'; name = 'US-Connector' }
-            )
-            $result = $items | Get-SIACompletionResult -WordToComplete 'c-2' -ValueProperty 'connectorId', 'id' -LabelProperty 'name'
-            $result | Should -HaveCount 1
-            $result | Should -BeOfType ([System.Management.Automation.CompletionResult])
-            $result.CompletionText | Should -Be 'c-222'
-            $result.ToolTip | Should -Be 'US-Connector (c-222)'
-        }
-    }
-
-    It 'also matches on the label' {
-        InModuleScope -ModuleName $Script:SIAModuleName {
-            $items = @([pscustomobject]@{ connectorId = 'c-111'; name = 'EU-Connector' })
-            $result = $items | Get-SIACompletionResult -WordToComplete 'EU' -ValueProperty 'connectorId' -LabelProperty 'name'
-            $result.CompletionText | Should -Be 'c-111'
-        }
-    }
-
-    It 'falls back through the value property list' {
-        InModuleScope -ModuleName $Script:SIAModuleName {
-            $items = @([pscustomobject]@{ id = 'fallback-id'; name = 'X' })
-            $result = $items | Get-SIACompletionResult -WordToComplete '' -ValueProperty 'connectorId', 'id' -LabelProperty 'name'
-            $result.CompletionText | Should -Be 'fallback-id'
-        }
-    }
-
-    It 'single quotes a value containing whitespace' {
-        InModuleScope -ModuleName $Script:SIAModuleName {
-            $items = @([pscustomobject]@{ name = 'target set one' })
-            $result = $items | Get-SIACompletionResult -WordToComplete '' -ValueProperty 'name'
-            $result.CompletionText | Should -Be "'target set one'"
-        }
-    }
-
-    It 'returns nothing when no candidate property holds a value' {
-        InModuleScope -ModuleName $Script:SIAModuleName {
-            $items = @([pscustomobject]@{ other = 'x' })
-            $items | Get-SIACompletionResult -WordToComplete '' -ValueProperty 'connectorId', 'id' | Should -BeNullOrEmpty
-        }
-    }
-}
+#Get-CompletionResult and Get-ArgumentCompleter now live in IdentityCommand and are tested there.
+#What follows covers this module's own completer registrations.
 
 Describe 'connector_id / id alias' {
 

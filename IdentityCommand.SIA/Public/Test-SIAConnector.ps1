@@ -1,4 +1,4 @@
-# .ExternalHelp IdentityCommand.SIA-help.xml
+﻿# .ExternalHelp IdentityCommand.SIA-help.xml
 function Test-SIAConnector {
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '', Justification = 'False Positive')]
     [CmdletBinding()]
@@ -30,7 +30,7 @@ function Test-SIAConnector {
         $URI = "$($ISPSSSession.tenant_url)/api/connectors/$connector_id/reachability"
 
         #Create Request Body. Each target is an object: @{ hostname = '<host>'; port = <int> } (port defaults to 22).
-        #ConvertTo-SIAJsonBody keeps a single supplied target a one-element JSON array.
+        #ConvertTo-JsonBody keeps a single supplied target a one-element JSON array.
         $requestBody = @{ checkBackendEndpoints = [bool]$checkBackendEndpoints }
 
         if (($PSBoundParameters.ContainsKey('targets')) -and (@($targets).Count -gt 0)) {
@@ -39,7 +39,7 @@ function Test-SIAConnector {
 
         }
 
-        $body = ConvertTo-SIAJsonBody -Body $requestBody -Depth 3
+        $body = ConvertTo-JsonBody -Body $requestBody -Depth 3
 
         #Send Request
         $result = Invoke-IDRestMethod -Uri $URI -Method POST -Body $body

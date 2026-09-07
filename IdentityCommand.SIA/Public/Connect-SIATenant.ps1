@@ -61,8 +61,8 @@ function Connect-SIATenant {
 
         if ($UsingSubdomain) {
 
-            $ServiceUrl = Resolve-SIAServiceUrl -Subdomain $tenant_subdomain
-            $tenant_url = $ServiceUrl.SIAUrl
+            $ServiceUrl = Resolve-ServiceUrl -Service jit -Subdomain $tenant_subdomain
+            $tenant_url = $ServiceUrl.ServiceUrl
 
         } else {
 
@@ -70,7 +70,7 @@ function Connect-SIATenant {
             $tenant_url = $tenant_url -replace '/$', ''
 
             if ($AuthRequested) {
-                $ServiceUrl = Resolve-SIAServiceUrl -Url $tenant_url
+                $ServiceUrl = Resolve-ServiceUrl -Service jit -Url $tenant_url
             }
 
         }

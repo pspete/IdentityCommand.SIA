@@ -1,4 +1,4 @@
-# .ExternalHelp IdentityCommand.SIA-help.xml
+﻿# .ExternalHelp IdentityCommand.SIA-help.xml
 function Add-SIAConnectorPoolMember {
     [CmdletBinding(SupportsShouldProcess)]
     param(
@@ -21,8 +21,8 @@ function Add-SIAConnectorPoolMember {
 
         $URI = "$($ISPSSSession.tenant_url)/api/connectors/connector-pools/$connector_pool_id"
 
-        #Create Request Body (ConvertTo-SIAJsonBody keeps a single connector id a one-element JSON array)
-        $body = ConvertTo-SIAJsonBody -Body @{
+        #Create Request Body (ConvertTo-JsonBody keeps a single connector id a one-element JSON array)
+        $body = ConvertTo-JsonBody -Body @{
             connectors = @($connectorId | ForEach-Object { @{ connectorId = $PSItem } })
         }
 

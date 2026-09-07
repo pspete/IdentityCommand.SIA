@@ -1,4 +1,4 @@
-# .ExternalHelp IdentityCommand.SIA-help.xml
+﻿# .ExternalHelp IdentityCommand.SIA-help.xml
 function New-SIAPolicyUserAccessRuleDefinition {
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '', Justification = 'Function does not change state')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', '', Justification = 'False Positive')]
@@ -102,7 +102,7 @@ function New-SIAPolicyUserAccessRuleDefinition {
             timeZone    = $null
         }
 
-        $userAccessRuleDefinition.connectionInformation = Merge-SIAParameter -Template $ConnectionDefinition -BoundParameter ($PSBoundParameters | Get-Parameter -ParametersToRemove userData, ruleName)
+        $userAccessRuleDefinition.connectionInformation = Merge-Parameter -Template $ConnectionDefinition -BoundParameter ($PSBoundParameters | Get-Parameter -ParametersToRemove userData, ruleName)
 
         $userAccessRuleDefinition | Add-CustomType -Type IdCmd.SIA.Definition.Policy.UserAccessRule
 

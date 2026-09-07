@@ -1,4 +1,4 @@
-# .ExternalHelp IdentityCommand.SIA-help.xml
+﻿# .ExternalHelp IdentityCommand.SIA-help.xml
 function Set-SIAStrongAccount {
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '', Justification = 'False Positive')]
     [CmdletBinding(SupportsShouldProcess)]
@@ -110,7 +110,7 @@ function Set-SIAStrongAccount {
 
         #Create Request Body (serialised to UTF8 bytes so the plaintext secret can't be captured - see helper).
         #-EmptyArrayProperty restores secret_details.domains to [] for Windows PowerShell.
-        $body = $StrongAccount | ConvertTo-SIASecretBody -EmptyArrayProperty domains
+        $body = $StrongAccount | ConvertTo-SecretBody -EmptyArrayProperty domains
 
         if ($PSCmdlet.ShouldProcess($secret_id, 'Update SIA Strong Account')) {
             #Send Request

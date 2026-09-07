@@ -1,4 +1,4 @@
-# .ExternalHelp IdentityCommand.SIA-help.xml
+﻿# .ExternalHelp IdentityCommand.SIA-help.xml
 function Get-SIAPolicy {
     [CmdletBinding(DefaultParameterSetName = 'List')]
     param(
@@ -32,11 +32,7 @@ function Get-SIAPolicy {
 
         if (-not $PSBoundParameters.ContainsKey('policyid')) {
 
-            $QueryString = $($PSBoundParameters | Get-Parameter | ConvertTo-QueryString)
-
-            If ($null -ne $QueryString) {
-                $URI = "$URI`?$QueryString"
-            }
+            $URI = Add-QueryString -URI $URI -Parameter ($PSBoundParameters | Get-Parameter)
 
         }
 
@@ -46,7 +42,7 @@ function Get-SIAPolicy {
         if ($null -ne $result) {
 
             if ($PSBoundParameters.ContainsKey('policyid')) { $result }
-            else { Get-SIAPagedResult -InitialResult $result -URI $URI -Style Offset -ResultProperty 'items' }
+            else { Get-PagedResult -InitialResult $result -URI $URI -Style Offset -ResultProperty 'items' }
 
         }
 

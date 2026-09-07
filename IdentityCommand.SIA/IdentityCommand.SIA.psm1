@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 
 .DESCRIPTION
@@ -42,7 +42,14 @@ Get-ChildItem $PSScriptRoot\ -Recurse -Include '*.ps1' -Exclude '*.ps1xml' |
 
     }
 
-$Module = Get-Module -Name IdentityCommand
+#Resolve a single IdentityCommand module: with more than one version loaded, Get-Module returns
+#an array and the Private folder of each would be loaded, last one winning.
+$Module = Get-Module -Name IdentityCommand | Sort-Object Version -Descending | Select-Object -First 1
+
+if ($null -eq $Module) {
+    throw 'The IdentityCommand module is not loaded. Import IdentityCommand and try again.'
+}
+
 Get-ChildItem (Join-Path $(Split-Path $Module.path) Private) |
 
     ForEach-Object {

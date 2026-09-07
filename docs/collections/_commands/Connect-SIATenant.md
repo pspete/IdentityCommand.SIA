@@ -1,4 +1,4 @@
----
+﻿---
 external help file: IdentityCommand.SIA-help.xml
 Module Name: IdentityCommand.SIA
 online version:
@@ -51,7 +51,7 @@ Provide either the ISPSS shared services subdomain (the SIA API url is resolved 
 
 If an active `IdentityCommand` session is already present (established with `New-IDSession` or `New-IDPlatformToken`), it is used as-is.
 
-If no active session is found, supply `-Credential` (or `-SAMLResponse`) and `Connect-SIATenant` will authenticate to CyberArk Identity first: the Identity tenant url is discovered from the same subdomain / url via platform discovery, then `New-IDSession` (interactive user, including any MFA challenges) or - with `-PlatformToken` - `New-IDPlatformToken` (OAuth `client_credentials`, for a service user) is invoked.
+Supply `-Credential` (or `-SAMLResponse`) and `Connect-SIATenant` will authenticate to CyberArk Identity first, replacing any existing session: the Identity tenant url is discovered from the same subdomain / url via platform discovery, then `New-IDSession` (interactive user, including any MFA challenges) or - with `-PlatformToken` - `New-IDPlatformToken` (OAuth `client_credentials`, for a service user) is invoked.
 
 ## EXAMPLES
 
@@ -117,7 +117,7 @@ Accept wildcard characters: False
 ```
 
 ### -Credential
-Credential used to authenticate to CyberArk Identity when no active `IdentityCommand` session is found.
+Credential used to authenticate to CyberArk Identity. Authentication is performed even if an active `IdentityCommand` session is found, replacing it.
 A user credential is used with `New-IDSession`; a service user credential is used with `New-IDPlatformToken` when `-PlatformToken` is also specified.
 
 ```yaml
@@ -148,7 +148,7 @@ Accept wildcard characters: False
 ```
 
 ### -SAMLResponse
-SAML assertion used to authenticate to CyberArk Identity, via `New-IDSession`, when no active `IdentityCommand` session is found.
+SAML assertion used to authenticate to CyberArk Identity via `New-IDSession`. Authentication is performed even if an active `IdentityCommand` session is found, replacing it.
 
 ```yaml
 Type: String

@@ -1,4 +1,4 @@
-Describe $($PSCommandPath -Replace '.Tests.ps1') {
+﻿Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
     BeforeAll {
         #Get Current Directory
@@ -74,6 +74,16 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
                 Should -Invoke -CommandName New-IDSession -Times 0 -Exactly -Scope It
                 Should -Invoke -CommandName New-IDPlatformToken -Times 0 -Exactly -Scope It
+
+            }
+
+            It 'authenticates when authentication parameters are supplied and a session already exists' {
+
+                $Credential = [pscredential]::new('SomeUser', ('SomeSecret' | ConvertTo-SecureString -AsPlainText -Force))
+
+                Connect-SIATenant -tenant_url 'SomeURL' -Credential $Credential
+
+                Should -Invoke -CommandName New-IDSession -Times 1 -Exactly -Scope It
 
             }
 

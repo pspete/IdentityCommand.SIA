@@ -1,4 +1,4 @@
-# .ExternalHelp IdentityCommand.SIA-help.xml
+﻿# .ExternalHelp IdentityCommand.SIA-help.xml
 function Get-SIADatabaseTarget {
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '', Justification = 'False Positive')]
     [CmdletBinding()]
@@ -17,18 +17,14 @@ function Get-SIADatabaseTarget {
 
         $URI = "$($ISPSSSession.tenant_url)/api/database-targets"
 
-        $QueryString = $($PSBoundParameters | Get-Parameter | ConvertTo-QueryString)
-
-        If ($null -ne $QueryString) {
-            $URI = "$URI`?$QueryString"
-        }
+        $URI = Add-QueryString -URI $URI -Parameter ($PSBoundParameters | Get-Parameter)
 
         #Send Request
         $result = Invoke-IDRestMethod -Uri $URI -Method GET
 
         if ($null -ne $result) {
 
-            Get-SIAPagedResult -InitialResult $result -URI $URI -Style Cursor -ResultProperty 'items'
+            Get-PagedResult -InitialResult $result -URI $URI -Style Cursor -ResultProperty 'items'
 
         }
 

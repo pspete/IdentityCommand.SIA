@@ -1,4 +1,4 @@
-# .ExternalHelp IdentityCommand.SIA-help.xml
+﻿# .ExternalHelp IdentityCommand.SIA-help.xml
 function Connect-SIATenant {
 
     [CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = 'Subdomain')]
@@ -20,7 +20,7 @@ function Connect-SIATenant {
         [Alias('sia_url')]
         [String]$tenant_url,
 
-        #Credential used to authenticate to CyberArk Identity when no active IdentityCommand session is found
+        #Credential used to authenticate to CyberArk Identity. Authentication is performed even if an active IdentityCommand session is found, replacing it
         [parameter(Mandatory = $true, ParameterSetName = 'SubdomainCredential')]
         [parameter(Mandatory = $true, ParameterSetName = 'URLCredential')]
         [ValidateNotNullOrEmpty()]
@@ -31,7 +31,7 @@ function Connect-SIATenant {
         [parameter(ParameterSetName = 'URLCredential')]
         [Switch]$PlatformToken,
 
-        #SAML assertion used to authenticate to CyberArk Identity when no active IdentityCommand session is found
+        #SAML assertion used to authenticate to CyberArk Identity. Authentication is performed even if an active IdentityCommand session is found, replacing it
         [parameter(Mandatory = $true, ParameterSetName = 'SubdomainSAML')]
         [parameter(Mandatory = $true, ParameterSetName = 'URLSAML')]
         [ValidateNotNullOrEmpty()]
@@ -46,7 +46,7 @@ function Connect-SIATenant {
         $AuthRequested = $PSBoundParameters.ContainsKey('Credential') -or $PSBoundParameters.ContainsKey('SAMLResponse')
 
         if ($HaveSession -and $AuthRequested) {
-            Write-Verbose 'An active IdentityCommand session was found; ignoring supplied authentication parameters and using the existing session'
+            Write-Verbose 'Authentication parameters were supplied; authenticating and replacing the existing IdentityCommand session'
         }
 
     }#begin
@@ -61,21 +61,21 @@ function Connect-SIATenant {
 
         if ($UsingSubdomain) {
 
-            $ServiceUrl = Resolve-SIAServiceUrl -Subdomain $tenant_subdomain
-            $tenant_url = $ServiceUrl.SIAUrl
+            $ServiceUrl = Resolve-ServiceUrl -Service jit -Subdomain $tenant_subdomain
+            $tenant_url = $ServiceUrl.ServiceUrl
 
         } else {
 
             #Ensure URL is in expected format - remove trailing slash if provided in Url
             $tenant_url = $tenant_url -replace '/$', ''
 
-            if (-not $HaveSession -and $AuthRequested) {
-                $ServiceUrl = Resolve-SIAServiceUrl -Url $tenant_url
+            if ($AuthRequested) {
+                $ServiceUrl = Resolve-ServiceUrl -Service jit -Url $tenant_url
             }
 
         }
 
-        if (-not $HaveSession) {
+        if ($AuthRequested -or (-not $HaveSession)) {
 
             if (-not $AuthRequested) {
                 throw 'Authenticate with New-IDSession or New-IDPlatformToken, or supply -Credential, and try again'

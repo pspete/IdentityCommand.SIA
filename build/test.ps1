@@ -4,7 +4,7 @@
 Write-Host "Testing: PSVersion $($PSVersionTable.PSVersion)" -ForegroundColor Yellow
 $ManifestPath = Join-Path "$pwd" $(Join-Path "$env:APPVEYOR_PROJECT_NAME" "$env:APPVEYOR_PROJECT_NAME.psd1")
 Import-Module Pester -RequiredVersion 5.7.1 -Force
-Import-Module IdentityCommand -Force
+& (Join-Path $PSScriptRoot 'Import-IdentityCommand.ps1')
 Import-Module $ManifestPath -ArgumentList $true -Force
 #---------------------------------#
 # Run Pester Tests                #
@@ -32,7 +32,7 @@ $res = $result | ConvertTo-Pester4Result
 Write-Host 'Uploading Test Results'
 $null = (New-Object 'System.Net.WebClient').UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", $(Resolve-Path .\TestResults.xml))
 
-if (($env:APPVEYOR_REPO_COMMIT_AUTHOR -eq 'Pete Maan') -and -not [string]::IsNullOrWhiteSpace($env:CODECOV_TOKEN)) {
+if (($env:APPVEYOR_REPO_COMMIT_AUTHOR -eq $env:git_user_name) -and -not [string]::IsNullOrWhiteSpace($env:CODECOV_TOKEN)) {
 
 	#CODECOV_TOKEN is a secure variable and is not exposed to pull request builds - skip the upload rather than
 	#invoking the CLI with an empty -t value (which shifts every following argument and fails the command).

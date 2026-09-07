@@ -920,7 +920,7 @@
       <maml:para>Connects to a SIA tenant to be able to run IdentityCommand.SIA module commands against it.</maml:para>
       <maml:para>Provide either the ISPSS shared services subdomain (the SIA API url is resolved automatically via platform discovery) or the SIA tenant url directly.</maml:para>
       <maml:para>If an active `IdentityCommand` session is already present (established with `New-IDSession` or `New-IDPlatformToken`), it is used as-is.</maml:para>
-      <maml:para>If no active session is found, supply `-Credential` (or `-SAMLResponse`) and `Connect-SIATenant` will authenticate to CyberArk Identity first: the Identity tenant url is discovered from the same subdomain / url via platform discovery, then `New-IDSession` (interactive user, including any MFA challenges) or - with `-PlatformToken` - `New-IDPlatformToken` (OAuth `client_credentials`, for a service user) is invoked.</maml:para>
+      <maml:para>Supply `-Credential` (or `-SAMLResponse`) and `Connect-SIATenant` will authenticate to CyberArk Identity first, replacing any existing session: the Identity tenant url is discovered from the same subdomain / url via platform discovery, then `New-IDSession` (interactive user, including any MFA challenges) or - with `-PlatformToken` - `New-IDPlatformToken` (OAuth `client_credentials`, for a service user) is invoked.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -977,7 +977,7 @@
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Credential</maml:name>
           <maml:description>
-            <maml:para>Credential used to authenticate to CyberArk Identity when no active `IdentityCommand` session is found. A user credential is used with `New-IDSession`; a service user credential is used with `New-IDPlatformToken` when `-PlatformToken` is also specified.</maml:para>
+            <maml:para>Credential used to authenticate to CyberArk Identity. Authentication is performed even if an active `IdentityCommand` session is found, replacing it. A user credential is used with `New-IDSession`; a service user credential is used with `New-IDPlatformToken` when `-PlatformToken` is also specified.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
           <dev:type>
@@ -1037,7 +1037,7 @@
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>SAMLResponse</maml:name>
           <maml:description>
-            <maml:para>SAML assertion used to authenticate to CyberArk Identity, via `New-IDSession`, when no active `IdentityCommand` session is found.</maml:para>
+            <maml:para>SAML assertion used to authenticate to CyberArk Identity via `New-IDSession`. Authentication is performed even if an active `IdentityCommand` session is found, replacing it.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -1123,7 +1123,7 @@
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Credential</maml:name>
           <maml:description>
-            <maml:para>Credential used to authenticate to CyberArk Identity when no active `IdentityCommand` session is found. A user credential is used with `New-IDSession`; a service user credential is used with `New-IDPlatformToken` when `-PlatformToken` is also specified.</maml:para>
+            <maml:para>Credential used to authenticate to CyberArk Identity. Authentication is performed even if an active `IdentityCommand` session is found, replacing it. A user credential is used with `New-IDSession`; a service user credential is used with `New-IDPlatformToken` when `-PlatformToken` is also specified.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
           <dev:type>
@@ -1183,7 +1183,7 @@
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>SAMLResponse</maml:name>
           <maml:description>
-            <maml:para>SAML assertion used to authenticate to CyberArk Identity, via `New-IDSession`, when no active `IdentityCommand` session is found.</maml:para>
+            <maml:para>SAML assertion used to authenticate to CyberArk Identity via `New-IDSession`. Authentication is performed even if an active `IdentityCommand` session is found, replacing it.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -1244,7 +1244,7 @@
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Credential</maml:name>
         <maml:description>
-          <maml:para>Credential used to authenticate to CyberArk Identity when no active `IdentityCommand` session is found. A user credential is used with `New-IDSession`; a service user credential is used with `New-IDPlatformToken` when `-PlatformToken` is also specified.</maml:para>
+          <maml:para>Credential used to authenticate to CyberArk Identity. Authentication is performed even if an active `IdentityCommand` session is found, replacing it. A user credential is used with `New-IDSession`; a service user credential is used with `New-IDPlatformToken` when `-PlatformToken` is also specified.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
         <dev:type>
@@ -1268,7 +1268,7 @@
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>SAMLResponse</maml:name>
         <maml:description>
-          <maml:para>SAML assertion used to authenticate to CyberArk Identity, via `New-IDSession`, when no active `IdentityCommand` session is found.</maml:para>
+          <maml:para>SAML assertion used to authenticate to CyberArk Identity via `New-IDSession`. Authentication is performed even if an active `IdentityCommand` session is found, replacing it.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>

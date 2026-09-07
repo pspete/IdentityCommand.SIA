@@ -1,4 +1,4 @@
-# .ExternalHelp IdentityCommand.SIA-help.xml
+﻿# .ExternalHelp IdentityCommand.SIA-help.xml
 function Get-SIATargetSet {
     [CmdletBinding()]
     param(
@@ -21,18 +21,14 @@ function Get-SIATargetSet {
 
         $URI = "$($ISPSSSession.tenant_url)/api/targetsets"
 
-        $QueryString = $($PSBoundParameters | Get-Parameter | ConvertTo-QueryString)
-
-        If ($null -ne $QueryString) {
-            $URI = "$URI`?$QueryString"
-        }
+        $URI = Add-QueryString -URI $URI -Parameter ($PSBoundParameters | Get-Parameter)
 
         #Send Request
         $result = Invoke-IDRestMethod -Uri $URI -Method GET
 
         if ($null -ne $result) {
 
-            Get-SIAPagedResult -InitialResult $result -URI $URI -Style Cursor -ResultProperty 'target_sets' -CursorRequestKey 'b64StartKey' -CursorResponseKey 'b64_last_evaluated_key'
+            Get-PagedResult -InitialResult $result -URI $URI -Style Cursor -ResultProperty 'target_sets' -CursorRequestKey 'b64StartKey' -CursorResponseKey 'b64_last_evaluated_key'
 
         }
 

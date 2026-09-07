@@ -1,4 +1,4 @@
-# .ExternalHelp IdentityCommand.SIA-help.xml
+﻿# .ExternalHelp IdentityCommand.SIA-help.xml
 function New-SIAPolicy {
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', '', Justification = 'False Positive')]
     [CmdletBinding(SupportsShouldProcess)]
@@ -81,7 +81,7 @@ function New-SIAPolicy {
         }
 
         #Project supplied parameters onto the request template
-        $Properties = Merge-SIAParameter -Template $OrderedProperties -BoundParameter $boundParameters
+        $Properties = Merge-Parameter -Template $OrderedProperties -BoundParameter $boundParameters
 
         #Create Request Body
         $body = $Properties | ConvertTo-Json -Depth 8

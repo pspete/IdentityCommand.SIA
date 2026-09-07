@@ -1,4 +1,4 @@
-# .ExternalHelp IdentityCommand.SIA-help.xml
+﻿# .ExternalHelp IdentityCommand.SIA-help.xml
 function Get-SIASession {
     [CmdletBinding()]
     param(
@@ -47,9 +47,7 @@ function Get-SIASession {
         $boundParameters['maxStartedTime'] = (Get-Date $MaxDate -UFormat '+%Y-%m-%dT%H:%M:%S.000Z').ToString()
         $boundParameters['minStartedTime'] = (Get-Date $MinDate -UFormat '+%Y-%m-%dT%H:%M:%S.000Z').ToString()
 
-        $QueryString = $($boundparameters | ConvertTo-QueryString)
-
-        $URI = "$URI`?$QueryString"
+        $URI = Add-QueryString -URI $URI -Parameter $boundparameters
 
         #Send Request
         $result = Invoke-IDRestMethod -Uri $URI -Method GET
@@ -58,7 +56,7 @@ function Get-SIASession {
 
             #TODO offset query parameter name assumed to match the other list endpoints -
             #not yet confirmed against a tenant with more than one page of sessions.
-            Get-SIAPagedResult -InitialResult $result -URI $URI -Style Offset -ResultProperty 'items'
+            Get-PagedResult -InitialResult $result -URI $URI -Style Offset -ResultProperty 'items'
 
         }
 

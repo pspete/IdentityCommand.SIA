@@ -1,4 +1,4 @@
-# .ExternalHelp IdentityCommand.SIA-help.xml
+﻿# .ExternalHelp IdentityCommand.SIA-help.xml
 function Get-SIADatabaseStrongAccount {
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '', Justification = 'False Positive')]
     [CmdletBinding(DefaultParameterSetName = 'List')]
@@ -33,11 +33,7 @@ function Get-SIADatabaseStrongAccount {
             'List' {
                 $URI = "$($ISPSSSession.tenant_url)/api/database-strong-accounts"
 
-                $QueryString = $($PSBoundParameters | Get-Parameter | ConvertTo-QueryString)
-
-                If ($null -ne $QueryString) {
-                    $URI = "$URI`?$QueryString"
-                }
+                $URI = Add-QueryString -URI $URI -Parameter ($PSBoundParameters | Get-Parameter)
             }
 
         }
@@ -50,7 +46,7 @@ function Get-SIADatabaseStrongAccount {
             switch ($PSCmdlet.ParameterSetName) {
 
                 'List' {
-                    Get-SIAPagedResult -InitialResult $result -URI $URI -Style Cursor -ResultProperty 'items'
+                    Get-PagedResult -InitialResult $result -URI $URI -Style Cursor -ResultProperty 'items'
                 }
 
                 'ById' {

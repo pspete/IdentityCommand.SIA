@@ -48,9 +48,9 @@
                 }
             }
 
-            Mock Resolve-SIAServiceUrl -MockWith {
+            Mock Resolve-ServiceUrl -MockWith {
                 [pscustomobject]@{
-                    SIAUrl      = 'https://SomeSubdomain.dpa.cyberark.cloud'
+                    ServiceUrl  = 'https://SomeSubdomain.dpa.cyberark.cloud'
                     IdentityUrl = 'https://aao4818.id.cyberark.cloud'
                 }
             }
@@ -126,7 +126,7 @@
 
                 Connect-SIATenant -tenant_url 'https://somedomain.dpa.cyberark.cloud' -Credential $Credential
 
-                Should -Invoke -CommandName Resolve-SIAServiceUrl -ParameterFilter {
+                Should -Invoke -CommandName Resolve-ServiceUrl -ParameterFilter {
                     $Url -eq 'https://somedomain.dpa.cyberark.cloud'
                 } -Times 1 -Exactly -Scope It
 
@@ -167,7 +167,7 @@
 
                 Connect-SIATenant -tenant_subdomain 'SomeSubdomain' -Credential $Credential
 
-                Should -Invoke -CommandName Resolve-SIAServiceUrl -ParameterFilter {
+                Should -Invoke -CommandName Resolve-ServiceUrl -ParameterFilter {
                     $Subdomain -eq 'SomeSubdomain'
                 } -Times 1 -Exactly -Scope It
 
@@ -197,7 +197,7 @@
 
                 Connect-SIATenant -tenant_subdomain 'SomeSubdomain'
 
-                Should -Invoke -CommandName Resolve-SIAServiceUrl -ParameterFilter {
+                Should -Invoke -CommandName Resolve-ServiceUrl -ParameterFilter {
                     $Subdomain -eq 'SomeSubdomain'
                 } -Times 1 -Exactly -Scope It
 

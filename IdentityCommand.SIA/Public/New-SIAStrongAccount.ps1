@@ -1,4 +1,4 @@
-# .ExternalHelp IdentityCommand.SIA-help.xml
+﻿# .ExternalHelp IdentityCommand.SIA-help.xml
 function New-SIAStrongAccount {
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '', Justification = 'False Positive')]
     [CmdletBinding(SupportsShouldProcess)]
@@ -108,7 +108,7 @@ function New-SIAStrongAccount {
         }
 
         #Create Request Body (serialised to UTF8 bytes so the plaintext secret can't be captured - see helper)
-        $body = $StrongAccount | ConvertTo-SIASecretBody
+        $body = $StrongAccount | ConvertTo-SecretBody
 
         if ($PSCmdlet.ShouldProcess($secret_name, 'Create New SIA Strong Account')) {
             #Send Request

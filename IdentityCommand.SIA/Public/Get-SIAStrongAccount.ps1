@@ -1,4 +1,4 @@
-# .ExternalHelp IdentityCommand.SIA-help.xml
+﻿# .ExternalHelp IdentityCommand.SIA-help.xml
 function Get-SIAStrongAccount {
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '', Justification = 'False Positive')]
     [CmdletBinding()]
@@ -23,11 +23,7 @@ function Get-SIAStrongAccount {
 
         $URI = "$($ISPSSSession.tenant_url)/api/secrets"
 
-        $QueryString = $($PSBoundParameters | Get-Parameter | ConvertTo-QueryString)
-
-        If ($null -ne $QueryString) {
-            $URI = "$URI`?$QueryString"
-        }
+        $URI = Add-QueryString -URI $URI -Parameter ($PSBoundParameters | Get-Parameter)
 
         #Send Request
         $result = Invoke-IDRestMethod -Uri $URI -Method GET
@@ -40,15 +36,11 @@ function Get-SIAStrongAccount {
             #further if fewer records came back than that reported total.
             $CountURI = "$($ISPSSSession.tenant_url)/api/secrets/count"
 
-            $CountQueryString = $($PSBoundParameters | Get-Parameter -ParametersToKeep secret_type | ConvertTo-QueryString)
-
-            If ($null -ne $CountQueryString) {
-                $CountURI = "$CountURI`?$CountQueryString"
-            }
+            $CountURI = Add-QueryString -URI $CountURI -Parameter ($PSBoundParameters | Get-Parameter -ParametersToKeep secret_type)
 
             $CountResult = Invoke-IDRestMethod -Uri $CountURI -Method GET
 
-            Get-SIAPagedResult -InitialResult $result -URI $URI -Style Offset -OffsetRequestKey 'offset' -TotalCount $CountResult.count
+            Get-PagedResult -InitialResult $result -URI $URI -Style Offset -OffsetRequestKey 'offset' -TotalCount $CountResult.count
 
         }
 

@@ -1,4 +1,4 @@
-# .ExternalHelp IdentityCommand.SIA-help.xml
+﻿# .ExternalHelp IdentityCommand.SIA-help.xml
 function Get-SIASSHPublicKey {
     [CmdletBinding()]
     param(
@@ -69,13 +69,11 @@ function Get-SIASSHPublicKey {
 
         $boundparameters.Add('workspaceType', $PSCmdlet.ParameterSetName)
 
-        $QueryString = $($boundparameters | ConvertTo-QueryString)
-
         If ($deploymentScript.IsPresent) {
             $URI = "$URI/scripts"
         }
 
-        $URI = "$URI`?$QueryString"
+        $URI = Add-QueryString -URI $URI -Parameter $boundparameters
 
         #Send Request
         $result = Invoke-IDRestMethod -Uri $URI -Method GET

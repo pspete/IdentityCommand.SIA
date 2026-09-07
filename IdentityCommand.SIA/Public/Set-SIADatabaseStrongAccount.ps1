@@ -1,4 +1,4 @@
-# .ExternalHelp IdentityCommand.SIA-help.xml
+﻿# .ExternalHelp IdentityCommand.SIA-help.xml
 function Set-SIADatabaseStrongAccount {
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '', Justification = 'False Positive')]
     [CmdletBinding(SupportsShouldProcess)]
@@ -226,7 +226,7 @@ function Set-SIADatabaseStrongAccount {
         }
 
         #Create Request Body (serialised to UTF8 bytes so the plaintext secret can't be captured - see helper)
-        $body = $requestBody | ConvertTo-SIASecretBody
+        $body = $requestBody | ConvertTo-SecretBody
 
         if ($PSCmdlet.ShouldProcess($strong_account_id, 'Update SIA Database Strong Account')) {
             #Send Request

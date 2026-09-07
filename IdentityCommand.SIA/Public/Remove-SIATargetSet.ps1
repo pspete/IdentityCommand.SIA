@@ -1,4 +1,4 @@
-# .ExternalHelp IdentityCommand.SIA-help.xml
+﻿# .ExternalHelp IdentityCommand.SIA-help.xml
 function Remove-SIATargetSet {
     [CmdletBinding(SupportsShouldProcess)]
     param(
@@ -24,7 +24,7 @@ function Remove-SIATargetSet {
         } elseif ($name.count -gt 1) {
             $URI = "$URI/bulk"
             $boundParameters = $PSBoundParameters | Get-Parameter
-            $body = ConvertTo-SIAJsonBody -Body $boundParameters['name']
+            $body = ConvertTo-JsonBody -Body $boundParameters['name']
             $Request.Add('Body', $body)
         }
 

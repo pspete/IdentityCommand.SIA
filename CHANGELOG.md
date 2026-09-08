@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+# Unreleased
+
+### Added
+
+- `Get-SIAVirtualMachine`: get details of VM infrastructure targets, with `-filter`, `-source`,
+  `-sort` and `-search`. Results are paginated automatically.
+- `Remove-SIAVirtualMachine`: delete a VM infrastructure target by machine ID.
+
 ## 0.5.60 - 07-09-2026
 
 ### Changed

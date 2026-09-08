@@ -3482,6 +3482,175 @@
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
+      <command:name>Get-SIAVirtualMachine</command:name>
+      <command:verb>Get</command:verb>
+      <command:noun>SIAVirtualMachine</command:noun>
+      <maml:description>
+        <maml:para>Get details of VM infrastructure targets from SIA</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Get details of the virtual machine infrastructure targets belonging to the tenant, optionally filtered, searched and sorted. Results are automatically paginated - all matching records are returned regardless of how many pages the API splits them across.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-SIAVirtualMachine</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="none">
+          <maml:name>filter</maml:name>
+          <maml:description>
+            <maml:para>Return only targets matching the criteria of the filter expression.</maml:para>
+            <maml:para>Each logical expression must be enclosed in parentheses, with parentheses nested for `and`/`or` combinations.</maml:para>
+            <maml:para>Supported comparison operators: `eq`, `ne`, `gt`, `ge`, `lt`, `le`, `contains`, `not contains`, `starts with`, `ends with`, `is null`, `is not null`.</maml:para>
+            <maml:para>Fields available to filter on: `machineId`, `workspaceId`, `rootId`, `name`, `region`, `networkName`, `resourceGroup`, `locationType`, `osType`.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
+          <maml:name>source</maml:name>
+          <maml:description>
+            <maml:para>Return only targets found by the specified discovery source.</maml:para>
+            <maml:para>`CLOUD` for cloud discovery, `MANUAL` for manually added targets, `USERDRIVEN` for user connected targets.</maml:para>
+          </maml:description>
+          <command:parameterValueGroup>
+            <command:parameterValue required="false" command:variableLength="false">CLOUD</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">MANUAL</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">USERDRIVEN</command:parameterValue>
+          </command:parameterValueGroup>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
+          <maml:name>sort</maml:name>
+          <maml:description>
+            <maml:para>A comma separated list of fields to sort the results by, each optionally followed by `ASC` or `DESC`, for example `region DESC,name ASC`.</maml:para>
+            <maml:para>The API sorts by `scannedOn DESC` when not specified.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="none">
+          <maml:name>search</maml:name>
+          <maml:description>
+            <maml:para>Search targets by keyword. The `machineId`, `name` and `ips` fields are searched.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="none">
+        <maml:name>filter</maml:name>
+        <maml:description>
+          <maml:para>Return only targets matching the criteria of the filter expression.</maml:para>
+          <maml:para>Each logical expression must be enclosed in parentheses, with parentheses nested for `and`/`or` combinations.</maml:para>
+          <maml:para>Supported comparison operators: `eq`, `ne`, `gt`, `ge`, `lt`, `le`, `contains`, `not contains`, `starts with`, `ends with`, `is null`, `is not null`.</maml:para>
+          <maml:para>Fields available to filter on: `machineId`, `workspaceId`, `rootId`, `name`, `region`, `networkName`, `resourceGroup`, `locationType`, `osType`.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="none">
+        <maml:name>source</maml:name>
+        <maml:description>
+          <maml:para>Return only targets found by the specified discovery source.</maml:para>
+          <maml:para>`CLOUD` for cloud discovery, `MANUAL` for manually added targets, `USERDRIVEN` for user connected targets.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="2" aliases="none">
+        <maml:name>sort</maml:name>
+        <maml:description>
+          <maml:para>A comma separated list of fields to sort the results by, each optionally followed by `ASC` or `DESC`, for example `region DESC,name ASC`.</maml:para>
+          <maml:para>The API sorts by `scannedOn DESC` when not specified.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="3" aliases="none">
+        <maml:name>search</maml:name>
+        <maml:description>
+          <maml:para>Search targets by keyword. The `machineId`, `name` and `ips` fields are searched.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues />
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>Get-SIAVirtualMachine</dev:code>
+        <dev:remarks>
+          <maml:para>Get all VM infrastructure targets from SIA</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
+        <dev:code>Get-SIAVirtualMachine -source CLOUD</dev:code>
+        <dev:remarks>
+          <maml:para>Get all VM infrastructure targets which were found by cloud discovery</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 3 --------------------------</maml:title>
+        <dev:code>Get-SIAVirtualMachine -filter "((name contains 'prod') and (region eq 'us-east-1'))"</dev:code>
+        <dev:remarks>
+          <maml:para>Get all VM infrastructure targets whose name contains prod, in the us-east-1 region</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 4 --------------------------</maml:title>
+        <dev:code>Get-SIAVirtualMachine -search 'prod' -sort 'region DESC,name ASC'</dev:code>
+        <dev:remarks>
+          <maml:para>Search VM infrastructure targets for the keyword prod, returning results sorted by region descending then name ascending</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
       <command:name>Invoke-SIAConnectorCertificateRotation</command:name>
       <command:verb>Invoke</command:verb>
       <command:noun>SIAConnectorCertificateRotation</command:noun>
@@ -8240,6 +8409,121 @@ $UserData = New-SIAPolicyUserDataDefinition -User -name SomeOtherUser -UserDataD
         <dev:code>Remove-SIATargetSet -name TargetSet1,TargetSet2,TargetSet3</dev:code>
         <dev:remarks>
           <maml:para>Deletes listed target sets</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Remove-SIAVirtualMachine</command:name>
+      <command:verb>Remove</command:verb>
+      <command:noun>SIAVirtualMachine</command:noun>
+      <maml:description>
+        <maml:para>Deletes a VM infrastructure target from SIA</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Deletes a virtual machine infrastructure target from SIA, by machine ID.</maml:para>
+      <maml:para>Deletion is permanent and irreversible.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Remove-SIAVirtualMachine</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="machineId">
+          <maml:name>machine_id</maml:name>
+          <maml:description>
+            <maml:para>The unique machine ID of the VM infrastructure target to delete.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="machineId">
+        <maml:name>machine_id</maml:name>
+        <maml:description>
+          <maml:para>The unique machine ID of the VM infrastructure target to delete.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+        <maml:name>Confirm</maml:name>
+        <maml:description>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+        <maml:name>WhatIf</maml:name>
+        <maml:description>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues />
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>Remove-SIAVirtualMachine -machine_id i-02bcf1723f4509c12</dev:code>
+        <dev:remarks>
+          <maml:para>Deletes the VM infrastructure target with the specified machine ID</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
+        <dev:code>Get-SIAVirtualMachine -filter "(locationType eq 'FQDN_IP')" | Remove-SIAVirtualMachine</dev:code>
+        <dev:remarks>
+          <maml:para>Deletes every VM infrastructure target which is not hosted in a cloud provider</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>

@@ -32,6 +32,11 @@ function Get-SIAVirtualMachine {
 
     process {
 
+        #TODO the published SIA VM Infrastructure API spec documents -limit (1-1000, default 100) and
+        #-offset (0-1999, default 0) on GET /api/infrastructure/virtual-machines alongside filter,
+        #source, next_token, sort and search - neither is exposed here, so page size and the
+        #single-source offset start point can't be controlled, only the cursor. Confirm against a
+        #tenant before adding them.
         $URI = "$($ISPSSSession.tenant_url)/api/infrastructure/virtual-machines"
 
         $URI = Add-QueryString -URI $URI -Parameter ($PSBoundParameters | Get-Parameter)

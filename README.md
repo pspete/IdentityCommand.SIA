@@ -1,4 +1,4 @@
-![Logo][Logo]
+﻿![Logo][Logo]
 
 [Logo]: /docs/media/images/IdentityCommand.SIA.png
 
@@ -165,7 +165,7 @@ Return data also includes details such as session start time, elapsed time, last
 
 ### Result Pagination
 
-List commands (`Get-SIAPolicy`, `Get-SIASession`, `Get-SIAStrongAccount`, `Get-SIATargetSet`, `Get-SIADatabaseStrongAccount` and `Get-SIADatabaseTarget`) fetch every page of results automatically - there's no need to request pages individually, the complete result set is always returned.
+List commands (`Get-SIAPolicy`, `Get-SIASession`, `Get-SIAStrongAccount`, `Get-SIATargetSet`, `Get-SIAVirtualMachine`, `Get-SIADatabaseStrongAccount` and `Get-SIADatabaseTarget`) fetch every page of results automatically - there's no need to request pages individually, the complete result set is always returned.
 
 ### Tab Completion
 
@@ -193,6 +193,7 @@ The full list of commands currently available in the _`IdentityCommand.SIA`_ mod
 | `Get-SIAStrongAccount`                    | Get virtual machine strong accounts                                            |
 | `Get-SIATargetSet`                        | Get details of configured target sets                                          |
 | `Get-SIAResource`                         | Get details of configured resources                                            |
+| `Get-SIAVirtualMachine`                   | Get details of VM infrastructure targets                                       |
 | `New-SIAPolicy`                           | Configures a new SIA recurring access policy                                   |
 | `New-SIAPolicyConnectAsDefinition`        | Defines ConnectAs profile for SIA policy                                       |
 | `New-SIAPolicyFQDNRuleDefinition`         | Defines FQDN Rules for SIA Policy                                              |
@@ -217,6 +218,7 @@ The full list of commands currently available in the _`IdentityCommand.SIA`_ mod
 | `Remove-SIASSHHostKeyFingerprint`         | Delete an SSH host key fingerprint                                             |
 | `Invoke-SIASSHPublicKeyRotation`          | Rotate, deactivate or reactivate the SSH CA public key                         |
 | `Get-SIAMFAKey`                           | Get the SIA MFA key for SSH authentication                                     |
+| `Remove-SIAVirtualMachine`                | Deletes a VM infrastructure target                                             |
 | `Remove-SIAConnector`                     | Deletes a SIA connector                                                        |
 | `Test-SIAConnector`                       | Test SIA connector reachability                                                |
 | `Update-SIAConnector`                     | Upgrade a SIA connector                                                        |

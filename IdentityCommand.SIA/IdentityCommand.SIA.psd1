@@ -93,7 +93,9 @@
         'Get-SIAStrongAccount',
         'New-SIAStrongAccount',
         'Remove-SIAStrongAccount',
-        'Get-SIAResource'
+        'Get-SIAResource',
+        'Get-SIAVirtualMachine',
+        'Remove-SIAVirtualMachine',
         'Get-SIASession',
         'Get-SIAConnector',
         'Get-SIACertificate',

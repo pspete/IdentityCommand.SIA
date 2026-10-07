@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
+- N/A
+
+## 0.6.67 - 07-10-2026
+
+### Added
+
+- `Get-SIAVirtualMachine`: get details of VM infrastructure targets, with `-filter`, `-source`,
+  `-sort` and `-search`. Results are paginated automatically.
+- `Remove-SIAVirtualMachine`: delete a VM infrastructure target by machine ID.
+
+### Changed
+
+- The module loader copies `IdentityCommand`'s private helper functions from the loaded module's session state instead of dot-sourcing its `Private` folder, so it works with both the current `IdentityCommand` layout and the combined single-file layout of future releases. Each copied helper runs in this module's scope and uses its session.
+
 ## 0.5.60 - 07-09-2026
 
 ### Changed

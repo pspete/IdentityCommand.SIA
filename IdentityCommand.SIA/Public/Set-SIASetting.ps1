@@ -82,6 +82,13 @@ function Set-SIASetting {
         [switch]$oracleConnectionProtocol,
 
         # --- MFA caching sub-settings ---
+        #TODO the ranges below disagree with the published SIA settings API spec and are unverified
+        #against a tenant. The spec gives keyExpirationTimeSec as 60-43200, except rdpMfaCaching where
+        #it is 30-60 - disjoint from the 300-43200 enforced here, which would make -rdpMfaCaching
+        #-keyExpirationTimeSec impossible to satisfy. Likewise sessionMaxDuration (spec 1-120),
+        #sessionIdleTime (spec 1-10), shellPromptForAudit (spec 1-256) and logonSequence (spec 1-2000).
+        #Confirm the live contract before changing any of them - relaxing a range only loosens client
+        #side validation, but tightening one rejects values the module accepts today.
         [parameter(Mandatory = $false, ParameterSetName = 'mfaCaching')]
         [parameter(Mandatory = $false, ParameterSetName = 'sshMfaCaching')]
         [parameter(Mandatory = $false, ParameterSetName = 'rdpMfaCaching')]

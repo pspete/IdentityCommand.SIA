@@ -150,6 +150,10 @@ function New-SIADatabaseStrongAccount {
 
         $URI = "$($ISPSSSession.tenant_url)/api/database-strong-accounts"
 
+        #TODO the published strong account API spec for SIA databases documents this request body in
+        #camelCase, where the fields sent below are snake_case - see the note in
+        #Set-SIADatabaseStrongAccount, which carries the same conflict and the same open question.
+
         #Everything the API does not carry as an account_properties field: identifiers, the set switches,
         #plaintext secrets, the PAM-nested fields and the account_properties passthrough hashtable itself.
         #Parameter sets are mutually exclusive, so the remainder is exactly the flat account_properties

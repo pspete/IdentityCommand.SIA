@@ -59,6 +59,12 @@ function Get-SIASSHPublicKey {
 
     process {
 
+        #TODO the published SIA SSH public keys API spec documents no parameters on GET /public-keys,
+        #and only scriptType (BASH|KORN_SHELL) on GET /public-keys/scripts - suggesting the service
+        #moved from a key per workspace to a single tenant wide CA key. This command still requires a
+        #workspace type switch and workspaceId, and sends both as query parameters. Confirm against a
+        #tenant whether they are still accepted: aligning to the spec drops mandatory parameters and
+        #is a breaking change, so it is not being done on the strength of the spec alone.
         $URI = "$($ISPSSSession.tenant_url)/api/public-keys"
 
         $boundparameters = $PSBoundParameters | Get-Parameter -ParametersToRemove deploymentScript, AWS, AZURE, GCP, OnPrem

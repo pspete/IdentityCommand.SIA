@@ -16,38 +16,25 @@ param(
 
 )
 
-#Load IdentityCommand's private helpers first: this module's own files call them, and the
-#argument completer registrations do so at import time.
+#Copy IdentityCommand's private helpers into this module first: this module's own files call them,
+#and the argument completer registrations do so at import time.
+#Each copy is created from the function definition, so it runs in this module's scope and uses this
+#module's $ISPSSSession, whether IdentityCommand loaded from source or from its combined psm1.
 #Resolve a single IdentityCommand module: with more than one version loaded, Get-Module returns
-#an array and the Private folder of each would be loaded, last one winning.
+#an array.
 $Module = Get-Module -Name IdentityCommand | Sort-Object Version -Descending | Select-Object -First 1
 
 if ($null -eq $Module) {
     throw 'The IdentityCommand module is not loaded. Import IdentityCommand and try again.'
 }
 
-Get-ChildItem (Join-Path $(Split-Path $Module.path) Private) |
+& $Module { Get-ChildItem -Path Function: } |
+
+    Where-Object { $_.ModuleName -eq $Module.Name -and -not $Module.ExportedFunctions.ContainsKey($_.Name) } |
 
     ForEach-Object {
 
-        if ($DotSourceModule) {
-            . $_.FullName
-        } else {
-            $ExecutionContext.InvokeCommand.InvokeScript(
-                $false,
-                (
-                    [scriptblock]::Create(
-                        [io.file]::ReadAllText(
-                            $_.FullName,
-                            [Text.Encoding]::UTF8
-                        )
-                    )
-                ),
-                $null,
-                $null
-            )
-
-        }
+        . ([scriptblock]::Create("function $($_.Name) {$($_.Definition)}"))
 
     }
 

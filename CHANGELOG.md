@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+- N/A
+
+## 0.6.67 - 07-10-2026
+
 ### Added
 
 - `Get-SIAVirtualMachine`: get details of VM infrastructure targets, with `-filter`, `-source`,

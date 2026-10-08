@@ -1,12 +1,25 @@
 ---
 title: "IdentityCommand.SIA Release 0.6"
-date: 2026-10-07 00:00:00
-version: 0.6.67
+date: 2026-10-08 00:00:00
+version: 0.6.68
 tags:
   - Release Notes
   - Get-SIAVirtualMachine
   - Remove-SIAVirtualMachine
+  - New-SIAPolicyProviderDefinition
 ---
+
+## [0.6.68]
+
+### Changed
+
+- Moved to the pspete.Build GitHub Actions pipeline; AppVeyor is retired.
+- Requires IdentityCommand 0.7.159 or later.
+- Argument completer registrations run from the module psm1, after IdentityCommand's helpers are copied in.
+
+### Fixed
+
+- `New-SIAPolicyProviderDefinition` help: `-vnetIds` now has a description, and `-vpcIds` describes AWS/GCP VPC IDs instead of Azure VNet IDs.
 
 ## [0.6.67]
 

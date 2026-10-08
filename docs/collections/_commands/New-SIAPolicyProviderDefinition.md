@@ -330,7 +330,9 @@ Accept wildcard characters: False
 ```
 
 ### -vnetIds
-{{ Fill vnetIds Description }}
+A list of Azure VNet IDs.
+
+Leave empty for all VNets.
 
 ```yaml
 Type: String[]
@@ -345,9 +347,9 @@ Accept wildcard characters: False
 ```
 
 ### -vpcIds
-A list of Azure VNet IDs.
+A list of AWS or GCP VPC IDs.
 
-Leave empty for all VNets.
+Leave empty for all VPCs.
 
 ```yaml
 Type: String[]

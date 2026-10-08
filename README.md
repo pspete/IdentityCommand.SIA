@@ -1,4 +1,4 @@
-﻿![Logo][Logo]
+![Logo][Logo]
 
 [Logo]: /docs/media/images/IdentityCommand.SIA.png
 
@@ -6,16 +6,14 @@
 
 **IdentityCommand.SIA** is a PowerShell module that provides a set of easy-to-use commands, allowing you to interact with the API for a **CyberArk Secure Infrastructure Access** from within the PowerShell environment.
 
-| Main Branch              | Latest Build             | CodeFactor                 | Coverage                     | PowerShell Gallery        | License                      |
-| ------------------------ | ------------------------ | -------------------------- | ---------------------------- | ------------------------- | ---------------------------- |
-| [![appveyor][]][av-site] | [![tests][]][tests-site] | [![codefactor][]][cf-site] | [![codecov][]][codecov-link] | [![psgallery][]][ps-site] | [![license][]][license-link] |
+| Main Branch              | CodeFactor                 | Coverage                     | PowerShell Gallery        | License                      |
+| ------------------------ | -------------------------- | ---------------------------- | ------------------------- | ---------------------------- |
+| [![build][]][build-site] | [![codefactor][]][cf-site] | [![codecov][]][codecov-link] | [![psgallery][]][ps-site] | [![license][]][license-link] |
 
-[appveyor]: https://ci.appveyor.com/api/projects/status/q2av77njofnsul92/branch/main?svg=true
-[av-site]: https://ci.appveyor.com/project/pspete/IdentityCommand-SIA/branch/main
+[build]: https://github.com/pspete/IdentityCommand.SIA/actions/workflows/ci.yml/badge.svg?branch=main&event=push
+[build-site]: https://github.com/pspete/IdentityCommand.SIA/actions/workflows/ci.yml?query=branch%3Amain
 [psgallery]: https://img.shields.io/powershellgallery/v/IdentityCommand.SIA.svg
 [ps-site]: https://www.powershellgallery.com/packages/IdentityCommand.SIA
-[tests]: https://img.shields.io/appveyor/tests/pspete/IdentityCommand-SIA.svg
-[tests-site]: https://ci.appveyor.com/project/pspete/IdentityCommand-SIA
 [downloads]: https://img.shields.io/powershellgallery/dt/IdentityCommand.SIA.svg?color=blue
 [cf-site]: https://www.codefactor.io/repository/github/pspete/IdentityCommand.SIA
 [codefactor]: https://www.codefactor.io/repository/github/pspete/IdentityCommand.SIA/badge

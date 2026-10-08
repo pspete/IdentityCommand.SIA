@@ -5793,8 +5793,8 @@ $FQDNrules += New-SIAPolicyFQDNRuleDefinition -operator PREFIX -computernamePatt
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>vpcIds</maml:name>
           <maml:description>
-            <maml:para>A list of Azure VNet IDs.</maml:para>
-            <maml:para>Leave empty for all VNets.</maml:para>
+            <maml:para>A list of AWS or GCP VPC IDs.</maml:para>
+            <maml:para>Leave empty for all VPCs.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
@@ -5885,7 +5885,8 @@ $FQDNrules += New-SIAPolicyFQDNRuleDefinition -operator PREFIX -computernamePatt
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>vnetIds</maml:name>
           <maml:description>
-            <maml:para>{{ Fill vnetIds Description }}</maml:para>
+            <maml:para>A list of Azure VNet IDs.</maml:para>
+            <maml:para>Leave empty for all VNets.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
@@ -5963,8 +5964,8 @@ $FQDNrules += New-SIAPolicyFQDNRuleDefinition -operator PREFIX -computernamePatt
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
           <maml:name>vpcIds</maml:name>
           <maml:description>
-            <maml:para>A list of Azure VNet IDs.</maml:para>
-            <maml:para>Leave empty for all VNets.</maml:para>
+            <maml:para>A list of AWS or GCP VPC IDs.</maml:para>
+            <maml:para>Leave empty for all VPCs.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
@@ -6212,7 +6213,8 @@ $FQDNrules += New-SIAPolicyFQDNRuleDefinition -operator PREFIX -computernamePatt
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>vnetIds</maml:name>
         <maml:description>
-          <maml:para>{{ Fill vnetIds Description }}</maml:para>
+          <maml:para>A list of Azure VNet IDs.</maml:para>
+          <maml:para>Leave empty for all VNets.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
@@ -6224,8 +6226,8 @@ $FQDNrules += New-SIAPolicyFQDNRuleDefinition -operator PREFIX -computernamePatt
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="none">
         <maml:name>vpcIds</maml:name>
         <maml:description>
-          <maml:para>A list of Azure VNet IDs.</maml:para>
-          <maml:para>Leave empty for all VNets.</maml:para>
+          <maml:para>A list of AWS or GCP VPC IDs.</maml:para>
+          <maml:para>Leave empty for all VPCs.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>

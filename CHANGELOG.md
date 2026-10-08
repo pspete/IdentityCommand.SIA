@@ -4,9 +4,17 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
-- N/A
+### Changed
 
-## 0.6.67 - 07-10-2026
+- Moved to the pspete.Build GitHub Actions pipeline; AppVeyor is retired.
+- Requires IdentityCommand 0.7.159 or later.
+- Argument completer registrations run from the module psm1, after IdentityCommand's helpers are copied in.
+
+### Fixed
+
+- `New-SIAPolicyProviderDefinition` help: `-vnetIds` now has a description, and `-vpcIds` describes AWS/GCP VPC IDs instead of Azure VNet IDs.
+
+## [0.6.67] - 2026-10-07
 
 ### Added
 
@@ -18,7 +26,7 @@ All notable changes to this project will be documented in this file.
 
 - The module loader copies `IdentityCommand`'s private helper functions from the loaded module's session state instead of dot-sourcing its `Private` folder, so it works with both the current `IdentityCommand` layout and the combined single-file layout of future releases. Each copied helper runs in this module's scope and uses its session.
 
-## 0.5.60 - 07-09-2026
+## [0.5.60] - 2026-09-07
 
 ### Changed
 
@@ -32,7 +40,7 @@ All notable changes to this project will be documented in this file.
 - The module loader resolves a single `IdentityCommand` module - the highest version - when more than one version is loaded. Previously every loaded version's `Private` folder was dot-sourced, last one winning.
 - Importing `IdentityCommand.SIA` without `IdentityCommand` loaded now throws a clear error instead of failing obscurely.
 
-## 0.4.50 - 5-9-2026
+## [0.4.50] - 2026-09-05
 
 ### Added
 
@@ -49,7 +57,7 @@ All notable changes to this project will be documented in this file.
 - `Get-SIADatabaseStrongAccount`, `Get-SIADatabaseTarget` **(breaking)**: `-cursor` removed - the commands now page results internally.
 - `Set-SIAPolicy`: `-policyId` parameter renamed `-policyid` for consistency with `Get-SIAPolicy` / `Remove-SIAPolicy`.
 
-## 0.3.32 - 01-09-2026
+## [0.3.32] - 2026-09-01
 
 ### Security
 
@@ -101,7 +109,7 @@ All notable changes to this project will be documented in this file.
 - `Get-SIAResource`
   - Updated to return correct property of output value.
 
-## 0.2.11 - 05-03-2024
+## [0.2.11] - 2024-03-05
 
 ### Added
 
@@ -117,7 +125,7 @@ All notable changes to this project will be documented in this file.
 
 - N/A
 
-## 0.1.10 - 03-03-2024
+## [0.1.10] - 2024-03-03
 
 ### Added
 
@@ -131,7 +139,7 @@ All notable changes to this project will be documented in this file.
 
 - N/A
 
-## 0.1.9 - 03-03-2024
+## [0.1.9] - 2024-03-03
 
 Initial release of `IdentityCommand.DPA` module
 

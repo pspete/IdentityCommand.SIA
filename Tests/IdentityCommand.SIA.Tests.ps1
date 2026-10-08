@@ -1,227 +1,25 @@
-﻿#Requires -Modules Pester, PSScriptAnalyzer
+﻿#Requires -Modules Pester
 <#
 .SYNOPSIS
-    Tests module for consistency, expected structures, settings, components & files.
+    Tests IdentityCommand.SIA-specific conventions across the module.
 .EXAMPLE
     Invoke-Pester
 .NOTES
-    A generic set of tests to apply to a module
+    The generic module tests come from pspete.Build (build/tests/Module.Tests.ps1).
+    The built module is a single psm1 with no Public folder, so Secure Value Handling finds no scripts to check against it.
 #>
 
 Describe 'Module' -Tag 'Consistency' {
 
-	#Get Current Directory
-	$Here = Split-Path -Parent $PSCommandPath
+	$ModuleName = 'IdentityCommand.SIA'
 
-	#Assume ModuleName from Repository Root folder
-	$ModuleName = (Split-Path (Split-Path $Here -Parent) -Leaf).Replace('-', '.')
-
-	#Resolve Path to Module Directory
-	$ModulePath = Resolve-Path "$Here\..\$ModuleName"
-
-	#Define Path to Module Manifest
-	$ManifestPath = Join-Path "$ModulePath" "$ModuleName.psd1"
-
-	Get-Module -Name $ModuleName -All | Remove-Module -Force -ErrorAction Ignore
-
-	$Module = Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop -PassThru
-
-	#Get Public Function Names
-	$PublicFunctions = Get-ChildItem "$ModulePath\Public" -Include *.ps1 -Recurse | Select-Object -ExpandProperty BaseName
-
-	#Get Exported Function Names
-	$ExportedFunctions = $Module.ExportedFunctions.Values.name
-
-	$ExportedAliases = $Module.ExportedAliases.Values.name
+	$ModulePath = Join-Path (Split-Path (Split-Path -Parent $PSCommandPath) -Parent) $ModuleName
 
 	$Scripts = Get-ChildItem $ModulePath -Include *.ps1 -Recurse
 
-	Context $ManifestPath -Tag Manifest {
+	if ( -not (Get-Module -Name $ModuleName -All)) {
 
-		It 'has a valid manifest' -TestCases @{ManifestPath = $ManifestPath } {
-			param($ManifestPath)
-			{ $null = Test-ModuleManifest -Path $ManifestPath -ErrorAction Stop -WarningAction SilentlyContinue } |
-				Should -Not -Throw
-
-		}
-
-		It 'specifies valid root module' -TestCases @{RootModule = $Module.RootModule ; ModuleName = $ModuleName } {
-			param($RootModule, $ModuleName)
-			$RootModule | Should -Be "$ModuleName.psm1"
-
-		}
-
-		It 'has a valid description' -TestCases @{Description = $Module.Description } {
-			param($Description)
-			$Description | Should -Not -BeNullOrEmpty
-
-		}
-
-		It 'has a valid guid' -TestCases @{Guid = $Module.Guid } {
-			param($Guid)
-			$Guid | Should -Be '634faae6-34c8-4887-a8fb-be9951c536f4'
-
-		}
-
-		It 'has a valid copyright' -TestCases @{Copyright = $Module.Copyright } {
-			param($Copyright)
-			$Copyright | Should -Not -BeNullOrEmpty
-
-		}
-
-		Context 'Files To Process' -Tag 'FilesToProcess' {
-
-			foreach ($file in ($Module.ExportedFormatFiles)) {
-				Context $file -Tag 'FormatData' {
-					It 'exists' -TestCases @{
-						'File' = $file
-					} {
-						param($File)
-						$File | Should -Exist
-					}
-
-					It 'is valid' -TestCases @{
-						'File' = $file
-					} {
-						param($File)
-						{ Update-FormatData -AppendPath $File -ErrorAction Stop -WarningAction SilentlyContinue } | Should -Not -Throw
-					}
-
-				}
-
-				foreach ($file in ($Module.ExportedTypeFiles)) {
-					Context $file -Tag 'TypeData' {
-						It 'exists' -TestCases @{
-							'File' = $file
-						} {
-							param($File)
-							$File | Should -Exist
-						}
-
-						It 'is valid' -TestCases @{
-							'File' = $file
-						} {
-							param($File)
-							{ Update-TypeData -AppendPath $File -ErrorAction Stop -WarningAction SilentlyContinue } | Should -Not -Throw
-						}
-
-					}
-				}
-			}
-		}
-
-		Context 'Exported Function Analysis' -Tag 'Functions' {
-
-			It 'exports the expected number of functions' {
-
-				($PublicFunctions | Measure-Object | Select-Object -ExpandProperty Count) |
-
-					Should -Be ($ExportedFunctions | Measure-Object | Select-Object -ExpandProperty Count)
-
-			}
-
-			foreach ($ExportedFunction in $ExportedFunctions) {
-
-				Context "$ExportedFunction" -Tag "$ExportedFunction" {
-					It 'is public' -TestCases @{
-						'ExportedFunction' = $ExportedFunction
-						'PublicFunctions'  = $PublicFunctions
-					} {
-						param($ExportedFunction, $PublicFunctions)
-						$PublicFunctions | Should -Contain $ExportedFunction
-					}
-
-					It 'has a related pester tests file' -TestCases @{
-						'ExportedFunction' = $ExportedFunction
-						'Here'             = $here
-					} {
-						param($ExportedFunction, $here)
-						Test-Path (Join-Path $here "$ExportedFunction.Tests.ps1") | Should -Be $true
-					}
-
-					Context Help -Tag 'Help' {
-
-						$help = Get-Help $ExportedFunction -Full
-
-						It 'has synopsis' -TestCases @{ 'Help' = $help } {
-							param($help)
-							$help.synopsis | Should -Not -BeNullOrEmpty
-
-						}
-
-						It 'has description' -TestCases @{ 'Help' = $help } {
-							param($help)
-							$help.description | Should -Not -BeNullOrEmpty
-
-						}
-
-						It 'has example code' -TestCases @{ 'Help' = $help } {
-							param($help)
-							$help.examples.example.code | Should -Not -BeNullOrEmpty
-
-						}
-
-						[array]$HelpParameters = $help.parameters.parameter | Where-Object name -NotIn @('WhatIf', 'Confirm')
-
-						foreach ($HelpParameter in $HelpParameters) {
-
-							It 'has description of parameter <name>' -Tag "$($HelpParameter.name)" -TestCases @{
-								'description' = $HelpParameter.description
-								'name'        = $HelpParameter.name
-							} {
-								param($description, $name)
-								$description | Should -Not -BeNullOrEmpty
-							}
-
-						}
-
-					}
-				}
-
-			}
-
-		}
-
-		Context 'Exported Alias Analysis' -Tag Alias {
-
-			foreach ($Alias in $ExportedAliases) {
-
-				It '<Alias> resolves to public function' -Tag $Alias -TestCases @{
-					'Alias'           = $Alias
-					'PublicFunctions' = $PublicFunctions
-				} {
-					param($Alias, $PublicFunctions)
-					$PublicFunctions | Should -Contain $((Get-Alias $Alias).ResolvedCommand.Name)
-				}
-
-			}
-
-		}
-
-	}
-
-	Context 'PSScriptAnalyzer Analysis' -Tag 'PSScriptAnalyzer' {
-
-		Foreach ($Script in $scripts) {
-
-			Context $Script.Name -Tag "$($Script.BaseName)", "$($Script.Name)" {
-
-				It 'passes all Warning and Error rules' -TestCases @{
-					'FilePath' = $script.FullName
-				} {
-					param($FilePath)
-
-					#One analyzer pass per file (all Warning/Error rules at once) rather than one pass per rule
-					$findings = Invoke-ScriptAnalyzer -Path $FilePath -Severity Warning, Error
-
-					($findings | ForEach-Object { "[$($_.RuleName)] line $($_.Line): $($_.Message)" }) -join [System.Environment]::NewLine |
-						Should -BeNullOrEmpty
-
-				}
-
-			}
-
-		}
+		Import-Module -Name (Join-Path $ModulePath "$ModuleName.psd1") -ArgumentList $true -Force -ErrorAction Stop
 
 	}
 
@@ -263,8 +61,8 @@ Describe 'Module' -Tag 'Consistency' {
 
 	Context 'Shared Helpers' {
 
-		#These live in IdentityCommand's Private folder and are loaded into this module's scope
-		#by the psm1. Asserting they resolve turns "the wrong IdentityCommand is loaded" into one
+		#These are IdentityCommand's private helpers, which the psm1 copies into this module's scope.
+		#Asserting they resolve turns "the wrong IdentityCommand is loaded" into one
 		#clear failure rather than a cascade of unrelated ones.
 		It 'resolves <_> from the loaded IdentityCommand module' -ForEach @(
 			'Add-QueryString'

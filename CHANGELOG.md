@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Requires `IdentityCommand` 1.0.0.
 - CI caches the PowerShell modules it installs, so dependency installs skip the PowerShell Gallery on a cache hit.
 
 ### Removed

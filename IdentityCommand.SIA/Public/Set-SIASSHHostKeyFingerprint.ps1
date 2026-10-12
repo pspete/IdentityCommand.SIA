@@ -22,7 +22,7 @@ function Set-SIASSHHostKeyFingerprint {
 
     process {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/ssh-fingerprints"
+        $URI = "$(Resolve-RequestUrl)/api/ssh-fingerprints"
 
         #Create Request Body
         $body = $PSBoundParameters | Get-Parameter | ConvertTo-Json

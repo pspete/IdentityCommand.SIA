@@ -19,7 +19,7 @@ function Get-SIASession {
 
     process {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/monitoring/sessions"
+        $URI = "$(Resolve-RequestUrl)/api/monitoring/sessions"
 
         $boundparameters = $PSBoundParameters | Get-Parameter
 

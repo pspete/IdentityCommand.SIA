@@ -155,7 +155,7 @@ function Set-SIADatabaseStrongAccount {
 
     process {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/database-strong-accounts/$strong_account_id"
+        $URI = "$(Resolve-RequestUrl)/api/database-strong-accounts/$strong_account_id"
 
         #TODO the published strong account API spec for SIA databases documents this request body in
         #camelCase - storeType, accountProperties, accountName, passwordSecretObject, secretAccessKey,

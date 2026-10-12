@@ -21,7 +21,7 @@ function Get-SIAStrongAccount {
 
     process {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/secrets"
+        $URI = "$(Resolve-RequestUrl)/api/secrets"
 
         $URI = Add-QueryString -URI $URI -Parameter ($PSBoundParameters | Get-Parameter)
 
@@ -34,7 +34,7 @@ function Get-SIAStrongAccount {
             #'count' query parameter is not enforced server-side - so the total has to come
             #from a dedicated endpoint, and pagination here is defensive: it only loops
             #further if fewer records came back than that reported total.
-            $CountURI = "$($ISPSSSession.tenant_url)/api/secrets/count"
+            $CountURI = "$(Resolve-RequestUrl)/api/secrets/count"
 
             $CountURI = Add-QueryString -URI $CountURI -Parameter ($PSBoundParameters | Get-Parameter -ParametersToKeep secret_type)
 

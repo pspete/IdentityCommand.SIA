@@ -17,7 +17,7 @@ function Remove-SIATargetSet {
 
     process {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/targetsets"
+        $URI = "$(Resolve-RequestUrl)/api/targetsets"
 
         if ($name.count -eq 1) {
             $URI = "$URI/$name"

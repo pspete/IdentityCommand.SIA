@@ -65,7 +65,7 @@ function Get-SIASSHPublicKey {
         #workspace type switch and workspaceId, and sends both as query parameters. Confirm against a
         #tenant whether they are still accepted: aligning to the spec drops mandatory parameters and
         #is a breaking change, so it is not being done on the strength of the spec alone.
-        $URI = "$($ISPSSSession.tenant_url)/api/public-keys"
+        $URI = "$(Resolve-RequestUrl)/api/public-keys"
 
         $boundparameters = $PSBoundParameters | Get-Parameter -ParametersToRemove deploymentScript, AWS, AZURE, GCP, OnPrem
 

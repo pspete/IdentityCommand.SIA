@@ -15,7 +15,7 @@ function Get-SIADatabaseTarget {
 
     process {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/database-targets"
+        $URI = "$(Resolve-RequestUrl)/api/database-targets"
 
         $URI = Add-QueryString -URI $URI -Parameter ($PSBoundParameters | Get-Parameter)
 

@@ -83,7 +83,7 @@ function New-SIAStrongAccount {
             }
         }
 
-        $URI = "$($ISPSSSession.tenant_url)/api/secrets"
+        $URI = "$(Resolve-RequestUrl)/api/secrets"
 
         switch ($PSCmdlet.ParameterSetName) {
 

@@ -28,7 +28,7 @@ function Get-SIAPolicy {
 
     process {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/access-policies/$policyid"
+        $URI = "$(Resolve-RequestUrl)/api/access-policies/$policyid"
 
         if (-not $PSBoundParameters.ContainsKey('policyid')) {
 

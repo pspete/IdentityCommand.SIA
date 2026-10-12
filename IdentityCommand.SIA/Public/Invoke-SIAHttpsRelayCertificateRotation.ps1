@@ -13,7 +13,7 @@ function Invoke-SIAHttpsRelayCertificateRotation {
 
     process {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/https-relays/$https_relay_id/rotate"
+        $URI = "$(Resolve-RequestUrl)/api/https-relays/$https_relay_id/rotate"
 
         #The API requires an (empty) JSON body
         $body = '{}'

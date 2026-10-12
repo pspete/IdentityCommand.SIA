@@ -13,7 +13,7 @@ function Remove-SIAPolicy {
 
     process {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/access-policies/$policyid"
+        $URI = "$(Resolve-RequestUrl)/api/access-policies/$policyid"
 
         if ($PSCmdlet.ShouldProcess($policyid, 'Delete SIA Policy')) {
             #Send Request

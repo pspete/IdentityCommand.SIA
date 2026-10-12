@@ -52,7 +52,7 @@ function Add-SIATargetSet {
 
     process {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/targetsets"
+        $URI = "$(Resolve-RequestUrl)/api/targetsets"
 
         #Create Request Body
         $boundParameters = $PSBoundParameters | Get-Parameter

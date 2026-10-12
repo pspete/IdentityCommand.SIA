@@ -68,7 +68,7 @@ function New-SIAPolicy {
 
     process {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/access-policies"
+        $URI = "$(Resolve-RequestUrl)/api/access-policies"
 
         #Get request parameters
         $boundParameters = $PSBoundParameters | Get-Parameter

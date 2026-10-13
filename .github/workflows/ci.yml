@@ -49,7 +49,7 @@ env:
   # vNext releases are prereleases: <version>-preview<n>.
   PRERELEASE_LABEL: ${{ github.ref == 'refs/heads/vNext' && 'preview' || '' }}
   # IdentityCommand version installed for tests and packaging; the module copies its private helpers.
-  IDENTITYCOMMAND_VERSION: '1.0.0'
+  IDENTITYCOMMAND_VERSION: '1.0.1'
 
 defaults:
   run:

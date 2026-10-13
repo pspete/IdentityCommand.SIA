@@ -52,7 +52,7 @@
 
     # Modules that must be imported into the global environment prior to importing this module
     RequiredModules   = @(
-        @{ModuleName = 'IdentityCommand'; GUID = 'f6bb2bdf-0c53-443f-be07-3c25264a09b1'; ModuleVersion = '1.0.0' }
+        @{ModuleName = 'IdentityCommand'; GUID = 'f6bb2bdf-0c53-443f-be07-3c25264a09b1'; ModuleVersion = '1.0.1' }
     )
 
     # Assemblies that must be loaded prior to importing this module

@@ -10,7 +10,9 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- Requires `IdentityCommand` 1.0.0.
+- Requires `IdentityCommand` 1.0.1.
+- A request refused with 401 because the session token has expired reports `Session expired at <time>:
+  authenticate again with New-IDSession or New-IDPlatformToken`. Previously, it reported `Unauthorized. Unauthorized.`.
 - CI caches the PowerShell modules it installs, so dependency installs skip the PowerShell Gallery on a cache hit.
 
 ### Removed

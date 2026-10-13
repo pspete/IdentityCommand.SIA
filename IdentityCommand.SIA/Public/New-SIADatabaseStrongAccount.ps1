@@ -148,7 +148,7 @@ function New-SIADatabaseStrongAccount {
 
     process {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/database-strong-accounts"
+        $URI = "$(Resolve-RequestUrl)/api/database-strong-accounts"
 
         #TODO the published strong account API spec for SIA databases documents this request body in
         #camelCase, where the fields sent below are snake_case - see the note in

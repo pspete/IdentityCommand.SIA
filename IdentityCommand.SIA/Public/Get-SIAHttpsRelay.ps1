@@ -9,7 +9,7 @@ function Get-SIAHttpsRelay {
 
     process {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/https-relays"
+        $URI = "$(Resolve-RequestUrl)/api/https-relays"
 
         #Send Request
         $result = Invoke-IDRestMethod -Uri $URI -Method GET

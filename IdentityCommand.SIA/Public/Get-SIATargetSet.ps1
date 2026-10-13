@@ -19,7 +19,7 @@ function Get-SIATargetSet {
 
     process {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/targetsets"
+        $URI = "$(Resolve-RequestUrl)/api/targetsets"
 
         $URI = Add-QueryString -URI $URI -Parameter ($PSBoundParameters | Get-Parameter)
 

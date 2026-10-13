@@ -18,7 +18,7 @@ function Get-SIASetting {
 
     process {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/settings/$FeatureName"
+        $URI = "$(Resolve-RequestUrl)/api/settings/$FeatureName"
 
         #Send Request
         $result = Invoke-IDRestMethod -Uri $URI -Method GET

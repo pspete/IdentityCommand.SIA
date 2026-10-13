@@ -27,7 +27,7 @@ function Test-SIAConnector {
 
     process {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/connectors/$connector_id/reachability"
+        $URI = "$(Resolve-RequestUrl)/api/connectors/$connector_id/reachability"
 
         #Create Request Body. Each target is an object: @{ hostname = '<host>'; port = <int> } (port defaults to 22).
         #ConvertTo-JsonBody keeps a single supplied target a one-element JSON array.

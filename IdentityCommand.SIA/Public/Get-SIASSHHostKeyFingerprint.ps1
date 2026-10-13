@@ -14,7 +14,7 @@ function Get-SIASSHHostKeyFingerprint {
 
     process {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/ssh-fingerprints/$target_id"
+        $URI = "$(Resolve-RequestUrl)/api/ssh-fingerprints/$target_id"
 
         #Send Request
         $result = Invoke-IDRestMethod -Uri $URI -Method GET

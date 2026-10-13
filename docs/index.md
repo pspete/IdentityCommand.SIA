@@ -125,5 +125,5 @@ List commands (`Get-SIAPolicy`, `Get-SIASession`, `Get-SIAStrongAccount`, `Get-S
 
 ## Tab Completion
 
-Id and name parameters for policies, strong accounts, target sets, connectors and HTTPS relays support tab completion, sourced live from the corresponding `Get-SIA*` command, once connected with `Connect-SIATenant`.
+Id and name parameters for policies, strong accounts, target sets, connectors and HTTPS relays support tab completion, sourced live from the corresponding `Get-SIA*` command, once authenticated with `New-IDSession` or `New-IDPlatformToken`.
 

@@ -61,7 +61,7 @@ function Get-SIAResource {
     process {
 
         #Paramterset name is the url path to send the query to.
-        $URI = "$($ISPSSSession.tenant_url)/api/$($PSCmdlet.ParameterSetName)/$workspaceId"
+        $URI = "$(Resolve-RequestUrl)/api/$($PSCmdlet.ParameterSetName)/$workspaceId"
 
         #Send Request
         $result = Invoke-IDRestMethod -Uri $URI -Method GET

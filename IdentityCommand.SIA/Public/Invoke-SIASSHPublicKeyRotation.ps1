@@ -30,7 +30,7 @@ function Invoke-SIASSHPublicKeyRotation {
     process {
 
         #Parameterset name is the url path to send the request to.
-        $URI = "$($ISPSSSession.tenant_url)/api/public-keys/rotation/$($PSCmdlet.ParameterSetName)"
+        $URI = "$(Resolve-RequestUrl)/api/public-keys/rotation/$($PSCmdlet.ParameterSetName)"
 
         if ($PSCmdlet.ShouldProcess('SSH CA Public Key', "Invoke Rotation Operation '$($PSCmdlet.ParameterSetName)'")) {
 

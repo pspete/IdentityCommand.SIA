@@ -14,7 +14,7 @@ function Invoke-SIAConnectorCertificateRotation {
 
     process {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/connectors/$connector_id/rotate"
+        $URI = "$(Resolve-RequestUrl)/api/connectors/$connector_id/rotate"
 
         #The API requires an (empty) JSON body
         $body = '{}'

@@ -14,7 +14,7 @@ function Update-SIAConnector {
 
     process {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/connectors/$connector_id/upgrade"
+        $URI = "$(Resolve-RequestUrl)/api/connectors/$connector_id/upgrade"
 
         #The API requires an (empty) JSON body
         $body = '{}'

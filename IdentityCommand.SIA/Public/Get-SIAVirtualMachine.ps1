@@ -37,7 +37,7 @@ function Get-SIAVirtualMachine {
         #source, next_token, sort and search - neither is exposed here, so page size and the
         #single-source offset start point can't be controlled, only the cursor. Confirm against a
         #tenant before adding them.
-        $URI = "$($ISPSSSession.tenant_url)/api/infrastructure/virtual-machines"
+        $URI = "$(Resolve-RequestUrl)/api/infrastructure/virtual-machines"
 
         $URI = Add-QueryString -URI $URI -Parameter ($PSBoundParameters | Get-Parameter)
 

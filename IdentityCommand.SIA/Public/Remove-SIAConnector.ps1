@@ -21,7 +21,7 @@ function Remove-SIAConnector {
 
     process {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/connectors/$connector_id"
+        $URI = "$(Resolve-RequestUrl)/api/connectors/$connector_id"
 
         if ($force_delete.IsPresent) {
             $URI = "$URI`?force_delete=true"

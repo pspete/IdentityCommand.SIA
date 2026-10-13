@@ -27,11 +27,11 @@ function Get-SIADatabaseStrongAccount {
         switch ($PSCmdlet.ParameterSetName) {
 
             'ById' {
-                $URI = "$($ISPSSSession.tenant_url)/api/database-strong-accounts/$strong_account_id"
+                $URI = "$(Resolve-RequestUrl)/api/database-strong-accounts/$strong_account_id"
             }
 
             'List' {
-                $URI = "$($ISPSSSession.tenant_url)/api/database-strong-accounts"
+                $URI = "$(Resolve-RequestUrl)/api/database-strong-accounts"
 
                 $URI = Add-QueryString -URI $URI -Parameter ($PSBoundParameters | Get-Parameter)
             }

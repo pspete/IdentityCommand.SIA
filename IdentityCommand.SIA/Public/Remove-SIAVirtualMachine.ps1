@@ -15,7 +15,7 @@ function Remove-SIAVirtualMachine {
 
     process {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/infrastructure/virtual-machines/$machine_id"
+        $URI = "$(Resolve-RequestUrl)/api/infrastructure/virtual-machines/$machine_id"
 
         if ($PSCmdlet.ShouldProcess($machine_id, 'Delete SIA VM Infrastructure Target')) {
 

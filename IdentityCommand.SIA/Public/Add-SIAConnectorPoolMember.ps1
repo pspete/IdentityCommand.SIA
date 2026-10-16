@@ -19,7 +19,7 @@ function Add-SIAConnectorPoolMember {
 
     process {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/connectors/connector-pools/$connector_pool_id"
+        $URI = "$(Resolve-RequestUrl)/api/connectors/connector-pools/$connector_pool_id"
 
         #Create Request Body (ConvertTo-JsonBody keeps a single connector id a one-element JSON array)
         $body = ConvertTo-JsonBody -Body @{

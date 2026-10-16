@@ -243,7 +243,7 @@ function Set-SIASetting {
 
     process {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/settings/"
+        $URI = "$(Resolve-RequestUrl)/api/settings/"
 
         $FeatureName = $PSCmdlet.ParameterSetName
 

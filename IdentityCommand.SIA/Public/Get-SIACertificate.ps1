@@ -9,7 +9,7 @@ function Get-SIACertificate {
 
     process {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/certificates"
+        $URI = "$(Resolve-RequestUrl)/api/certificates"
 
         #Send Request
         $result = Invoke-IDRestMethod -Uri $URI -Method GET

@@ -46,7 +46,7 @@ function Get-SIAConnectorSetupScript {
 
     process {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/connectors/setup-script"
+        $URI = "$(Resolve-RequestUrl)/api/connectors/setup-script"
 
         #Create Request Body
         $Body = $PSBoundParameters | Get-Parameter | ConvertTo-Json

@@ -1,3 +1,11 @@
+#InModuleScope below runs at discovery, so the module must be imported before then
+BeforeDiscovery {
+    $ManifestPath = Join-Path (Resolve-Path "$(Split-Path -Parent $PSCommandPath)\..\IdentityCommand.SIA") 'IdentityCommand.SIA.psd1'
+    if ( -not (Get-Module -Name 'IdentityCommand.SIA' -All)) {
+        Import-Module -Name "$ManifestPath" -ArgumentList $true -Force -ErrorAction Stop
+    }
+}
+
 Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
     BeforeAll {
@@ -111,6 +119,49 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
 
                 $response | Should -Be 'value'
 
+            }
+
+        }
+
+        Context 'Without a module session' {
+
+            BeforeEach {
+
+                $ISPSSSession = [ordered]@{
+                    tenant_url = $null
+                    Subdomain  = $null
+                    StartTime  = $null
+                    WebSession = $null
+                }
+                New-Variable -Name ISPSSSession -Value $ISPSSSession -Scope Script -Force
+
+                Mock -CommandName Get-IDSession -MockWith {
+                    [ordered]@{
+                        tenant_url = 'https://sometenant.id.cyberark.cloud'
+                        Subdomain  = 'sometenant'
+                        StartTime  = Get-Date '2026-01-01T09:00:00'
+                        WebSession = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+                    }
+                }
+
+                Mock -CommandName Resolve-ServiceUrl -MockWith {
+                    [pscustomobject]@{ ServiceUrl = "https://$Subdomain.$Service.cyberark.cloud" }
+                }
+
+            }
+
+            It 'resolves the service URL from the IdentityCommand session' {
+                $null = Get-SIAConnector
+                Should -Invoke -CommandName Resolve-ServiceUrl -ParameterFilter {
+                    $Service -eq 'jit' -and $Subdomain -eq 'sometenant'
+                } -Times 1 -Exactly -Scope It
+            }
+
+            It 'sends request to the resolved service URL' {
+                $null = Get-SIAConnector
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter {
+                    $URI -eq 'https://sometenant.jit.cyberark.cloud/api/connectors/'
+                } -Times 1 -Exactly -Scope It
             }
 
         }

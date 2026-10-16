@@ -13,7 +13,7 @@ function Update-SIAHttpsRelay {
 
     process {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/https-relays/$https_relay_id/upgrade"
+        $URI = "$(Resolve-RequestUrl)/api/https-relays/$https_relay_id/upgrade"
 
         #The API requires an (empty) JSON body
         $body = '{}'

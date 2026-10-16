@@ -20,7 +20,7 @@ function Set-SIAConnectorMaintenanceMode {
 
     process {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/connectors/$connector_id/maintenance"
+        $URI = "$(Resolve-RequestUrl)/api/connectors/$connector_id/maintenance"
 
         #Create Request Body
         $body = @{'maintenance' = $maintenance } | ConvertTo-Json

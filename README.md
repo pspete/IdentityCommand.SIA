@@ -32,28 +32,19 @@ An overview of some of the features of the module are found in the below section
 
 ### SIA Authentication
 
-The `Connect-SIATenant` command initialises the bearer token used for module operations against the SIA service.
-
-If an Identity session already exists (established with the `IdentityCommand` module's `New-IDSession` or `New-IDPlatformToken`), it is used as-is:
+Authenticate with the `IdentityCommand` module, using `New-IDSession` (interactive user, including any MFA challenges) or `New-IDPlatformToken` (non-interactive service user). Commands find the SIA service url from the Identity session on first use - no separate connection step is needed:
 
 ```powershell
-# Resolve the SIA API url automatically from the shared services subdomain
-Connect-SIATenant -tenant_subdomain sometenant
+# Interactive user authentication
+New-IDSession -tenant_url https://abc1234.id.cyberark.cloud -Credential $Credential
 
-# Or provide the SIA tenant url directly
-Connect-SIATenant -tenant_url https://sometenant.dpa.cyberark.cloud
+# Or non-interactive service user authentication via an OAuth platform token
+New-IDPlatformToken -tenant_url https://abc1234.id.cyberark.cloud -Credential $ServiceUserCredential
+
+Get-SIAConnector
 ```
 
-Otherwise, provide a credential and `Connect-SIATenant` authenticates to CyberArk Identity for you - the Identity tenant url is discovered from the same subdomain / url:
-
-```powershell
-# Interactive user authentication (any MFA challenges are handled by IdentityCommand)
-Connect-SIATenant -tenant_subdomain sometenant -Credential $Credential
-
-# Non-interactive service user authentication via an OAuth platform token
-Connect-SIATenant -tenant_subdomain sometenant -Credential $ServiceUserCredential -PlatformToken
-```
-
+Commands follow the current Identity session: a later `New-IDSession` or `New-IDPlatformToken` is used by the next command, and after `Close-IDSession` commands fail until you authenticate again.
 ### SIA Connections
 
 The `Connect-SIATarget` command can be use to initiate SIA connections to targets.
@@ -167,7 +158,7 @@ List commands (`Get-SIAPolicy`, `Get-SIASession`, `Get-SIAStrongAccount`, `Get-S
 
 ### Tab Completion
 
-Id and name parameters for policies, strong accounts, target sets, connectors and HTTPS relays support tab completion, sourced live from the corresponding `Get-SIA*` command, once connected with `Connect-SIATenant`.
+Id and name parameters for policies, strong accounts, target sets, connectors and HTTPS relays support tab completion, sourced live from the corresponding `Get-SIA*` command, once authenticated with `New-IDSession` or `New-IDPlatformToken`.
 
 ## List Of Commands
 
@@ -177,7 +168,6 @@ The full list of commands currently available in the _`IdentityCommand.SIA`_ mod
 
 | Function                                  | Description                                                                    |
 | ----------------------------------------- | ------------------------------------------------------------------------------ |
-| `Connect-SIATenant`                       | Connects to a SIA tenant, using or establishing an `IdentityCommand` session   |
 | `Connect-SIATarget`                       | Connect via RDP or SSH to SIA targets                                          |
 | `Add-SIATargetSet`                        | Adds a SIA Target Set                                                          |
 | `Get-SIACertificate`                      | Get details of SIA certificates                                                |

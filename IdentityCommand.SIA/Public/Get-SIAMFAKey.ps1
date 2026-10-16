@@ -14,7 +14,7 @@ function Get-SIAMFAKey {
 
     process {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/ssh/sso/key"
+        $URI = "$(Resolve-RequestUrl)/api/ssh/sso/key"
 
         if ($PSBoundParameters.ContainsKey('format')) {
             $URI = "$URI`?format=$format"

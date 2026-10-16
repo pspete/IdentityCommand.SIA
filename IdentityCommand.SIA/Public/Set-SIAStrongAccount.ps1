@@ -106,7 +106,7 @@ function Set-SIAStrongAccount {
 
         }
 
-        $URI = "$($ISPSSSession.tenant_url)/api/secrets/$secret_id"
+        $URI = "$(Resolve-RequestUrl)/api/secrets/$secret_id"
 
         #Create Request Body (serialised to UTF8 bytes so the plaintext secret can't be captured - see helper).
         #-EmptyArrayProperty restores secret_details.domains to [] for Windows PowerShell.

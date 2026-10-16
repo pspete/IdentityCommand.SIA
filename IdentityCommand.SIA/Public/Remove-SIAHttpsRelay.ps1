@@ -20,7 +20,7 @@ function Remove-SIAHttpsRelay {
 
     process {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/https-relays/$https_relay_id"
+        $URI = "$(Resolve-RequestUrl)/api/https-relays/$https_relay_id"
 
         if ($force_delete.IsPresent) {
             $URI = "$URI`?force_delete=true"

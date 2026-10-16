@@ -14,7 +14,7 @@ function Remove-SIASSHHostKeyFingerprint {
 
     process {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/ssh-fingerprints/$target_id"
+        $URI = "$(Resolve-RequestUrl)/api/ssh-fingerprints/$target_id"
 
         if ($PSCmdlet.ShouldProcess($target_id, 'Delete SIA SSH Host Key Fingerprint')) {
 

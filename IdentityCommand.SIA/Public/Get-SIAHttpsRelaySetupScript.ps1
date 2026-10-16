@@ -46,7 +46,7 @@ function Get-SIAHttpsRelaySetupScript {
 
     process {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/https-relays/setup-script"
+        $URI = "$(Resolve-RequestUrl)/api/https-relays/setup-script"
 
         #Create Request Body
         $body = $PSBoundParameters | Get-Parameter | ConvertTo-Json

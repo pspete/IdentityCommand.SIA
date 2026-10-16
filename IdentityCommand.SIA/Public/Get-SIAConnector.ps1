@@ -14,7 +14,7 @@ function Get-SIAConnector {
 
     process {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/connectors/$connector_id"
+        $URI = "$(Resolve-RequestUrl)/api/connectors/$connector_id"
 
         #Send Request
         $result = Invoke-IDRestMethod -Uri $URI -Method GET

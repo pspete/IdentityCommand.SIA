@@ -104,7 +104,7 @@ function Connect-SIATarget {
 
     process {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/adb/sso/acquire"
+        $URI = "$(Resolve-RequestUrl)/api/adb/sso/acquire"
 
         switch ($PSCmdlet.ParameterSetName) {
             { $PSItem -match 'RDP$' } {

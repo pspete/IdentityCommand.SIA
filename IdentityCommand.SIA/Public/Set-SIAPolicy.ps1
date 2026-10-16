@@ -75,7 +75,7 @@ function Set-SIAPolicy {
 
     process {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/access-policies/$policyid"
+        $URI = "$(Resolve-RequestUrl)/api/access-policies/$policyid"
 
         #Get existing policy settings
         $PolicySettings = Get-SIAPolicy -policyid $policyid

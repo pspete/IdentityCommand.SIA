@@ -14,7 +14,7 @@ function Remove-SIADatabaseStrongAccount {
 
     process {
 
-        $URI = "$($ISPSSSession.tenant_url)/api/database-strong-accounts/$strong_account_id"
+        $URI = "$(Resolve-RequestUrl)/api/database-strong-accounts/$strong_account_id"
 
         if ($PSCmdlet.ShouldProcess($strong_account_id, 'Delete SIA Database Strong Account')) {
             #Send Request

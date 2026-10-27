@@ -1,18 +1,27 @@
 ﻿# .ExternalHelp IdentityCommand.SIA-help.xml
 function Get-SIASession {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName = 'List')]
     param(
         [parameter(
             Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'List'
         )]
         [datetime]$minStartedTime,
 
         [parameter(
             Mandatory = $false,
-            ValueFromPipelinebyPropertyName = $true
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'List'
         )]
-        [datetime]$maxStartedTime
+        [datetime]$maxStartedTime,
+
+        [parameter(
+            Mandatory = $true,
+            ValueFromPipelinebyPropertyName = $true,
+            ParameterSetName = 'ById'
+        )]
+        [String]$session_id
     )
 
     begin { }#begin
@@ -20,6 +29,32 @@ function Get-SIASession {
     process {
 
         $URI = "$(Resolve-RequestUrl)/api/monitoring/sessions"
+
+        if ($PSCmdlet.ParameterSetName -eq 'ById') {
+
+            $result = Invoke-IDRestMethod -Uri "$URI/$session_id" -Method GET
+
+            #Parse JSON details, show key/status/label by default
+            $DisplaySet = [System.Management.Automation.PSPropertySet]::new('DefaultDisplayPropertySet', [string[]]@('key', 'status', 'label'))
+            $StandardMembers = [System.Management.Automation.PSMemberInfo[]]@($DisplaySet)
+
+            foreach ($step in $result.extra_info) {
+
+                if ($step.details -match '^\s*[\[{]') {
+                    try {
+                        $step.details = $step.details | ConvertFrom-Json -ErrorAction Stop
+                    } catch {
+                        Write-Verbose "$($step.key) details left as text: $($_.Exception.Message)"
+                    }
+                }
+
+                $step | Add-Member -MemberType MemberSet -Name PSStandardMembers -Value $StandardMembers -Force
+
+            }
+
+            return $result
+
+        }
 
         $boundparameters = $PSBoundParameters | Get-Parameter
 

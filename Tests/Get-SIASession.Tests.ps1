@@ -1,4 +1,4 @@
-#InModuleScope below runs at discovery, so the module must be imported before then
+﻿#InModuleScope below runs at discovery, so the module must be imported before then
 BeforeDiscovery {
     $ManifestPath = Join-Path (Resolve-Path "$(Split-Path -Parent $PSCommandPath)\..\IdentityCommand.SIA") 'IdentityCommand.SIA.psd1'
     if ( -not (Get-Module -Name 'IdentityCommand.SIA' -All)) {
@@ -172,6 +172,85 @@ Describe $($PSCommandPath -Replace '.Tests.ps1') {
             It 'sends request with no body' {
 
                 Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter { $Body -eq $null } -Times 1 -Exactly -Scope It
+
+            }
+
+        }
+
+        Context 'ById' {
+
+            BeforeEach {
+                $response = Get-SIASession -session_id 'a93281d8-6109-dcc4-b537-67e45b41f732'
+            }
+
+            It 'sends request to expected endpoint' {
+
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter {
+
+                    $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/monitoring/sessions/a93281d8-6109-dcc4-b537-67e45b41f732'
+
+                } -Times 1 -Exactly -Scope It
+
+            }
+
+            It 'uses expected method' {
+
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter { $Method -match 'GET' } -Times 1 -Exactly -Scope It
+
+            }
+
+            It 'accepts session_id from the pipeline' {
+
+                [pscustomobject]@{ session_id = 'sess-1' } | Get-SIASession
+
+                Should -Invoke -CommandName Invoke-IDRestMethod -ParameterFilter {
+
+                    $URI -eq 'https://somedomain.dpa.cyberark.cloud/api/monitoring/sessions/sess-1'
+
+                } -Times 1 -Exactly -Scope It
+
+            }
+
+            It 'outputs the response' {
+
+                $response.items | Should -Be 'value'
+
+            }
+
+            It 'parses JSON details and leaves text details as strings' {
+
+                Mock Invoke-IDRestMethod -MockWith {
+                    [pscustomobject]@{
+                        session_id = 'sess-1'
+                        extra_info = @(
+                            [pscustomobject]@{ key = 'authentication'; label = 'Authentication'; type = 'text'; status = 'success'; details = 'Authentication success'; warning_code = $null }
+                            [pscustomobject]@{ key = 'cms'; label = 'Creating a tunnel'; type = 'text'; status = 'success'; details = '[{"Connector hostname":"CONN01","Target port":"3389"}]'; warning_code = $null }
+                            [pscustomobject]@{ key = 'broken'; label = 'Broken'; type = 'table'; status = 'success'; details = '[not json'; warning_code = $null }
+                        )
+                    }
+                }
+
+                $response = Get-SIASession -session_id 'sess-1'
+
+                $response.extra_info[0].details | Should -Be 'Authentication success'
+                $response.extra_info[1].details.'Connector hostname' | Should -Be 'CONN01'
+                $response.extra_info[2].details | Should -Be '[not json'
+
+            }
+
+            It 'shows key, status and label by default for extra_info steps' {
+
+                Mock Invoke-IDRestMethod -MockWith {
+                    [pscustomobject]@{
+                        extra_info = @(
+                            [pscustomobject]@{ key = 'cms'; label = 'Creating a tunnel'; type = 'text'; status = 'success'; details = 'x'; warning_code = $null }
+                        )
+                    }
+                }
+
+                $response = Get-SIASession -session_id 'sess-1'
+
+                $response.extra_info[0].PSStandardMembers.DefaultDisplayPropertySet.ReferencedPropertyNames | Should -Be @('key', 'status', 'label')
 
             }
 

@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+- N/A
+
+## [0.8.0] - 2026-10-27
+
 ### Added
 
 - `Get-SIASession -session_id` gets a single session by id. Its `extra_info` steps list as a `key`, `status`, `label` table, and step details holding JSON are returned as objects.
